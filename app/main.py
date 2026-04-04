@@ -1,3 +1,4 @@
+import logging
 import os
 from contextlib import asynccontextmanager
 
@@ -5,14 +6,18 @@ import joblib
 import keras
 import keras.layers
 import anthropic
-from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app import state
 from app.config import MODEL_PATH, REG_MODEL_PATH, ANTHROPIC_API_KEY, STATIC_DIR
 from app.routes import predict as predict_router
 from app.routes import explain as explain_router
+from app.logging_config import configure_logging
+
+configure_logging()
+log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Keras 3 compatibility patch — must run before load_model is called.
@@ -34,12 +39,26 @@ keras.layers.Dense.from_config = _patched_dense_from_config
 # ---------------------------------------------------------------------------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    log.info("Loading CNN+LSTM model", extra={"path": MODEL_PATH})
     state.model = keras.models.load_model(MODEL_PATH, compile=False, safe_mode=False)
+    log.info("CNN+LSTM model loaded")
+
     if os.path.exists(REG_MODEL_PATH):
         state.reg_model = joblib.load(REG_MODEL_PATH)
+        log.info("Regression model loaded", extra={"path": REG_MODEL_PATH})
+    else:
+        log.warning("Regression model not found — /predict/quick-score will be unavailable",
+                    extra={"path": REG_MODEL_PATH})
+
     if ANTHROPIC_API_KEY:
         state.anthropic_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+        log.info("Anthropic client initialised — AI explanations enabled")
+    else:
+        log.warning("ANTHROPIC_API_KEY not set — /explain will use rule-based fallback")
+
+    log.info("Startup complete")
     yield
+    log.info("Shutting down")
 
 
 # ---------------------------------------------------------------------------
@@ -50,6 +69,14 @@ app = FastAPI(title="Sleep Staging API", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 app.include_router(predict_router.router)
 app.include_router(explain_router.router)
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    log.info("Request", extra={"method": request.method, "path": request.url.path})
+    response = await call_next(request)
+    log.info("Response", extra={"method": request.method, "path": request.url.path, "status": response.status_code})
+    return response
 
 
 @app.get("/")
