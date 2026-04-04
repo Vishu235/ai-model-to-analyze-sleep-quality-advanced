@@ -1,0 +1,25 @@
+# Virtual environments
+.venv/
+venv/
+venv39/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Model files
+*.h5
+*.ckpt
+*.keras
+!inference/sleep_best_ckpt.keras
+
+# Data
+mne_data/
+data/
+*.edf
+
+# WandB
+wandb/
