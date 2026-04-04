@@ -2,6 +2,7 @@
 import logging
 import threading
 import tempfile
+import time
 import os
 from typing import Dict, Any
 
@@ -13,14 +14,34 @@ from app.services.inference import run_inference
 
 log = logging.getLogger(__name__)
 
-# In-memory job store: job_id -> {status, result, error}
+# In-memory job store: job_id -> {status, result, error, created_at}
 _jobs: Dict[str, Dict[str, Any]] = {}
 _jobs_lock = threading.Lock()
+
+# Jobs older than this are removed by the cleanup thread
+JOB_TTL_SECONDS = 3600   # 1 hour
+
+
+def _cleanup_loop() -> None:
+    """Background daemon thread: evicts expired jobs every 10 minutes."""
+    while True:
+        time.sleep(600)
+        cutoff = time.monotonic() - JOB_TTL_SECONDS
+        with _jobs_lock:
+            expired = [jid for jid, j in _jobs.items() if j.get("created_at", 0) < cutoff]
+            for jid in expired:
+                del _jobs[jid]
+        if expired:
+            log.info("Job cleanup", extra={"evicted": len(expired)})
+
+
+# Start cleanup thread once at module import time
+threading.Thread(target=_cleanup_loop, daemon=True, name="job-cleanup").start()
 
 
 def create_job(job_id: str) -> None:
     with _jobs_lock:
-        _jobs[job_id] = {"status": "processing"}
+        _jobs[job_id] = {"status": "processing", "created_at": time.monotonic()}
 
 
 def get_job(job_id: str):
