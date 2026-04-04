@@ -1,5 +1,6 @@
 import sys, glob, os
 import numpy as np
+_trapz = np.trapezoid if hasattr(np, 'trapezoid') else np.trapz
 import mne, keras, keras.layers, pandas as pd
 from scipy.signal import butter, filtfilt, welch
 from scipy.ndimage import median_filter
@@ -13,9 +14,10 @@ def _p(cls, c):
     return _orig(cls, c)
 keras.layers.Dense.from_config = _p
 
-MODEL_PATH = 'D:/ML_PROJECT/Vishal_Code/ai-model-to-analyze-sleep-quality/src/sleep_best_ckpt.keras'
-DATA_DIR   = 'D:/ML_PROJECT/data/sleep-edf-database-expanded-1.0.0/sleep-edf-database-expanded-1.0.0/sleep-cassette'
-OUT_CSV    = 'D:/ML_PROJECT/Vishal_Code/21-03-2026/ai-model-to-analyze-sleep-quality/regression_dataset.csv'
+_BASE      = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.environ.get('MODEL_PATH',   os.path.join(_BASE, 'inference', 'sleep_best_ckpt.keras'))
+DATA_DIR   = os.environ.get('DATA_DIR',     os.path.join(_BASE, 'data', 'sleep-cassette'))
+OUT_CSV    = os.environ.get('OUT_CSV',      os.path.join(_BASE, 'regression_dataset.csv'))
 EVENT_ID   = {'Sleep stage W':0,'Sleep stage 1':1,'Sleep stage 2':2,
                'Sleep stage 3':3,'Sleep stage 4':3,'Sleep stage R':4}
 FS, ES, SL = 100, 30, 5
@@ -46,7 +48,7 @@ def extract_features(signal):
     bp = {}
     for b, (lo, hi) in bands.items():
         idx = np.where((freqs >= lo) & (freqs <= hi))[0]
-        bp[b] = float(np.trapz(psd[idx], freqs[idx]))
+        bp[b] = float(_trapz(psd[idx], freqs[idx]))
     total = sum(bp.values()) + 1e-10
     f = {f'power_{b}': v for b, v in bp.items()}
     f.update({f'rel_{b}': v / total for b, v in bp.items()})
