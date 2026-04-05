@@ -57,7 +57,7 @@ def train_remote():
     config = {
         "max_subjects":   None,  # use all subjects found in the volume
         "seq_len":        5,
-        "epochs":         35,
+        "epochs":         20,   # capped for budget; early stopping still applies
         "batch_size":     32,
         "eval_batch_size": 256,  # batched eval/predict to stay within T4 VRAM
     }
