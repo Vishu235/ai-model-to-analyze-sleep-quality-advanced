@@ -99,19 +99,21 @@ def train_model(config=None):
 
         model = build_cnn_lstm(X_tr.shape[1:], len(classes))
 
-        # Use tf.data so training and validation data are streamed in batches
-        # and never fully staged on GPU at once — avoids OOM on large folds.
-        train_ds = (
-            tf.data.Dataset.from_tensor_slices((X_tr, y_tr))
-            .shuffle(buffer_size=min(len(X_tr), 10000), seed=42)
-            .batch(cfg.batch_size)
-            .prefetch(tf.data.AUTOTUNE)
-        )
-        val_ds = (
-            tf.data.Dataset.from_tensor_slices((X_te, y_te))
-            .batch(cfg.eval_batch_size)
-            .prefetch(tf.data.AUTOTUNE)
-        )
+        # Build tf.data pipelines pinned to CPU so the full numpy arrays are
+        # never copied to GPU. Only one batch at a time moves to the device
+        # during training, keeping GPU memory within T4 limits.
+        with tf.device("/CPU:0"):
+            train_ds = (
+                tf.data.Dataset.from_tensor_slices((X_tr, y_tr))
+                .shuffle(buffer_size=min(len(X_tr), 10000), seed=42)
+                .batch(cfg.batch_size)
+                .prefetch(tf.data.AUTOTUNE)
+            )
+            val_ds = (
+                tf.data.Dataset.from_tensor_slices((X_te, y_te))
+                .batch(cfg.eval_batch_size)
+                .prefetch(tf.data.AUTOTUNE)
+            )
 
         ckpt_path = f"sleep_best_ckpt_fold{fold_idx}.keras"
         callbacks = [
