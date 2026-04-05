@@ -50,14 +50,16 @@ def download_data_remote():
 def train_remote():
     import os
     os.environ["IS_MODAL"] = "True"
+    os.environ.setdefault("TF_GPU_ALLOCATOR", "cuda_malloc_async")
 
     from dl_main import train_model
 
     config = {
-        "max_subjects": None,  # use all subjects found in the volume
-        "seq_len":      5,
-        "epochs":       35,
-        "batch_size":   32,
+        "max_subjects":   None,  # use all subjects found in the volume
+        "seq_len":        5,
+        "epochs":         35,
+        "batch_size":     32,
+        "eval_batch_size": 256,  # batched eval/predict to stay within T4 VRAM
     }
 
     print("Starting 5-fold CV training on Modal T4 GPU...")
