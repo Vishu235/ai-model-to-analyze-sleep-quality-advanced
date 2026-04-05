@@ -20,9 +20,26 @@ configure_logging()
 log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# Keras 3 compatibility patch — must run before load_model is called.
-# Model was saved with a Keras 3 version that added 'quantization_config' to
-# Dense layers; newer Keras removed it. Patch from_config to drop it silently.
+# Keras 3 compatibility patches — must run before load_model is called.
+#
+# Patch 1: Model was saved with Keras 3.0-3.5 which stored the Functional
+# class at keras.src.engine.functional. Keras 3.6+ moved it to
+# keras.src.models.functional. Register the old path as an alias so that
+# checkpoints from older Keras versions load without errors.
+# ---------------------------------------------------------------------------
+import sys
+import types
+import keras.src.models.functional as _keras_functional_module
+
+_engine_stub = types.ModuleType("keras.src.engine")
+_engine_stub.functional = _keras_functional_module
+sys.modules.setdefault("keras.src.engine", _engine_stub)
+sys.modules.setdefault("keras.src.engine.functional", _keras_functional_module)
+
+# ---------------------------------------------------------------------------
+# Patch 2: Model was saved with a Keras 3 version that added
+# 'quantization_config' to Dense layers; newer Keras removed it.
+# Drop it silently during deserialization.
 # ---------------------------------------------------------------------------
 _orig_dense_from_config = keras.layers.Dense.from_config.__func__
 
@@ -32,6 +49,36 @@ def _patched_dense_from_config(cls, config):
     return _orig_dense_from_config(cls, config)
 
 keras.layers.Dense.from_config = _patched_dense_from_config
+
+# ---------------------------------------------------------------------------
+# Patch 3: BatchNormalization 'axis' was serialized as a list [2] in older
+# Keras 3.x; newer Keras expects a scalar integer. Unwrap single-element
+# lists before calling the original from_config.
+# ---------------------------------------------------------------------------
+_orig_bn_from_config = keras.layers.BatchNormalization.from_config.__func__
+
+@classmethod
+def _patched_bn_from_config(cls, config):
+    axis = config.get("axis")
+    if isinstance(axis, list) and len(axis) == 1:
+        config["axis"] = axis[0]
+    return _orig_bn_from_config(cls, config)
+
+keras.layers.BatchNormalization.from_config = _patched_bn_from_config
+
+# ---------------------------------------------------------------------------
+# Patch 4: LSTM 'time_major' argument was removed in Keras 3.6+.
+# Drop it silently.
+# ---------------------------------------------------------------------------
+_orig_lstm_from_config = keras.layers.LSTM.from_config.__func__
+
+@classmethod
+def _patched_lstm_from_config(cls, config):
+    config.pop("time_major", None)
+    config.pop("implementation", None)
+    return _orig_lstm_from_config(cls, config)
+
+keras.layers.LSTM.from_config = _patched_lstm_from_config
 
 
 # ---------------------------------------------------------------------------
