@@ -22,8 +22,14 @@ def load_all_subjects_epochs(max_subjects=None):
         
     """
     
+    # Sleep-EDF Cassette has 20 subjects (IDs 0–19), each with 2 nights.
+    # fetch_data with recording=[1] fetches only the first night per subject,
+    # giving up to 20 recordings. The cap of 50 was originally set for the
+    # broader Sleep-EDF Expanded dataset (which includes Telemetry subjects
+    # numbered up to ~78). Keeping the cap explicit allows controlled
+    # experiments with subsets (e.g., cfg.max_subjects=10 for quick runs).
     if max_subjects is None:
-        subject_ids = range(50) 
+        subject_ids = range(50)
     else:
         subject_ids = range(min(max_subjects, 50))
 
