@@ -3,7 +3,8 @@ import os
 IS_MODAL = os.environ.get("IS_MODAL", "False") == "True"
 
 if IS_MODAL:
-    SLEEP_CASSETTE_PATH = "/data/sleep-cassette"
+    # MNE's fetch_data stores files one level deeper: path/physionet-sleep-data/
+    SLEEP_CASSETTE_PATH = "/data/sleep-cassette/physionet-sleep-data"
 else:
     # Local path to Sleep-EDF Cassette directory.
     # Override with the DATA_DIR env var if needed:

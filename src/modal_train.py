@@ -25,34 +25,42 @@ def download_data_remote():
     import os
     os.environ["IS_MODAL"] = "True"
 
-    print("Ensuring data is downloaded to Volume...")
+    # Sleep-EDF Cassette: 20 subjects (IDs 0-19), 2 recordings each.
+    # fetch_data stores files under /data/sleep-cassette/physionet-sleep-data/
+    # recording=[1,2] fetches both nights per subject → up to 40 recordings total.
+    print("Downloading Sleep-EDF Cassette to Modal Volume...")
     from mne.datasets.sleep_physionet.age import fetch_data
-    from config import SLEEP_CASSETTE_PATH
 
-    fetch_data(subjects=range(50), recording=[1], path=SLEEP_CASSETTE_PATH, on_missing='ignore')
-    print("Data check complete.")
+    fetch_data(
+        subjects=range(20),
+        recording=[1, 2],
+        path="/data/sleep-cassette",
+        on_missing="ignore",
+    )
+    print("Download complete.")
+
 
 @app.function(
     image=image,
     gpu="T4",
     volumes={"/data": data_volume},
     secrets=[modal.Secret.from_name("wandb-secret")],
-    timeout=5400
+    timeout=21600,   # 6 hours — enough for 5 folds x 35 epochs on T4
 )
 def train_remote():
     import os
     os.environ["IS_MODAL"] = "True"
-    
+
     from dl_main import train_model
-    
+
     config = {
-        "max_subjects": 50,
-        "seq_len": 5,
-        "epochs": 35,
-        "batch_size": 32
+        "max_subjects": None,  # use all subjects found in the volume
+        "seq_len":      5,
+        "epochs":       35,
+        "batch_size":   32,
     }
-    
-    print("Starting Training on Modal T4 GPU...")
+
+    print("Starting 5-fold CV training on Modal T4 GPU...")
     train_model(config)
 
 @app.function(
