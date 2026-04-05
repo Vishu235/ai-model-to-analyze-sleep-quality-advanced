@@ -98,6 +98,96 @@ def export_clean_model():
     model.save("/data/final_model_clean.h5", include_optimizer=False)
     print("Model saved to /data/final_model_clean.h5")
 
+@app.function(
+    image=image,
+    volumes={"/data": data_volume},
+    secrets=[modal.Secret.from_name("wandb-secret")],
+    timeout=1800,
+)
+def export_all_artifacts():
+    """
+    Download all fold model artifacts and metrics from the most recent
+    WandB training run, then save everything to the Modal volume under
+    /data/exports/ so it can be pulled with `modal volume get`.
+    """
+    import json
+    import shutil
+    import wandb
+
+    api = wandb.Api()
+    runs = api.runs(
+        "vishal-bglr-pes-university/sleep-edf-5class",
+        order="-created_at",
+    )
+
+    # Find the most recent run that actually completed 5-fold CV
+    target_run = None
+    for run in runs:
+        if run.state == "finished" and any(
+            k.startswith("cv/") for k in run.summary.keys()
+        ):
+            target_run = run
+            break
+
+    if target_run is None:
+        raise RuntimeError("No finished 5-fold CV run found in WandB project.")
+
+    print(f"Using run: {target_run.id}  ({target_run.name})")
+
+    export_dir = "/data/exports"
+    models_dir = f"{export_dir}/models"
+    import os
+    os.makedirs(models_dir, exist_ok=True)
+
+    # --- Download model artifacts ---
+    downloaded = []
+    for artifact in target_run.logged_artifacts():
+        if artifact.type == "model":
+            print(f"Downloading artifact: {artifact.name} ...")
+            art_dir = artifact.download()
+            # Copy every .keras / .h5 file into models_dir
+            for fname in os.listdir(art_dir):
+                if fname.endswith((".keras", ".h5")):
+                    src = os.path.join(art_dir, fname)
+                    dst = os.path.join(models_dir, fname)
+                    shutil.copy2(src, dst)
+                    downloaded.append(fname)
+                    print(f"  Saved: {fname}")
+
+    # --- Build metrics report ---
+    summary = target_run.summary._json_dict
+
+    fold_metrics = []
+    for fold_idx in range(1, 6):
+        prefix = f"fold{fold_idx}/"
+        fold_data = {"fold": fold_idx}
+        for k, v in summary.items():
+            if k.startswith(prefix):
+                fold_data[k.replace(prefix, "")] = v
+        if fold_data:
+            fold_metrics.append(fold_data)
+
+    cv_metrics = {k.replace("cv/", ""): v for k, v in summary.items() if k.startswith("cv/")}
+
+    report = {
+        "run_id":      target_run.id,
+        "run_name":    target_run.name,
+        "project":     "sleep-edf-5class",
+        "cv_summary":  cv_metrics,
+        "fold_details": fold_metrics,
+        "models_saved": downloaded,
+    }
+
+    report_path = f"{export_dir}/training_report.json"
+    with open(report_path, "w") as f:
+        json.dump(report, f, indent=2)
+    print(f"\nReport saved to {report_path}")
+
+    data_volume.commit()
+    print("\nExport complete. Run:")
+    print("  modal volume get sleep-edf-data exports/ ./exports/")
+
+
 @app.local_entrypoint()
 def main():
     download_data_remote.remote()

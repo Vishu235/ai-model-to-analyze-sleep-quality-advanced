@@ -5,6 +5,7 @@ Works with both a local flat folder and Modal's /data volume.
 """
 import glob
 import os
+import warnings
 
 import mne
 import numpy as np
@@ -83,17 +84,35 @@ def load_all_subjects_epochs(max_subjects=None):
         print(f"[{idx+1}/{len(pairs)}] Processing {subject_id} ...", flush=True)
 
         try:
-            raw = mne.io.read_raw_edf(psg_path, preload=True, verbose=False)
+            with warnings.catch_warnings():
+                # Sleep-EDF files often encode channel-specific filter metadata that
+                # triggers non-fatal warnings in MNE. Suppress these known warnings.
+                warnings.filterwarnings(
+                    "ignore",
+                    message=r"Channels contain different highpass filters.*",
+                    category=RuntimeWarning,
+                )
+                warnings.filterwarnings(
+                    "ignore",
+                    message=r"Channels contain different lowpass filters.*",
+                    category=RuntimeWarning,
+                )
+                warnings.filterwarnings(
+                    "ignore",
+                    message=r"Highpass cutoff frequency .* setting values to 0 and Nyquist.*",
+                    category=RuntimeWarning,
+                )
+                raw = mne.io.read_raw_edf(psg_path, preload=True, verbose=False)
 
             # Pick EEG Fpz-Cz; fall back to first available EEG channel
             if "EEG Fpz-Cz" in raw.ch_names:
-                raw.pick_channels(["EEG Fpz-Cz"])
+                raw.pick(["EEG Fpz-Cz"])
             else:
-                eeg_raw = raw.copy().pick_types(eeg=True)
+                eeg_raw = raw.copy().pick(eeg=True)
                 if not eeg_raw.ch_names:
                     print(f"  SKIP {subject_id}: no EEG channel found.")
                     continue
-                raw.pick_channels([eeg_raw.ch_names[0]])
+                raw.pick([eeg_raw.ch_names[0]])
 
             annotations = mne.read_annotations(hyp_path)
             raw.set_annotations(annotations, emit_warning=False)
