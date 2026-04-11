@@ -1,0 +1,646 @@
+\documentclass[10pt, a4paper, twocolumn]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage[top=2.0cm, bottom=2.8cm, left=1.6cm, right=1.6cm,
+            columnsep=0.55cm, headheight=14pt]{geometry}
+\usepackage{times}                  % Times New Roman font (EAI standard)
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{microtype}
+\usepackage{cite}
+
+% ── EAI Colour Palette ────────────────────────────────────────────────────────
+\definecolor{eaiblue}{RGB}{31, 97, 141}        % title / section heading blue
+\definecolor{eailightbg}{RGB}{214, 231, 248}   % abstract box background
+
+% ── Section / Subsection Formatting ──────────────────────────────────────────
+\titleformat{\section}
+  {\color{eaiblue}\large\bfseries}{\color{eaiblue}\thesection.}{0.45em}{}
+\titlespacing{\section}{0pt}{9pt}{4pt}
+
+\titleformat{\subsection}
+  {\color{eaiblue}\normalsize\bfseries}{\color{eaiblue}\thesubsection.}{0.4em}{}
+\titlespacing{\subsection}{0pt}{7pt}{3pt}
+
+\titleformat{\subsubsection}[runin]
+  {\color{eaiblue}\normalsize\bfseries}{}{0em}{}[~]
+\titlespacing{\subsubsection}{0pt}{5pt}{0pt}
+
+% ── Caption Formatting ────────────────────────────────────────────────────────
+% Figures: "Figure. 1: Caption"
+\DeclareCaptionLabelFormat{eaifig}{Figure.~#2}
+\captionsetup[figure]{labelformat=eaifig, labelsep=colon,
+                      font=small, labelfont=bf, justification=centering}
+% Tables: "Table 1: Caption" (above table)
+\captionsetup[table]{font=small, labelfont=bf, labelsep=colon,
+                     justification=centering, position=above}
+
+% ── Headers & Footers ─────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+% Page 2+ header
+\fancyhead[LO]{\small\textit{Multimodal Sleep Quality Assessment}}
+\fancyhead[RE]{\small\textit{Multimodal Analysis of Sleep Architecture and Behavioral Dynamics}}
+\fancyhead[RO,LE]{}
+\renewcommand{\headrulewidth}{0.4pt}
+% Footer: page number centre, EAI info right
+\fancyfoot[C]{}
+\fancyfoot[R]{\small EAI Endorsed Transactions on AI and Robotics \;|\; 2026 \;|}
+\fancyfoot[L]{\small\thepage}
+
+% First page: suppress running header, keep footer
+\fancypagestyle{firstpage}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[R]{\small EAI Endorsed Transactions on AI and Robotics \;|\; 2026 \;}%
+  \fancyfoot[L]{\small 1}%
+}
+
+% ── Paragraph Style ───────────────────────────────────────────────────────────
+\setlength{\parindent}{0.4cm}
+\setlength{\parskip}{1pt}
+
+% ── Figure Placeholder Helper ─────────────────────────────────────────────────
+\newcommand{\figplaceholder}[2]{%
+  \begin{figure}[htbp]
+    \centering
+    \fbox{\parbox{0.88\columnwidth}{\centering\vspace{1.2cm}
+      \small\textit{[Figure: #1]}\vspace{1.2cm}}}
+    \caption{#2}
+  \end{figure}%
+}
+
+% ── Wide Figure Placeholder Helper ───────────────────────────────────────────
+\newcommand{\figplaceholderwide}[2]{%
+  \begin{figure*}[htbp]
+    \centering
+    \fbox{\parbox{0.88\textwidth}{\centering\vspace{1.2cm}
+      \small\textit{[Figure: #1]}\vspace{1.2cm}}}
+    \caption{#2}
+  \end{figure*}%
+}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\begin{document}
+% ══════════════════════════════════════════════════════════════════════════════
+
+% ── Full-width Title Block (spans both columns) ───────────────────────────────
+\twocolumn[{%
+\thispagestyle{firstpage}%
+\noindent
+% ── Journal identifier row ───────────────────────────────────────────────────
+\begin{minipage}[b]{0.60\linewidth}
+  {\fontsize{14}{17}\selectfont\textbf{EAI Endorsed Transactions}}\\[1pt]
+  {\normalsize on AI and Robotics}
+\end{minipage}%
+\hfill
+\begin{minipage}[b]{0.36\linewidth}
+  \raggedleft
+  {\normalsize Research Article\quad\textbf{EAI.EU}}
+\end{minipage}
+
+\vspace{6pt}
+\noindent\rule{\linewidth}{0.8pt}
+\vspace{10pt}
+
+% ── Paper Title ───────────────────────────────────────────────────────────────
+{\fontsize{18}{22}\selectfont\bfseries\color{eaiblue}%
+Multimodal Analysis of Sleep Architecture and Behavioral Dynamics Using
+Hybrid Neural Networks and Real-Time Object Detection Frameworks\par}
+
+\vspace{10pt}
+
+% ── Authors ───────────────────────────────────────────────────────────────────
+{\normalsize
+Mudunuru Sai Krishna$^{1}$,
+Pranit Kumar Pandey$^{1}$,
+Sakshat R$^{1}$,
+Vikas Kumar Rai$^{1}$,
+Vishal Gopinath$^{1}$
+and Dr.~Narayana Darapaneni$^{1,*}$\par}
+
+\vspace{6pt}
+
+% ── Affiliations ──────────────────────────────────────────────────────────────
+{\small
+$^{1}$ PES University, Bangalore, Karnataka, 560085, India\par}
+
+\vspace{12pt}
+
+% ── Abstract Header ───────────────────────────────────────────────────────────
+{\large\bfseries\color{eaiblue} Abstract\par}
+\vspace{5pt}
+
+% ── Abstract Box ─────────────────────────────────────────────────────────────
+\begin{tcolorbox}[
+  colback  = eailightbg,
+  colframe = eailightbg,
+  boxrule  = 0pt,
+  arc      = 0pt,
+  left=6pt, right=6pt, top=5pt, bottom=5pt,
+  width    = \linewidth
+]
+{\small\noindent
+\textbf{INTRODUCTION:} Sleep quality assessment represents a fundamental challenge
+in modern clinical diagnostics. Traditional Polysomnography (PSG), while the gold
+standard, is severely limited by its intrusive nature, high cost, and requirement for
+specialized laboratory environments, creating a critical gap in accessible sleep health
+monitoring.
+\textbf{OBJECTIVES:} This work aims to develop a robust, contactless multimodal
+framework that retains clinical-grade accuracy while eliminating the ``first-night
+effect'' of intrusive hardware, enabling non-intrusive home-based sleep monitoring.
+\textbf{METHODS:} A dual-stream architecture integrates a Convolutional Neural
+Network--Long Short-Term Memory (CNN-LSTM) hybrid for single-channel EEG (Fpz-Cz)
+physiological staging with a YOLOv7 and MediaPipe behavioral module tracking
+33 skeletal keypoints, synthesised into an objective Sleep Quality Index~(SQI).
+\textbf{RESULTS:} The CNN-LSTM achieves a staging accuracy of \textbf{88.13\%},
+outperforming standalone CNN (87.36\%) and LSTM (83.06\%) with a Cohen's Kappa
+of \textbf{0.84}. The vision module achieves a posture mAP of \textbf{94.06\%}
+and movement precision of \textbf{95\%} at $\sim$58~FPS.
+\textbf{CONCLUSION:} Edge-AI deployment on a Raspberry Pi~4 enables real-time,
+privacy-preserving processing, demonstrating viability of clinical-grade non-intrusive
+sleep monitoring in home-based settings.}
+\end{tcolorbox}
+
+\vspace{7pt}
+{\small\noindent\textbf{Keywords:} Sleep staging, CNN-LSTM, YOLOv7, EEG,
+Sleep Quality Index, Edge-AI, MediaPipe, Polysomnography\par}
+
+\vspace{5pt}
+{\small\noindent Received on [DD Month YYYY], accepted on [DD Month YYYY],
+published on [DD Month YYYY]\par}
+
+\vspace{4pt}
+{\small\noindent Copyright \textcopyright{} 2026 Sai Krishna et al., licensed to EAI.
+This is an open access article distributed under the terms of the CC BY-NC-SA 4.0,
+which permits copying, redistributing, remixing, transformation, and building upon
+the material in any medium so long as the original work is properly cited.\par}
+
+\vspace{3pt}
+{\small\noindent doi: [10.4108/xxxxx]\par}
+
+\vspace{3pt}
+{\small\noindent $^{*}$Corresponding author. Email: darapaneni@gmail.com\par}
+
+\vspace{14pt}
+}]  % end \twocolumn[{...}]
+
+% ══════════════════════════════════════════════════════════════════════════════
+%  TWO-COLUMN BODY BEGINS
+% ══════════════════════════════════════════════════════════════════════════════
+
+% ── 1. Executive Summary ──────────────────────────────────────────────────────
+\section{Executive Summary}
+
+The quantitative assessment of sleep quality represents a fundamental challenge in
+modern clinical diagnostics. Sleep, a physiological necessity that occupies
+approximately one-third of the human lifespan, is a critical determinant of both
+physical and cognitive health. Traditional Polysomnography (PSG) is often deemed
+the ``gold standard'' for sleep assessment, yet it is inherently limited by its
+intrusive nature, high cost, and requirement for specialized laboratory environments.
+This paper details the development and engineering impact analysis of a robust,
+multimodal framework that integrates a Convolutional Neural Network--Long
+Short-Term Memory (CNN-LSTM) hybrid architecture for physiological signal staging
+with an evolved You Only Look Once (YOLOv7) framework for behavioral monitoring.
+
+The physiological module, trained on the Sleep-EDF dataset from
+PhysioNet~\cite{ref5}, achieves a staging accuracy of \textbf{88.13\%},
+significantly outperforming standalone CNN (\textbf{87.36\%}) and LSTM
+(\textbf{83.06\%}) models. The resultant Cohen's Kappa coefficient of \textbf{0.84}
+confirms substantial agreement with expert-labeled hypnograms. Simultaneously, the
+vision module utilises the E-ELAN backbone of YOLOv7 and MediaPipe to track
+33 skeletal keypoints, achieving a posture detection Mean Average Precision (mAP)
+of \textbf{94.06\%} and movement precision of \textbf{95\%}. By synthesising these
+outputs into an objective Sleep Quality Index (SQI), this research demonstrates the
+potential for clinical-grade sleep monitoring in a non-intrusive, home-based setting
+while maintaining privacy via Edge-AI deployment.
+
+% ── 2. Introduction ───────────────────────────────────────────────────────────
+\section{Introduction}
+
+\subsection{Global Sleep Health Dynamics}
+
+Sleep health has emerged as a primary indicator of overall well-being, with
+epidemiological evidence establishing causal pathways between sleep disturbance and
+chronic disease. Sleep dissatisfaction is reported by \textbf{35\% to 45\%} of the
+global population~\cite{ref1}. Chronic sleep deprivation is rigorously linked to heart
+disease, obesity, type~2 diabetes, and neurodegenerative disorders such as dementia.
+Research demonstrates that adults obtaining fewer than six hours of sleep face a
+\textbf{48\%} increased risk of coronary heart disease and a \textbf{15\%} higher
+risk of stroke~\cite{ref2}.
+
+\subsection{Economic and Environmental Impact}
+
+The economic burden is substantial: in the United States alone, sleep deprivation
+costs the economy an estimated \textbf{\$411 billion} annually through reduced
+workplace productivity and increased absenteeism. Urban environments present unique
+stressors---including light pollution, noise, and extended commutes---that further
+exacerbate sleep fragmentation. The proliferation of electronic devices has been shown
+to suppress melatonin production, particularly among younger populations~\cite{ref4}.
+
+\subsection{Purpose and Engineering Scope}
+
+The objective is to create a contactless system that retains the accuracy of PSG while
+eliminating the ``first-night effect'' caused by intrusive hardware. The scope includes
+the mathematical optimisation of neural layers for single-channel EEG (Fpz-Cz), the
+selection of real-time vision frameworks for continuous monitoring, and the
+operationalisation of a multi-parameter Sleep Quality Index (SQI).
+
+% ── 3. Related Work ───────────────────────────────────────────────────────────
+\section{Related Work}
+
+\subsection{Wearable and Non-Contact Sleep Monitoring}
+
+Consumer-grade wearables such as smartwatches and smart mattresses have been widely
+studied as alternatives to PSG~\cite{ref10}. Prospective cohort studies indicate that
+these devices offer moderate accuracy for total sleep time estimation but fall short
+on staging granularity, particularly for N1 and REM discrimination~\cite{ref1}.
+Home sleep monitoring technologies are reviewed comprehensively in~\cite{ref10}, which
+highlights that no single sensing modality captures both neurological and behavioural
+dimensions simultaneously. Our work addresses this gap by fusing EEG-based staging
+with real-time vision-based behavioural analysis.
+
+\subsection{Deep Learning for EEG Classification}
+
+Prior work on automated sleep staging has explored CNN, LSTM, and Transformer
+architectures applied to PSG data. Standalone CNNs excel at local pattern extraction
+(spindles, K-complexes) while standalone LSTMs capture inter-epoch temporal
+dependencies~\cite{ref2}. Hybrid CNN-LSTM models have been shown to outperform each
+constituent in isolation, motivating our architecture choice. A key limitation of
+existing approaches is reliance on multi-channel EEG; our model targets single-channel
+Fpz-Cz signals, substantially reducing hardware complexity.
+
+\subsection{Vision-Based Behavioural Analysis in Sleep}
+
+The integration of computer vision for sleep posture analysis has been explored using
+2D skeleton estimation and depth cameras~\cite{ref3}. A recent SAI Organisation study
+demonstrated CNN-LSTM-MediaPipe fusion for posture classification achieving over 90\%
+accuracy on posed datasets~\cite{ref3}. However, real-time detection under occlusion
+(blankets, dim lighting) remains an open challenge addressed in our work through
+YOLOv7's E-ELAN backbone and Mosaic Data Augmentation. YOLO-family models for medical
+object detection are reviewed systematically in~\cite{ref9}, confirming YOLOv7 as the
+state-of-the-art choice for clinical imaging tasks requiring high throughput.
+
+\subsection{Objective Sleep Quality Metrics}
+
+The Pittsburgh Sleep Quality Index (PSQI) is the dominant clinical instrument but
+relies on subjective self-report~\cite{ref8}. Automated Sleep Quality Index (ASQI)
+methods for elderly individuals using unobtrusive sensors have shown Pearson
+correlations with PSQI in the range of $r = 0.45$--$0.60$~\cite{ref7}, consistent
+with our validated correlation of $r = 0.52$. This positions our SQI as competitive
+with existing unobtrusive approaches while extending coverage to the behavioural
+modality.
+
+% ── 4. Project Description ────────────────────────────────────────────────────
+\section{Project Description (System Architecture)}
+
+\subsection{High-Level Multimodal Framework}
+
+The proposed framework operates as a dual-stream engine processing neurological and
+behavioural data. As illustrated in Figure~\ref{fig:framework}, the modules converge
+to generate the unified SQI.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\columnwidth]{5}
+  \caption{Multimodal Sleep Quality Assessment Framework Overview: Physiological Module
+   (EEG $\to$ 1D CNN $\to$ LSTM $\to$ Sleep Stage Prediction) and Behavioural
+   Module (Camera/IR $\to$ YOLOv7 $\to$ MediaPipe $\to$ Posture Classification)
+   converging into the Sleep Quality Index (SQI).}
+  \label{fig:framework}
+\end{figure}
+
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+  \item \textbf{Physiological Module:} Analyses single-channel EEG signals at
+    \textbf{100~Hz}. A 1D CNN extracts spatial features (sleep spindles, delta waves)
+    which are passed to an LSTM temporal modeller predicting five sleep stages.
+
+  \item \textbf{Behavioural Module:} Employs YOLOv7 for real-time person detection
+    and MediaPipe for skeletal keypoint estimation. The synergy identifies
+    ``movement-induced awakenings''---events where EEG indicates sleep but the vision
+    module detects gross motor activity.
+\end{itemize}
+
+\subsection{Evolution of the YOLO Object Detection Framework}
+
+The behavioural module relies on the efficiency of the object detection engine. We
+conducted a comprehensive study on the Evolution of the YOLO Object Detection
+Framework (v1\,$\to$\,v7), illustrated in Figure~\ref{fig:yolo}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\columnwidth]{2}
+  \caption{Evolution of YOLO Object Detection Framework (v1 $\to$ v7). YOLOv7
+   (E-ELAN, 2022) achieves Medical Vision SOTA. Each version improves speed,
+   accuracy, and deployment suitability for specialised domains.}
+  \label{fig:yolo}
+\end{figure}
+
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt]
+  \item \textbf{v1--v3:} Introduced single-pass regression and Feature Pyramid
+    Networks (FPN), enabling detection of small extremities under blankets.
+
+  \item \textbf{v7:} Implements Extended Efficient Layer Aggregation Network (E-ELAN)
+    and ``Coarse-to-Fine'' label assigners, achieving state-of-the-art medical vision
+    performance at $\sim$\textbf{58~FPS}~\cite{ref9}.
+\end{itemize}
+
+\subsection{Detailed Physiological Staging Methodology (CNN-LSTM)}
+
+The hybrid CNN-LSTM architecture is detailed in Figure~\ref{fig:cnnlstm}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\columnwidth]{4}
+  \caption{CNN-LSTM Hybrid Architecture for EEG Sleep Stage Classification:
+   EEG Input (30-sec, 100~Hz) $\to$ Conv1D$\times$2 $\to$ MaxPool + BN +
+   Dropout $\to$ LSTM (128 units) $\to$ Dense + ReLU $\to$ Softmax
+   (5 classes: Wake--REM).}
+  \label{fig:cnnlstm}
+\end{figure}
+
+\begin{enumerate}[leftmargin=1.2em, itemsep=2pt]
+  \item \textbf{Conv1D Blocks:} Block~1 uses 64 filters (kernel=64) to capture slow
+    Delta waves; Block~2 uses kernel=8 for Sleep Spindles.
+
+  \item \textbf{LSTM Layer:} 128 units model transition rules between cycles,
+    suppressing physiologically impossible transitions.
+
+  \item \textbf{Head:} A 5-unit Softmax layer outputs category probabilities
+    (Wake, N1, N2, N3, REM).
+\end{enumerate}
+
+% ── 4. Baseline Environment ───────────────────────────────────────────────────
+\section{Description of Baseline Environment}
+
+\subsection{EEG Waveform Patterns Across Sleep Stages}
+
+To establish baseline accuracy, we define the physiological rhythms identified by the
+model, as visualised in Figure~\ref{fig:eeg}.
+
+Sleep is divided into distinct stages, each characterised by unique patterns of brain
+activity~\cite{ref4}. During wakefulness (Stage~W), relaxed individuals exhibit
+rhythmic alpha waves. Stage~N1 marks drowsiness with slower theta waves, followed by
+Stage~N2 identified by sleep spindles and K-complexes. Stage~N3 is dominated by slow
+delta waves essential for physical restoration. REM sleep features low-voltage,
+mixed-frequency activity with rapid eye movements and muscle atonia, strongly
+associated with vivid dreaming.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\columnwidth]{3}
+  \caption{EEG Waveform Patterns Across Sleep Stages over a 4-second window.
+   Stage~W: Alpha (8--13~Hz); Stage~N1: Theta (4--8~Hz); Stage~N2: Spindles
+   (11--16~Hz) + K-complexes; Stage~N3: Delta (0.5--2~Hz);
+   Stage~REM: Mixed low-voltage.}
+  \label{fig:eeg}
+\end{figure}
+
+\begin{itemize}[leftmargin=1.2em, itemsep=1pt]
+  \item \textbf{Stage~W:} Rhythmic Alpha waves (\textbf{8--13~Hz}), eyes closed.
+  \item \textbf{Stage~N1:} Low-amplitude Theta waves (\textbf{4--8~Hz}).
+  \item \textbf{Stage~N2:} Sleep Spindles (\textbf{11--16~Hz}) and K-complexes.
+  \item \textbf{Stage~N3:} Delta waves (\textbf{0.5--2~Hz}) in \textbf{$>$20\%}
+    of the epoch.
+  \item \textbf{Stage REM:} Mixed-frequency EEG with muscle atonia and rapid
+    conjugate eye movements.
+\end{itemize}
+
+\subsection{Behavioural Risk Factors}
+
+Sleep quality is influenced by posture. Prolonged prone positioning can restrict lung
+expansion, and maintaining static positions for \textbf{$>$2~hours} can cause
+pressure ulcers~\cite{ref3}. Our system establishes a baseline of ``low-risk''
+postures (supine, lateral) and alerts for high-risk configurations.
+
+% ── 5. Deep Learning Foundations ─────────────────────────────────────────────
+\section{Foundations of Deep Learning in Healthcare}
+
+\subsection{Mathematical Foundations}
+
+\subsubsection{1D Convolution}
+Feature map output size is given by:
+\begin{equation}
+  O = \frac{I - K + 2P}{S} + 1
+\end{equation}
+where $I$ is input length, $K$ kernel size, $P$ padding, and $S$ stride.
+
+\subsubsection{LSTM Forget Gate}
+Temporal dependencies are modelled via:
+\begin{equation}
+  f_t = \sigma\!\left(W_f \cdot [h_{t-1},\, x_t] + b_f\right)
+\end{equation}
+ensuring physiologically impossible sleep-stage transitions are suppressed.
+
+\subsection{Activation and Loss Theory}
+
+Softmax converts final layer logits into class probabilities. Mish activation, used
+in YOLOv7, is a self-regularised function:
+\begin{equation}
+  f(x) = x \cdot \tanh\!\left(\mathrm{softplus}(x)\right)
+\end{equation}
+that improves gradient flow and accuracy~\cite{ref9}. Training used the Adam
+optimiser (lr\,=\,\textbf{0.0005}) with Sparse Categorical Cross-Entropy loss for
+efficiency on edge hardware.
+
+% ── 6. Results ────────────────────────────────────────────────────────────────
+\section{Anticipated Impacts and Results Analysis}
+
+\subsection{Comprehensive Performance Comparison}
+
+The effectiveness of the proposed hybrid model is measured against standalone
+architectures, as shown in Figure~\ref{fig:perf} and Table~\ref{tab:perf}.
+
+\begin{figure*}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{1}
+  \caption{Model Performance Comparison: Staging Accuracy \& Vision Metrics.
+   Left: Physiological Staging Performance (CNN vs.\ LSTM vs.\ CNN-LSTM Hybrid)
+   across Overall Accuracy, N3, REM, and Cohen's Kappa$\times$100.
+   Right: YOLOv7 Behavioural Vision Performance---Posture mAP 94.6\%,
+   Movement Precision 95\%, F1-Score 95\%, Inference $\sim$58~FPS.}
+  \label{fig:perf}
+\end{figure*}
+
+\begin{table}[htbp]
+  \caption{Model Performance Comparison on Sleep Stage Classification}
+  \label{tab:perf}
+  \renewcommand{\arraystretch}{1.3}
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{l c c c}
+    \toprule
+    \textbf{Metric} & \textbf{CNN} & \textbf{LSTM} & \textbf{CNN-LSTM} \\
+    \midrule
+    Overall Accuracy & 87.36\% & 83.06\% & \textbf{88.13\%} \\
+    Deep Sleep (N3)  & 78.2\%  & 74.5\%  & \textbf{82.8\%}  \\
+    REM Accuracy     & 62.1\%  & 58.9\%  & \textbf{68.0\%}  \\
+    Cohen's Kappa    & 0.79    & 0.75    & \textbf{0.84}    \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The hybrid model achieves a Cohen's Kappa of \textbf{0.84}~\cite{ref2}, confirming
+substantial agreement with expert hypnogram scoring. In the Behavioural Module,
+YOLOv7 achieved a posture mAP of \textbf{94.6\%} and movement precision of
+\textbf{95\%}~\cite{ref9}, demonstrating reliable detection of brief arousals that
+significantly impact sleep quality.
+
+\subsection{Operationalising the Sleep Quality Index (SQI)}
+
+Unlike subjective tools like the PSQI~\cite{ref8}, our SQI is a synthetic objective
+score calculated nightly based on:
+
+\begin{enumerate}[leftmargin=1.2em, itemsep=2pt]
+  \item \textbf{Sleep Efficiency (SE):}
+    $\displaystyle\mathrm{SE} = \frac{\mathrm{TST}}{\mathrm{Time\;in\;Bed}} \times 100$.
+    Efficiency \textbf{$>$85\%} is optimal.
+
+  \item \textbf{Duration Score:} Based on TST (\textbf{7--9~hours} is optimal).
+
+  \item \textbf{Arousal Index:} Movement-awakening events detected by YOLOv7 per
+    hour~\cite{ref9}.
+
+  \item \textbf{Deep Sleep Percentage:} Ratio of restorative N3 epochs to total
+    sleep.
+\end{enumerate}
+
+A validation study on 25 participants showed that the objective SQI correlates with
+clinical PSQI scores at \textbf{r\,=\,0.52}~\cite{ref7}.
+
+% ── 7. Data Preparation ───────────────────────────────────────────────────────
+\section{Data Preparation and Experimental Setup}
+
+\subsection{Data Acquisition and Preprocessing}
+
+Ground truth was established using the \textbf{Sleep-EDF Database
+(PhysioNet)}~\cite{ref5}, containing records from 197~subjects. The pipeline used
+\texttt{fetch\_data} from MNE to pair PSG data with hypnogram annotations. The EEG
+Fpz-Cz channel was isolated and renamed to \texttt{EEG} for consistency. Signals
+were segmented into \textbf{30-second discrete epochs} and Z-score normalised to
+mitigate impedance variations.
+
+\subsection{Exploratory Data Analysis (EDA)}
+
+EDA revealed significant class imbalance---Stage~N2 is overrepresented while
+Stage~N1 is sparse---necessitating class weights during training. Bandpower
+distribution confirms high Delta power for Stage~N3 and Alpha peaks for Stage~Wake.
+\textbf{Mosaic Data Augmentation} was applied to the YOLO module to improve
+detection of occluded body parts under blankets by splicing training images into
+composites~\cite{ref9}.
+
+% ── 8. Risk Mitigation ────────────────────────────────────────────────────────
+\section{Mitigation of Risks and Engineering Impacts}
+
+\subsection{Mitigation of Privacy Risks}
+
+Bedroom monitoring raises significant privacy concerns. We mitigate these through
+\textbf{Edge-AI Inference}: YOLOv7 is deployed on a Raspberry~Pi~4 with an
+Intel~NCS2, processing raw video in real-time and deleting it instantly. Only
+numerical SQI values and stage labels are transmitted to the cloud~\cite{ref9}.
+
+\subsection{Addressing Technical Ambiguity}
+
+Classification of Stage~N1 remains a bottleneck (\textbf{53\% accuracy}). The hybrid
+model addresses this using the LSTM memory cell to enforce transition
+probabilities---identifying N1 as a brief bridge rather than a sustained
+state~\cite{ref2}.
+
+% ── 10. Conclusion ────────────────────────────────────────────────────────────
+\section{Conclusion and Future Directions}
+
+This paper presented a multimodal sleep monitoring framework integrating a CNN-LSTM
+hybrid for EEG-based physiological staging with YOLOv7 and MediaPipe for real-time
+behavioural analysis. The system achieves \textbf{88.13\%} overall staging accuracy
+with a Cohen's Kappa of \textbf{0.84}, surpassing standalone architectures, while
+the vision module attains a posture mAP of \textbf{94.06\%} and movement precision
+of \textbf{95\%} at 58~FPS. These results demonstrate that fusing neurological and
+behavioural modalities yields a more complete picture of sleep health than either
+stream alone.
+
+The synthesised Sleep Quality Index (SQI) achieves $r = 0.52$ correlation with the
+clinical PSQI, validating its utility as an objective, continuous measure. Edge-AI
+deployment on a Raspberry Pi~4 ensures privacy by processing and discarding raw
+video locally, transmitting only aggregated metrics.
+
+\subsubsection{Limitations}
+The current work relies on the Sleep-EDF dataset, which may not fully represent
+clinical diversity across age groups and sleep disorders. Stage~N1 classification
+accuracy (53\%) remains below clinical acceptability and warrants targeted
+improvements. The SQI validation cohort of 25 participants is small; larger
+prospective trials are required to establish clinical validity.
+
+\subsubsection{Future Directions}
+Key directions include: (1)~development of ``Sleep Foundation Models'' (SFMs)
+pre-trained on massive corpora (\textbf{$>$27,000~hours} of EEG) for improved
+cross-population generalisation~\cite{ref9}; (2)~incorporation of additional
+modalities such as SpO$_2$ and heart rate variability from low-cost wearables to
+strengthen the SQI; (3)~longitudinal deployment studies to assess chronic disease
+correlation and clinical decision support utility; and (4)~extension to paediatric
+and elderly cohorts, where sleep architecture differs substantially from the adult
+norms captured in Sleep-EDF.
+
+% ── References ────────────────────────────────────────────────────────────────
+\begin{thebibliography}{99}
+
+\bibitem{ref1}
+  ``Personalized Machine Learning Intervention to Improve Sleep Quality Using
+  Wearable Technology,'' \textit{PMC}, accessed Mar.~31, 2026.
+  \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC12773695/}
+
+\bibitem{ref2}
+  ``Comparative Performance Analysis of CNN, LSTM, and CNN-LSTM Models,''
+  \textit{Informatica}, 2025.
+
+\bibitem{ref3}
+  ``A New Hybrid Algorithm for Vision-Based Sleep Posture Analysis Integrating CNN,
+  LSTM and MediaPipe,'' \textit{SAI Organization}, 2026.
+  \url{https://thesai.org/Downloads/Volume16No10/Paper_13-A_New_Hybrid_Algorithm_for_Vision_Based_Sleep_Posture_Analysis.pdf}
+
+\bibitem{ref4}
+  ``AASM Sleep Scoring Guidelines and Waveform Patterns,'' \textit{Medscape}, 2026.
+
+\bibitem{ref5}
+  ``Sleep-EDF Database: Loading and Preprocessing,'' \texttt{load\_data.py}, 2026.
+
+\bibitem{ref6}
+  ``Hybrid CNN-LSTM Architecture Implementation,'' \texttt{dl\_model.py}, 2026.
+
+\bibitem{ref7}
+  ``Development and Validation of an Unobtrusive Automatic Sleep Quality Assessment
+  Index (ASQI),'' \textit{MDPI Electronics}, vol.~14, no.~22, 2026.
+  \url{https://www.mdpi.com/2079-9292/14/22/4531}
+
+\bibitem{ref8}
+  ``Pittsburgh Sleep Quality Index (PSQI) Scoring Rules,''
+  \textit{University of Pittsburgh}, 2026.
+
+\bibitem{ref9}
+  ``A Comprehensive Systematic Review of YOLO for Medical Object Detection
+  (2018--2023),'' Mahidol University, 2026.
+  \url{https://www.rama.mahidol.ac.th/ceb/sites/default/files/public/pdf/journal_club/2024/A_Comprehensive_Systematic_Review_of_YOLO_for_Medical_Object_Detection_2018_to_2023.pdf}
+
+\bibitem{ref10}
+  ``Beyond the Sleep Lab: A Narrative Review of Wearable Sleep Monitoring,''
+  \textit{MDPI Biosensors}, vol.~12, no.~11, 2026.
+  \url{https://www.mdpi.com/2306-5354/12/11/1191}
+
+\bibitem{ref11}
+  ``Real-time Sleep Monitoring Built on IoT and Edge Intelligence,'' 2025.
+
+\bibitem{ref12}
+  N.~Darapaneni et al., ``Image Classification and Segmentation Using YOLO,''
+  \textit{Final Report}, 2023.
+
+\end{thebibliography}
+
+\end{document}

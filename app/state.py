@@ -5,3 +5,4 @@ from typing import Optional, Any
 model: Optional[Any]           = None   # CNN+LSTM Keras model
 reg_model: Optional[Any]       = None   # RandomForest regression model
 anthropic_client: Optional[Any] = None  # anthropic.Anthropic client
+gemini_model: Optional[Any]    = None   # google.generativeai model

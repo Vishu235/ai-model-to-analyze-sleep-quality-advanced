@@ -25,10 +25,6 @@ def explain(req: ExplainRequest, _=Depends(require_api_key)):
     else:
         label = "Poor"
 
-    if state.anthropic_client is None:
-        explanation, tips = rule_based_explain(m, label)
-        return ExplainResponse(explanation=explanation, tips=tips, ai_available=False)
-
     lang_instruction = (
         "Respond in simple Hindi (Devanagari script)."
         if req.language == "hindi"
@@ -57,21 +53,44 @@ Provide:
 Format as JSON only — no extra text:
 {{"explanation": "...", "tips": ["tip1", "tip2", "tip3"]}}"""
 
-    try:
-        response = state.anthropic_client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=600,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        text = response.content[0].text.strip()
-        start = text.find("{")
-        end   = text.rfind("}") + 1
-        parsed = json.loads(text[start:end])
-        return ExplainResponse(
-            explanation  = parsed["explanation"],
-            tips         = parsed["tips"],
-            ai_available = True,
-        )
-    except Exception:
-        explanation, tips = rule_based_explain(m, label)
-        return ExplainResponse(explanation=explanation, tips=tips, ai_available=False)
+    # Try Gemini first, then Anthropic, then rule-based fallback
+    if state.gemini_model is not None:
+        try:
+            response = state.gemini_model.models.generate_content(
+                model="gemini-3-flash-preview", contents=prompt
+            )
+            text  = response.text.strip()
+            start = text.find("{")
+            end   = text.rfind("}") + 1
+            parsed = json.loads(text[start:end])
+            return ExplainResponse(
+                explanation  = parsed["explanation"],
+                tips         = parsed["tips"],
+                ai_available = True,
+            )
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).error("Gemini explain failed: %s", e, exc_info=True)
+
+    if state.anthropic_client is not None:
+        try:
+            response = state.anthropic_client.messages.create(
+                model="claude-haiku-4-5-20251001",
+                max_tokens=600,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            text  = response.content[0].text.strip()
+            start = text.find("{")
+            end   = text.rfind("}") + 1
+            parsed = json.loads(text[start:end])
+            return ExplainResponse(
+                explanation  = parsed["explanation"],
+                tips         = parsed["tips"],
+                ai_available = True,
+            )
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).error("Claude explain failed: %s", e, exc_info=True)
+
+    explanation, tips = rule_based_explain(m, label)
+    return ExplainResponse(explanation=explanation, tips=tips, ai_available=False)

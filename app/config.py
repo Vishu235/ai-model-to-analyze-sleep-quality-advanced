@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Project root (parent of this app/ directory)
 _BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,6 +38,7 @@ MAX_EDF_MB  = 500
 
 # External service keys
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+GEMINI_API_KEY    = os.environ.get("GEMINI_API_KEY", "")
 API_KEY           = os.environ.get("API_KEY", "")
 
 # Static files

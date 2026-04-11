@@ -11,7 +11,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app import state
-from app.config import MODEL_PATH, REG_MODEL_PATH, ANTHROPIC_API_KEY, STATIC_DIR
+from app.config import MODEL_PATH, REG_MODEL_PATH, ANTHROPIC_API_KEY, GEMINI_API_KEY, STATIC_DIR
 from app.routes import predict as predict_router
 from app.routes import explain as explain_router
 from app.logging_config import configure_logging
@@ -101,7 +101,14 @@ async def lifespan(app: FastAPI):
         state.anthropic_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
         log.info("Anthropic client initialised — AI explanations enabled")
     else:
-        log.warning("ANTHROPIC_API_KEY not set — /explain will use rule-based fallback")
+        log.warning("ANTHROPIC_API_KEY not set — skipping Anthropic client")
+
+    if GEMINI_API_KEY:
+        from google import genai as google_genai
+        state.gemini_model = google_genai.Client(api_key=GEMINI_API_KEY)
+        log.info("Gemini client initialised — AI explanations enabled")
+    else:
+        log.warning("GEMINI_API_KEY not set — /explain will use rule-based fallback")
 
     log.info("Startup complete")
     yield

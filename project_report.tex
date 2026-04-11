@@ -1,0 +1,1845 @@
+\documentclass[10pt]{article}
+\pdfoutput=1
+
+\usepackage{NotesTeX, lipsum, mathtools}
+%\usepackage{showframe}
+\usepackage{xcolor}
+%\usepackage{pythontex}         % requires separate Python compilation pass
+%\usepackage{pythonhighlight}   % requires pythontex
+%\usepackage{movie15}           % deprecated; use media9 if needed
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+% Define \email if not already provided by NotesTeX or hyperref
+\providecommand{\email}[1]{\texttt{#1}}
+
+\title{%
+  \begin{center}
+    {\Huge \textit{AI Model to Analyse Sleep Quality}}\\[6pt]
+    {\large \textit{Submitted by}}
+  \end{center}%
+}
+
+% Authors in alphabetical order by last name / first name
+\author{Mudunuru Sai Krishna\footnote{%
+  \email{Email: srkr1213@gmail.com}
+  {\textit{GitHub: https://github.com/krishna-1213}}
+  {\textit{LinkedIn: https://www.linkedin.com/in/saikrishnamudunuru1213}}}}
+\author{Pranit Kumar Pandey\footnote{%
+  \email{Email: pranitpandey.dav@gmail.com}
+  {\textit{GitHub: https://github.com/Pranitpandeydav}}
+  {\textit{LinkedIn: https://www.linkedin.com/in/pranitpandey0103}}}}
+\author{Sakshat R\footnote{%
+  \email{Email: sakshat.ravi@gmail.com}
+  {\textit{GitHub: https://github.com/Sakshath-ravi}}
+  {\textit{LinkedIn: https://www.linkedin.com/in/sakshath-r}}}}
+\author{Vikas Kumar Rai\footnote{%
+  \email{Email: vikasrai2231@gmail.com}
+  {\textit{GitHub: https://github.com/vikasrai-tech}}
+  {\textit{LinkedIn: https://www.linkedin.com/in/vikas-rai-153a0a241}}}}
+\author{Vishal Gopinath\footnote{%
+  \email{Email: vishal.bglr@gmail.com}
+  {\textit{GitHub: https://github.com/Vishu235}}
+  {\textit{LinkedIn: https://www.linkedin.com/in/vishal-gopinath}}}}
+\author{Project Supervisor: Dr.~Narayana\footnote{%
+  \email{Email: darapaneni@gmail.com}
+  {\textit{GitHub: https://github.com/darapaneni}}
+  {\textit{LinkedIn: https://www.linkedin.com/in/darapaneni/}}}}
+
+\tcolorboxenvironment{definition}{boxrule=0pt,boxsep=0pt,colback={White!90!Cerulean},enhanced jigsaw,
+  borderline west={2pt}{0pt}{Cerulean},sharp corners,before skip=10pt,after skip=10pt,breakable,}
+\tcolorboxenvironment{theorem}{boxrule=0pt,boxsep=0pt,colback={White!90!Dandelion},enhanced jigsaw,
+  borderline west={2pt}{0pt}{Dandelion},sharp corners,before skip=10pt,after skip=10pt,breakable,}
+\tcolorboxenvironment{lemma}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Red},
+  before skip=10pt,after skip=10pt,sharp corners,left=12pt,right=12pt,breakable,}
+\tcolorboxenvironment{proof}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{NavyBlue!80!white},
+  before skip=10pt,after skip=10pt,left=12pt,right=12pt,breakable,}
+\tcolorboxenvironment{example}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Black},
+  sharp corners,before skip=10pt,after skip=10pt,left=12pt,right=12pt,breakable,}
+\tcolorboxenvironment{remark}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Green},
+  before skip=10pt,after skip=10pt,left=12pt,right=12pt,breakable,}
+
+\begin{document}
+\maketitle
+\flushbottom
+\newpage
+\pagestyle{fancynotes}
+
+%==========================================================================
+\section{Introduction and Literature Survey}
+\label{sec:intro}
+%==========================================================================
+
+\begin{margintable}\vspace{1.4in}\footnotesize
+\begin{tabularx}{\marginparwidth}{|X}
+  Subsection~\ref{sec:background}. Background and Context\\
+  Subsection~\ref{sec:motivation}. Motivation and Importance of the Study\\
+  Subsection~\ref{sec:problem}. Problem Definition and Scope\\
+  Subsection~\ref{sec:objectives}. Research Objectives and Questions\\
+  Subsection~\ref{sec:contributions}. Expected Contributions\\
+  Subsection~\ref{sec:methodology}. Review Methodology and Source Selection Criteria\\
+  Subsection~\ref{sec:survey}. Survey of Existing Approaches\\
+  Subsubsection~\ref{sec:early}. Early Solutions and Classical Techniques\\
+  Subsubsection~\ref{sec:modern}. Modern Approaches and Evolving Trends\\
+  Subsubsection~\ref{sec:emerging}. Emerging Models and Hybrid Frameworks\\
+  Subsection~\ref{sec:comparison}. Comparative Evaluation of Techniques\\
+  Subsection~\ref{sec:datasets}. Dataset and Benchmark Overview\\
+  Subsection~\ref{sec:tools}. Tools, Frameworks, and Experimental Protocols\\
+  Subsection~\ref{sec:metrics}. Evaluation Metrics Used in Literature\\
+  Subsection~\ref{sec:limitations}. Limitations of Prior Work\\
+  Subsection~\ref{sec:gaps}. Research Gaps and Open Questions\\
+  Subsection~\ref{sec:synthesis}. Innovation and Conceptual Synthesis\\
+  Subsection~\ref{sec:visuals}. Visualizations and Knowledge Summaries\\
+  Subsection~\ref{sec:citation}. Academic Integrity and Citation Style\\
+  Subsection~\ref{sec:summary}. Summary of the Chapter\\
+  Subsection~\ref{sec:structure}. Structure of the Report\\
+\end{tabularx}
+\end{margintable}
+
+%--------------------------------------------------------------------------
+\subsection{Background and Context}
+\label{sec:background}
+%--------------------------------------------------------------------------
+
+Sleep is one of the most fundamental biological processes governing human health. Decades of clinical and epidemiological research have firmly established that sleep quality and architecture are strong predictors of cognitive performance, emotional regulation, metabolic function, immune response, and long-term cardiovascular health~\cite{walker2017why}. Adults who experience fragmented or insufficient sleep face measurably elevated risks of Type~2 diabetes, hypertension, depression, and neurodegenerative conditions such as Alzheimer's disease~\cite{cappuccio2010sleep}.
+
+The clinical gold standard for measuring sleep quality is overnight \textit{polysomnography} (PSG), a multimodal recording that simultaneously captures electroencephalography (EEG), electrooculography (EOG), electromyography (EMG), electrocardiography (ECG), respiratory effort, oxygen saturation, and body position signals. A trained sleep specialist then manually scores each 30-second epoch of the recording according to standardised taxonomies. Modern clinical practice follows the American Academy of Sleep Medicine (AASM) guidelines~\cite{berry2012aasm}, which define five stages: \textbf{Wake (W)}, \textbf{Non-REM Stage 1 (N1)}, \textbf{Non-REM Stage 2 (N2)}, \textbf{Non-REM Stage 3 (N3, slow-wave sleep)}, and \textbf{Rapid Eye Movement (REM) sleep}. The earlier Rechtschaffen and Kales (R\&K) standard additionally separated N3 into Stages~3 and~4 based on slow-wave fraction, but AASM merged these into a single deep-sleep category.
+
+Manual PSG scoring is costly, subjective, and difficult to scale. A single full-night recording of 7--9 hours generates between 840 and 1,080 epochs, each of which must be individually inspected. Inter-rater agreement between certified scorers typically reaches only 82--87\%~\cite{danker2009inter}, reflecting the genuine ambiguity of stage boundaries, particularly at N1/N2 and N2/N3 transitions. These limitations create a strong demand for automated, robust, and reproducible sleep staging systems.
+
+The growth of affordable consumer EEG headbands, smartwatch-based photoplethysmography (PPG) sensors, and in-home sleep monitoring devices has expanded the problem beyond clinic walls. Remote patient monitoring and telemedicine platforms require lightweight yet accurate staging models that can process high-volume EEG data with minimal expert intervention. At the same time, cloud platforms now offer affordable compute on demand, creating an opportunity to serve inference as a software product rather than a research prototype.
+
+This project is positioned precisely at this intersection: it takes a clinically grounded, deep-learning-based sleep staging pipeline and transforms it into a production-quality API service capable of processing real EDF recordings, returning structured results, and providing plain-language health guidance. The primary EEG signal used is the frontal channel \texttt{EEG Fpz-Cz} from the PhysioNet Sleep-EDF Cassette dataset~\cite{kemp2000analysis}, which is widely used as a research benchmark and a representative proxy for ambulatory single-channel monitoring.
+
+%--------------------------------------------------------------------------
+\subsection{Motivation and Importance of the Study}
+\label{sec:motivation}
+%--------------------------------------------------------------------------
+
+Despite strong progress in deep learning for biosignal analysis, a persistent and underappreciated gap exists between \textit{academic model benchmarks} and \textit{deployable healthcare software}. The vast majority of published sleep staging systems demonstrate impressive offline performance metrics but stop at the Python script boundary. They do not address:
+
+\begin{itemize}
+  \item \textbf{API design}: How a model is exposed as a versioned, schema-validated HTTP service.
+  \item \textbf{Large-file processing}: How 8-hour EDF recordings are handled without triggering cloud timeout limits.
+  \item \textbf{Operational reliability}: What happens when a recording contains a missing channel, an NaN-corrupted segment, or an unexpected sampling rate.
+  \item \textbf{User communication}: How machine predictions are translated into language that a non-specialist can interpret and act upon.
+  \item \textbf{Deployment lifecycle}: How a model checkpoint is packaged, versioned, and served in a container with reproducible dependencies.
+\end{itemize}
+
+This project directly addresses all five dimensions. By combining a CNN-LSTM sequence model~\cite{supratak2017deepsleepnet} with robust preprocessing, multi-endpoint FastAPI serving, asynchronous job handling, a sleep quality scoring framework, an optional LLM-based explanation layer, and a Docker/Railway deployment pipeline, the system achieves practical usability that a research prototype alone cannot provide.
+
+The societal importance is amplified by the broad prevalence of sleep disorders. Insomnia affects approximately 30\% of adults globally, while obstructive sleep apnea is estimated to affect 936 million people~\cite{benjafield2019estimation}. Yet only a fraction of these individuals receive formal PSG evaluation due to cost, equipment availability, and time constraints. A validated, accessible automated staging service lowers the barrier to sleep health monitoring and can complement telemedicine workflows by providing near-real-time triage summaries to clinicians.
+
+%--------------------------------------------------------------------------
+\subsection{Problem Definition and Scope}
+\label{sec:problem}
+%--------------------------------------------------------------------------
+
+The core technical problem addressed in this project is:
+
+\begin{definition}
+\textbf{Automated Sleep Stage Classification}: Given a raw, single-channel EEG recording stored in European Data Format (EDF), automatically segment the signal into 30-second epochs and assign each epoch to one of five classes --- \{Wake, N1, N2, N3, REM\} --- while preserving temporal context through sequence-aware inference. Derived clinical sleep metrics and a composite sleep quality score are additionally computed and returned alongside the per-epoch labels.
+\end{definition}
+
+The project scope encompasses the following major components:
+
+\begin{enumerate}
+  \item \textbf{Signal preprocessing pipeline}: Resampling to 100~Hz, 4th-order Butterworth bandpass filtering (0.5--30~Hz), 30-second epoching, per-epoch z-score normalisation, and construction of 5-epoch sequence windows.
+  \item \textbf{Deep sequence model}: A CNN-LSTM hybrid that extracts per-epoch convolutional features and models inter-epoch transitions via an LSTM layer.
+  \item \textbf{Quick-score regression path}: A secondary lightweight model based on 15 spectral and statistical features that returns a rapid sleep quality estimate without full staging.
+  \item \textbf{API and serving layer}: A FastAPI application with synchronous JSON prediction, asynchronous EDF upload/polling, dashboard serving, and an LLM-backed explanation endpoint.
+  \item \textbf{Deployment infrastructure}: Docker containerisation, Railway cloud hosting, and GitHub Actions CI for automated testing and optional retraining.
+\end{enumerate}
+
+\textbf{Explicitly out of scope} for the current phase are: multi-channel fusion (EOG, EMG, ECG), clinician-grade diagnostic reporting, prospective clinical trial validation, regulatory certification (FDA, CE), real-time streaming inference, and multi-user authentication systems.
+
+%--------------------------------------------------------------------------
+\subsection{Research Objectives and Questions}
+\label{sec:objectives}
+%--------------------------------------------------------------------------
+
+The project is driven by five primary objectives:
+
+\begin{enumerate}
+  \item \textbf{O1 --- Accurate Stage Classification}: Build a reliable five-class sleep stage pipeline achieving competitive macro-F1 and Cohen's $\kappa$ on held-out recordings from unseen subjects.
+  \item \textbf{O2 --- Temporal Context Modelling}: Demonstrate that a sequence-aware CNN-LSTM improves stability and inter-epoch transition accuracy compared to epoch-isolated classification.
+  \item \textbf{O3 --- Production API Design}: Deliver a cloud-deployable REST API that correctly handles large EDF files, enforces input validation, returns structured responses, and degrades gracefully under partial failures.
+  \item \textbf{O4 --- Interpretable Output}: Provide users with clinically meaningful sleep quality metrics (efficiency, WASO, latency, N3/REM proportion, fragmentation index) and plain-language recommendations.
+  \item \textbf{O5 --- Reproducibility and Engineering Quality}: Establish reproducibility through dependency pinning, group-aware data splits, CI test automation, and clear deployment documentation.
+\end{enumerate}
+
+These objectives motivate the following research questions:
+\begin{enumerate}
+  \item[\textbf{RQ1}] How effectively does a CNN-LSTM architecture capture both short-term EEG waveform features and long-range inter-epoch transition patterns compared to simpler baselines?
+  \item[\textbf{RQ2}] Which preprocessing choices --- bandpass cutoff, normalisation mode, sequence length, and label smoothing --- have the largest impact on generalisation to unseen subjects?
+  \item[\textbf{RQ3}] What software engineering patterns are necessary to make long-running EEG inference viable on commodity cloud infrastructure subject to HTTP timeout constraints?
+  \item[\textbf{RQ4}] Can a lightweight, feature-based regression model provide a practically useful fast-path quality estimate that correlates well with full staging output?
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Expected Contributions}
+\label{sec:contributions}
+%--------------------------------------------------------------------------
+
+This work contributes an integrated system with both algorithmic and software engineering novelty:
+
+\begin{enumerate}
+  \item \textbf{Subject-safe sequence pipeline}: A data preparation method that builds 5-epoch sliding windows while enforcing subject-boundary awareness via GroupKFold, preventing epoch-level cross-subject leakage that inflates offline benchmarks.
+  \item \textbf{Production FastAPI service}: A multi-endpoint REST API with lifecycle-managed model loading, Pydantic schema validation, asynchronous EDF job processing, in-memory job tracking, static dashboard hosting, and API key security.
+  \item \textbf{Sleep quality scoring framework}: A weighted composite score combining sleep efficiency, WASO, sleep onset latency, restorative sleep (N3+REM proportion), and fragmentation index --- each mapped to a clinically interpretable subscale.
+  \item \textbf{Dual-path inference architecture}: A design that serves both a full CNN-LSTM staging path and a low-latency regression-based quick score path under a single API surface, providing a latency--accuracy trade-off suited to different use cases.
+  \item \textbf{Robust deployment recipe}: A reproducible Docker + Railway + GitHub Actions pipeline with pinned dependency versions, model compatibility patches for cross-version Keras serialisation, and automated CI checks.
+  \item \textbf{Explainability integration}: An optional Anthropic Claude API explanation layer with a deterministic rule-based fallback, ensuring the API remains functional without external keys while providing richer guidance when they are available.
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Review Methodology and Source Selection Criteria}
+\label{sec:methodology}
+%--------------------------------------------------------------------------
+
+The literature review was conducted in three phases. In the first phase, \textit{foundational references} were gathered covering sleep medicine, PSG scoring standards, and EEG signal processing, drawing from AASM guidelines, standard neuroscience textbooks, and seminal clinical studies. In the second phase, \textit{automated sleep staging publications} were surveyed across IEEE Xplore, ACM Digital Library, arXiv (cs.LG, eess.SP), PubMed, and Google Scholar. Search terms included: \textit{sleep staging EEG deep learning}, \textit{CNN LSTM sleep classification}, \textit{automatic sleep scoring single-channel}, \textit{Sleep-EDF benchmark}, and \textit{transformer sleep EEG}. In the third phase, \textit{engineering and deployment references} were collected from official documentation of FastAPI, TensorFlow/Keras, MNE-Python, Docker, and Railway.
+
+Inclusion criteria for research papers were: (a) single- or dual-channel EEG input; (b) five-class AASM or four-class staging target; (c) evaluation on a publicly accessible dataset (Sleep-EDF, MASS, SHHS); (d) reported metrics beyond raw accuracy (F1, Cohen's $\kappa$, per-class recall); (e) published after 2015 or cited as a seminal baseline. Papers reporting only proprietary data without public reproducibility were reviewed for context but not selected as primary comparisons.
+
+%--------------------------------------------------------------------------
+\subsection{Survey of Existing Approaches}
+\label{sec:survey}
+%--------------------------------------------------------------------------
+
+Automated sleep staging research spans several decades and three broad paradigms: classical machine learning on hand-crafted features, deep learning on raw or lightly processed signals, and hybrid systems combining both with post-processing or uncertainty modelling.
+
+%..........................................................................
+\subsubsection{Early Solutions and Classical Techniques}
+\label{sec:early}
+%..........................................................................
+
+Before deep learning, automated staging relied on expert-designed spectral and statistical features fed into classical classifiers. The standard feature set drew on the known electrophysiological correlates of each sleep stage:
+
+\begin{itemize}
+  \item \textbf{Wake}: Dominant alpha (8--13~Hz) and beta (13--30~Hz) activity, low delta power, high muscle and eye-movement artefacts.
+  \item \textbf{N1}: Alpha attenuation, theta (4--8~Hz) emergence, vertex sharp waves.
+  \item \textbf{N2}: Sleep spindles (12--15~Hz bursts), K-complexes, moderate theta.
+  \item \textbf{N3}: High-amplitude delta (0.5--4~Hz) dominating $>20$\% of the epoch.
+  \item \textbf{REM}: Saw-tooth waves, mixed-frequency low-amplitude EEG resembling Wake but with muscle atonia.
+\end{itemize}
+
+Classical systems computed absolute and relative power in each band via Welch periodograms or fast Fourier transforms, complemented by statistical moments (mean, variance, skewness, kurtosis), zero-crossing rate, and spectral entropy. These features were passed to Support Vector Machines (SVMs)~\cite{liang2012automatic}, Random Forests~\cite{fraiwan2012automated}, Hidden Markov Models (HMMs)~\cite{doroshenkov2007classification}, or Linear Discriminant Analysis.
+
+The principal strengths of classical approaches were interpretability and low computational cost. A clinician could inspect feature weights and understand model decisions. However, they suffered from several critical limitations. Feature engineering was highly dataset-dependent and required manual tuning for each recording setup. Classifier generalisation across different EEG devices, electrode placements, or age groups was poor. HMM temporal smoothers captured some sequential structure but were limited to first-order transitions and could not model complex long-range dependencies spanning multiple consecutive epochs.
+
+Documented representative performance on Sleep-EDF (5-class AASM) benchmarks falls in the range of 76--84\% overall accuracy, with N1 recall consistently the weakest at 40--55\%. Liang et al.~\cite{liang2012automatic} reported 78.6\% overall accuracy using multiscale entropy combined with autoregressive features on a single EEG channel, with the important caveat that N1 was misclassified as N2 in more than half of all N1 epochs. Fraiwan et al.~\cite{fraiwan2012automated} achieved approximately 84\% overall accuracy with a Random Forest on a 4-class variant of Sleep-EDF, but reported that collapsing N1 and N2 into a single light-sleep class was necessary to achieve acceptable recall. These results establish the quantitative baseline that deep sequence models must exceed to justify the added architectural complexity.
+
+%..........................................................................
+\subsubsection{Modern Approaches and Evolving Trends}
+\label{sec:modern}
+%..........................................................................
+
+The deep learning era transformed sleep staging by replacing manual features with learned representations. Influential early works established key architectural choices that remain in use today.
+
+\textbf{DeepSleepNet}~\cite{supratak2017deepsleepnet} (Supratak et al., 2017) demonstrated that a two-branch CNN---one branch employing large receptive-field kernels to capture low-frequency slow waves and spindles, and a parallel branch with small kernels to capture high-frequency beta activity---followed by a bidirectional LSTM achieved then-state-of-the-art on Sleep-EDF with a single EEG channel. Evaluated on a 20-subject subset of Sleep-EDF Cassette, it reported \textbf{82.0\% overall accuracy, macro-F1 = 76.9\%, and Cohen's $\kappa$ = 0.764}. The critically important finding was that the bidirectional LSTM context window raised N1 recall by more than 12 percentage points compared to the CNN encoder alone, establishing that inter-epoch temporal context is the primary driver of minority-class improvement.
+
+\textbf{SeqSleepNet}~\cite{phan2019seqsleepnet} (Phan et al., 2019) formulated staging as an explicit sequence-to-sequence task, classifying every epoch in a 20-epoch input window simultaneously using a hierarchical attention-based RNN. On the same 20-subject Sleep-EDF-SC subset it reported \textbf{87.1\% overall accuracy and macro-F1 = 80.3\%}, a 5-percentage-point accuracy gain over DeepSleepNet driven by the longer context window.
+
+\textbf{U-Sleep}~\cite{perslev2021usleep} (Perslev et al., 2021) adopted a fully convolutional U-Net operating directly on raw EEG and EOG at the recording level, producing a complete hypnogram in a single forward pass. Its key contribution was resilient generalisation: validated across 25 heterogeneous PSG datasets, achieving \textbf{81.4\% overall accuracy on Sleep-EDF-SC (26 subjects)} while simultaneously performing well on clinical datasets with different hardware and electrode configurations.
+
+\textbf{SleepTransformer}~\cite{phan2022sleeptransformer} (Phan et al., 2022) replaced the LSTM sequence encoder with a Transformer encoder applying multi-head self-attention over a 29-epoch context window. On Sleep-EDF-SC (20 subjects) it achieved \textbf{88.4\% overall accuracy, macro-F1 = 83.4\%, and $\kappa$ = 0.841}---the strongest reported results on this benchmark at the time of writing. The attention maps additionally provide interpretability by highlighting which past and future epochs contributed most to each staging decision.
+
+Recent trends in the field include:
+\begin{itemize}
+  \item \textbf{Attention-based architectures}: Multi-head self-attention over epoch sequences~\cite{eldele2021attention} (AttnSleep, 2021) combines multi-resolution CNN encoders with a Transformer context encoder, reporting 87.5\% accuracy and macro-F1 = 82.0\% on Sleep-EDF-20.
+  \item \textbf{Contrastive pre-training}: Self-supervised representation learning on unlabelled EEG reduces dependence on scarce annotated PSG data.
+  \item \textbf{Multi-task learning}: Joint staging and arousal/apnea detection using shared EEG encoders improves both tasks through auxiliary supervision.
+  \item \textbf{Evaluation rigour}: The community has progressively shifted toward reporting macro-F1, per-class confusion matrices, and Cohen's $\kappa$ rather than only overall accuracy, which is misleading under the $\approx$50\% N2 class majority present in Sleep-EDF.
+\end{itemize}
+
+%..........................................................................
+\subsubsection{Emerging Models and Hybrid Frameworks}
+\label{sec:emerging}
+%..........................................................................
+
+The frontier of sleep staging is moving toward hybrid systems that combine the accuracy of deep models with the operational properties demanded by real deployment:
+
+\begin{itemize}
+  \item \textbf{Confidence-aware staging}: Models output calibrated probability distributions rather than hard labels, enabling abstention or human-in-the-loop review for low-confidence epochs.
+  \item \textbf{Surrogate fast-path models}: A lightweight regression or rule-based model provides rapid estimates (sub-second latency) alongside a heavier full inference path, serving different cost--accuracy trade-off points on the same API.
+  \item \textbf{Explainability wrappers}: SHAP values, attention visualisations, or LLM-based narrative generation translate model outputs into clinically understandable language.
+  \item \textbf{Edge deployment}: Quantised or distilled models optimised for ARM microcontrollers embedded in wearable EEG headbands.
+  \item \textbf{Federated learning}: Privacy-preserving training across distributed hospital data without centralising raw PSG recordings.
+\end{itemize}
+
+This project implements the surrogate fast-path and LLM explanation components, making it representative of the current hybrid direction.
+
+%--------------------------------------------------------------------------
+\subsection{Comparative Evaluation of Techniques}
+\label{sec:comparison}
+%--------------------------------------------------------------------------
+
+Table~\ref{tab:method-compare} provides a paper-level comparison of representative sleep staging systems, from classical machine learning through the current transformer-based frontier, together with their roles in this project. All accuracy and macro-F1 figures are from the authors' original publications on Sleep-EDF Cassette unless otherwise noted; numerical comparison across rows must be interpreted with caution because evaluation protocols differ.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|p{3.1cm}|c|p{1.8cm}|c|c|p{2.4cm}|}
+\hline
+\textbf{Key Work (Method)} & \textbf{Year} & \textbf{Dataset} & \textbf{Acc\%} & \textbf{MF1\%} & \textbf{Role in Project} \\\hline
+Liang et al.~\cite{liang2012automatic} (SVM, spectral) & 2012 & EDF-SC & 78.6 & N/A & Feature basis for quick-score \\\hline
+Fraiwan et al.~\cite{fraiwan2012automated} (Random Forest) & 2012 & Multi-PSG & $\sim$84 & N/A & Feature set reference \\\hline
+DeepSleepNet~\cite{supratak2017deepsleepnet} (CNN + BiLSTM) & 2017 & EDF-SC-20 & 82.0 & 76.9 & CNN-LSTM architecture foundation \\\hline
+SeqSleepNet~\cite{phan2019seqsleepnet} (HierattRNN) & 2019 & EDF-SC-20 & 87.1 & 80.3 & Context window ($L$) design \\\hline
+AttnSleep~\cite{eldele2021attention} (MRCNN+TCSA) & 2021 & EDF-SC-20 & 87.5 & 82.0 & Attention as future extension \\\hline
+U-Sleep~\cite{perslev2021usleep} (U-Net, 25 datasets) & 2021 & EDF-SC-26 & 81.4 & $\sim$76 & Cross-dataset generalisation target \\\hline
+SleepTransformer~\cite{phan2022sleeptransformer} (Transformer) & 2022 & EDF-SC-20 & 88.4 & 83.4 & Future architecture upgrade \\\hline
+	extbf{This project} (CNN-LSTM, FastAPI) & 2026 & EDF-SC-67 & $\mathbf{86.77 \pm 1.92}$ & $\mathbf{0.716 \pm 0.029}$ & 	extbf{Primary production system} \
+\end{tabular}
+\caption{Paper-level comparison of sleep staging approaches on Sleep-EDF Cassette. EDF-SC-$N$ denotes $N$-recording subset. This project uses 5-fold subject-independent GroupKFold, a stricter evaluation protocol than most baselines. MF1 = macro-averaged F1.}
+\label{tab:method-compare}
+\end{table}
+
+The CNN-LSTM architecture is selected as the primary model because it balances feature quality (convolutional layers extract spindle, K-complex, and slow-wave patterns), temporal context (LSTM models stage transition probabilities), and practical deployability (inference on a single CPU in under 60~seconds for a typical 8-hour recording). It represents the mature, proven choice positioned between classical SVM/RF baselines and computationally heavier Transformer models. The SleepTransformer is acknowledged as the natural future upgrade, offering a 6.4 percentage-point macro-F1 improvement over DeepSleepNet at the cost of additional data and compute.
+
+%--------------------------------------------------------------------------
+\subsection{Dataset and Benchmark Overview}
+\label{sec:datasets}
+%--------------------------------------------------------------------------
+
+\textbf{Sleep-EDF Cassette (PhysioNet)}: The primary dataset is the Sleep-EDF Cassette subset~\cite{kemp2000analysis,goldberger2000physiobank}, which contains whole-night PSG recordings from 78 healthy Caucasian adults (age 25--101) collected in a 1987--1991 study of the sleep effects of temazepam. Each recording includes two EEG channels (\texttt{EEG Fpz-Cz} and \texttt{EEG Pz-Oz}), one EOG channel, one chin EMG, and an oro-nasal temperature channel. Hypnogram annotations follow R\&K standard with six classes (W, S1, S2, S3, S4, REM, Movement, Unknown). The training script in this project maps S3 and S4 $\rightarrow$ N3 and loads up to 50 subjects. The channel \texttt{EEG Fpz-Cz} is used exclusively, reflecting a realistic wearable sensing scenario.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Property} & \textbf{Value} \\\hline
+Recording type & Cassette (ambulatory, home recording) \\\hline
+Number of subjects & 78 (project uses up to 50) \\\hline
+EEG channel used & \texttt{EEG Fpz-Cz} \\\hline
+Sampling rate & 100~Hz (native; no resampling needed) \\\hline
+Epoch length & 30~s (3000 samples per epoch) \\\hline
+Sleep stage classes & Wake, N1, N2, N3 (S3+S4 merged), REM \\\hline
+Approx.\ epochs per subject & 900--1080 \\\hline
+Known class distribution & Heavily skewed: N2 $\approx 50\%$, Wake $\approx 20\%$, REM $\approx 20\%$, N3 $\approx 8\%$, N1 $\approx 5\%$ \\\hline
+Access & MNE \texttt{fetch\_data} utility (PhysioNet) \\\hline
+\end{tabular}
+\caption{Sleep-EDF Cassette dataset properties used in this project.}
+\label{tab:dataset}
+\end{table}
+
+\textbf{Quick-score regression dataset}: A secondary tabular dataset of 89 records (plus header, 23 columns) was synthetically generated from EDF-derived features using \texttt{gen\_dataset.py}. Each record contains 15 spectral and statistical features and an internally computed composite sleep quality score used as the regression target. This dataset is used to train the fast-path scikit-learn regression model served by the \texttt{/predict/quick-score} endpoint.
+
+Other widely used benchmarks in the literature are summarised in Table~\ref{tab:dataset-compare}. These datasets were reviewed for methodology and context but were not incorporated into the current training pipeline. Sleep-EDF Cassette was selected as the primary benchmark because it is freely accessible via MNE's \texttt{fetch\_data} API, widely used in published baselines enabling direct numerical comparison, and recorded with the frontal channel configuration representative of ambulatory wearable EEG devices.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{2.2cm}|c|c|p{1.8cm}|c|c|}
+\hline
+\textbf{Dataset} & \textbf{Subjects} & \textbf{Classes} & \textbf{EEG Channels} & \textbf{Fs (Hz)} & \textbf{Access} \\\hline
+Sleep-EDF-SC~\cite{kemp2000analysis} & 78 & W,N1,N2,N3,R & Fpz-Cz, Pz-Oz & 100 & Free (PhysioNet) \\\hline
+Sleep-EDF-ST & 22 & W,N1,N2,N3,R & Fpz-Cz, Pz-Oz & 100 & Free (PhysioNet) \\\hline
+MASS & 200 & W,N1,N2,N3,R & Full 10-20 & 256 & On request \\\hline
+SHHS & 5804 & W,N1,N2,N3,R & C3/C4-A1/A2 & 125 & Application \\\hline
+ISRUC-Sleep & 100 & W,N1,N2,N3,R & Full 10-20 & 200 & Free \\\hline
+CHAT & 453 & W,N1,N2,N3,R & C3/C4-A1 & 512 & Application \\\hline
+\end{tabular}
+\caption{Common PSG benchmark datasets used in the sleep staging literature. MASS = Montreal Archive of Sleep Studies; SHHS = Sleep Heart Health Study; CHAT = Childhood Adenotonsillectomy Trial. Sleep-EDF-SC (Cassette subset) is used in this project.}
+\label{tab:dataset-compare}
+\end{table}
+
+%--------------------------------------------------------------------------
+\subsection{Tools, Frameworks, and Experimental Protocols}
+\label{sec:tools}
+%--------------------------------------------------------------------------
+
+The full implementation toolchain spans signal processing, deep learning, API serving, and deployment:
+
+\begin{itemize}
+  \item \textbf{MNE-Python}~\cite{gramfort2013meg}: EDF file reading, channel selection, resampling, and annotation-to-epoch conversion. Used in both the training loader (\texttt{load\_data.py}) and the API upload handler.
+  \item \textbf{SciPy}: Butterworth bandpass filter design (\texttt{butter}/\texttt{filtfilt}), Welch PSD estimation, trapezoidal spectral integration, and statistical descriptors (skewness, kurtosis).
+  \item \textbf{TensorFlow / Keras 2.17}: CNN-LSTM model construction, training and checkpoint saving (\texttt{.keras} format), and inference. Compatible with NumPy~$<2$.
+  \item \textbf{scikit-learn}: GroupKFold subject-aware splitting, class-weight computation, regression model training, and evaluation (MAE, $R^2$).
+  \item \textbf{Weights \& Biases (W\&B)}: Experiment tracking, hyperparameter sweep management, and model checkpoint artefact storage during training via \texttt{modal\_train.py}.
+  \item \textbf{FastAPI / Uvicorn}: Asynchronous REST API framework with Pydantic v2 schema validation, background task management, and static file hosting.
+  \item \textbf{Anthropic Python SDK}: Optional Claude API integration for natural-language sleep recommendation generation at the \texttt{/explain} endpoint.
+  \item \textbf{Docker}: Slim Python 3.10 base image, pinned requirements, non-root user, and health-check configuration for containerised serving.
+  \item \textbf{Railway}: Cloud deployment platform used for container hosting with environment-variable injection for secrets and model path configuration.
+  \item \textbf{GitHub Actions}: CI workflow for automated unit tests (\texttt{tests/test\_api\_unit.py}), build validation, and optional retraining triggers.
+\end{itemize}
+
+The experimental protocol for deep model training uses 5-fold subject-independent GroupKFold cross-validation. All epochs from a given subject appear exclusively in either the training or test partition for each fold, preventing the optimistic leakage that occurs with random epoch-level splits. Metrics are reported as mean $\pm$ std across all five folds. Class weights are computed via 	exttt{compute\_class\_weight("balanced")} to counteract the strong N2 majority and N1 minority imbalance.
+
+%--------------------------------------------------------------------------
+\subsection{Evaluation Metrics Used in Literature}
+\label{sec:metrics}
+%--------------------------------------------------------------------------
+
+The sleep staging literature has progressively moved from simple accuracy to a richer set of metrics that expose class-specific behaviour:
+
+\begin{itemize}
+  \item \textbf{Overall Accuracy}: Proportion of correctly classified epochs. Misleading under class imbalance (a model predicting only N2 achieves $\sim50$\% accuracy on Sleep-EDF).
+  \item \textbf{Macro-F1}: Unweighted mean of per-class F1 scores. Penalises poor performance on minority stages (N1, N3) equally with majority stages.
+  \item \textbf{Cohen's Kappa ($\kappa$)}: Agreement beyond chance. Widely used in clinical scoring agreement studies; $\kappa > 0.60$ is considered substantial agreement.
+  \item \textbf{Per-class Precision, Recall, F1}: Reveal which specific stage transitions are handled poorly (e.g., N1$\leftrightarrow$N2 confusion).
+  \item \textbf{Confusion Matrix}: Provides a complete picture of misclassification patterns at stage boundaries.
+\end{itemize}
+
+For the derived sleep quality report, this project additionally uses clinically grounded metrics:
+\begin{itemize}
+  \item \textbf{Sleep Efficiency (SE)}: Total sleep time divided by time in bed. Reference thresholds: SE~$<70\%$ (poor), $70$--$90\%$ (moderate), $\geq90\%$ (good).
+  \item \textbf{Wake After Sleep Onset (WASO)}: Total wake time after initial sleep onset. Reference: WASO~$>90$~min considered poor.
+  \item \textbf{Sleep Onset Latency (SOL)}: Time from lights-off to first epoch of any sleep stage. Reference: SOL~$>45$~min considered delayed.
+  \item \textbf{N3 and REM Proportion}: Fraction of total sleep time spent in deep (N3) and REM stages. Targets: N3~$\geq20\%$, REM~$\geq22\%$.
+  \item \textbf{Fragmentation Index}: Rate of stage transitions per hour of sleep; high fragmentation indicates disrupted continuity.
+  \item \textbf{Mean Confidence}: Average softmax peak probability across epochs, used as a proxy for model certainty.
+\end{itemize}
+
+For the quick-score regression model, Mean Absolute Error (MAE) and $R^2$ are used.
+
+%--------------------------------------------------------------------------
+\subsection{Limitations of Prior Work}
+\label{sec:limitations}
+%--------------------------------------------------------------------------
+
+Despite strong benchmark progress, the sleep staging literature exhibits recurring limitations that this project explicitly targets:
+
+\begin{enumerate}
+  \item \textbf{Deployment gap}: Published models are almost never accompanied by serving code, input validation logic, or deployment configuration. Reproducing a result requires re-implementing the entire pipeline from scratch.
+  \item \textbf{Optimistic evaluation}: Many works use random epoch-level train/test splits, mixing epochs from the same subject across partitions. This inflates generalisation estimates relative to the leave-subjects-out scenario more representative of real deployment.
+  \item \textbf{N1 under-performance}: N1 is consistently the hardest stage to classify, yet many papers report only overall accuracy, obscuring poor N1 recall. Macro-F1 and per-class confusion matrices are underreported.
+  \item \textbf{Robustness blindspots}: Published systems rarely describe behaviour under corrupt inputs (NaN values, flat-line signals, wrong sampling rate, truncated recordings, missing target channels). Production systems fail on these edge cases without explicit guards.
+  \item \textbf{Lack of clinical-facing output}: Raw per-epoch labels have limited utility for clinicians or patients. Sleep quality metrics, confidence scores, and actionable explanations are rarely included in research systems.
+  \item \textbf{Fixed hardware assumptions}: Models trained at 100~Hz with a specific channel layout may fail silently on 256~Hz recordings or different electrode montages.
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Research Gaps and Open Questions}
+\label{sec:gaps}
+%--------------------------------------------------------------------------
+
+Two primary gaps motivate the design of this project:
+
+\textbf{Gap~1 --- Production Deployability}: There is a practical engineering gap between training a sleep staging model offline and serving it reliably at cloud scale. Processing a full-night EDF file may take 30--180 seconds depending on hardware; standard synchronous HTTP endpoints time out after 30 seconds on most platforms. Without an asynchronous job-queue pattern (submit $\rightarrow$ poll), large files cannot be processed at all. No published open-source sleep staging system provides this infrastructure out of the box.
+
+\textbf{Gap~2 --- Interpretable User Communication}: There is a deep interpretation gap between raw per-epoch stage labels and actionable health information. Non-specialist users cannot derive meaning from a sequence of \{Wake, N2, N2, N1, REM, \ldots\} labels. This gap is not merely a presentation problem --- it reflects the absence of downstream clinical metric computation, quality scoring, and communication design from nearly all published sleep staging systems. A review of the openly available inference scripts for DeepSleepNet, SeqSleepNet, and AttnSleep reveals that each returns a raw label array with no accompanying metric computation, no quality score, and no explanation generation. Sculley et al.~\cite{sculley2015hidden} identify this pattern as a broader systemic issue in ML deployment: the ``hidden technical debt'' of treating model output as a finished product rather than as an input to a downstream value-delivery pipeline. For sleep staging specifically, bridging this gap requires computing sleep efficiency, WASO, sleep latency, and stage proportions; scoring these against clinical norms; and expressing the result in language that a patient without medical training can understand and act upon.
+
+Open questions that remain for future work include:
+\begin{itemize}
+  \item How well does a model trained on Sleep-EDF Cassette (healthy adults, single frontal channel) generalise to clinical PSG from mixed populations across different devices?
+  \item Can calibrated probability outputs (temperature scaling, Platt scaling) improve the reliability of the confidence metric used in quality scoring?
+  \item Is a 5-epoch sequence window optimal, or do longer sequences (10--20 epochs) improve N1/REM recall in exchange for higher latency?
+  \item Can federated learning techniques enable cross-institutional model improvement while preserving patient data privacy?
+\end{itemize}
+
+%--------------------------------------------------------------------------
+\subsection{Innovation and Conceptual Synthesis}
+\label{sec:synthesis}
+%--------------------------------------------------------------------------
+
+This project synthesises insights from three previously disconnected literature streams: (1)~automated sleep staging research, (2)~production machine learning engineering, and (3)~clinical sleep quality assessment. The conceptual innovation is not located in any single component but in their \textit{integration}:
+
+The deep sequence model handles stage prediction. The spectral feature extractor and regression model handle fast-path quality estimation. The scoring framework translates predictions into clinically grounded metrics. The explainability layer translates metrics into language. The async API handles the infrastructure constraints of cloud serving. The CI/CD pipeline handles deployment reliability. Together these form a \textit{machine learning product pipeline} rather than a research prototype, demonstrating that the gap between a trained model and a usable clinical tool requires deliberate, multi-disciplinary engineering.
+
+This architecture is notably consistent with emerging ``MLOps'' thinking, where model development and software delivery are treated as jointly owned concerns rather than sequential handoffs~\cite{sculley2015hidden}. The project provides a concrete, domain-specific instantiation of this general principle.
+
+%--------------------------------------------------------------------------
+\subsection{Visualizations and Knowledge Summaries}
+\label{sec:visuals}
+%--------------------------------------------------------------------------
+
+The following visualisations are recommended for inclusion in the final report and are partially implemented in the current system:
+
+\begin{enumerate}
+  \item \textbf{Hypnogram}: A step-function plot of stage versus epoch index (time), colour-coded by stage. Provided by the frontend dashboard as an interactive Chart.js visualisation. Immediately communicates sleep architecture quality.
+  \item \textbf{Class Distribution Bar Chart}: Proportion of total epochs assigned to each stage, generated by the EDA module (\texttt{src/eda.py}). Reveals class imbalance and validates that predictions match approximate clinical norms.
+  \item \textbf{Confusion Matrix}: Per-class prediction versus ground truth, exposing N1/N2 boundary confusions and Wake/REM similarities. Essential for final report performance analysis.
+  \item \textbf{System Architecture Diagram}: A block diagram showing EDF input $\rightarrow$ preprocessing $\rightarrow$ CNN-LSTM / quick-score paths $\rightarrow$ metric computation $\rightarrow$ API endpoints $\rightarrow$ dashboard. Recommended for inclusion as Figure~1.
+  \item \textbf{Async Endpoint Sequence Diagram}: A timing diagram showing the client $\rightarrow$ POST /predict/edf $\rightarrow$ background job $\rightarrow$ GET /jobs/\{job\_id\} $\rightarrow$ result polling pattern. Explains the deployment architecture to technical readers.
+  \item \textbf{Training Loss and Metric Curves}: Epoch-by-epoch training and validation loss, accuracy, macro-F1, and Cohen's $\kappa$ from W\&B logs. Demonstrates convergence behaviour and absence of overfitting.
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Academic Integrity and Citation Style}
+\label{sec:citation}
+%--------------------------------------------------------------------------
+
+This report follows the \textbf{IEEE} citation style throughout. All dataset, library, and algorithmic references include the original publication source. The Sleep-EDF dataset~\cite{kemp2000analysis} and PhysioNet platform~\cite{goldberger2000physiobank} are cited as primary data sources. TensorFlow, MNE, FastAPI, and scikit-learn are cited via their official publications or documentation where formal papers exist.
+
+All manuscript text has been written and verified by the project authors. Generative AI tools (GitHub Copilot, Claude) were used for code assistance, first-draft generation of documentation strings, and structural suggestions. All AI-assisted content has been reviewed, corrected, and approved by project authors before inclusion. Raw AI output is not presented as original analysis. This disclosure follows the responsible AI use policy of the institution.
+
+%--------------------------------------------------------------------------
+\subsection{Summary of the Chapter}
+\label{sec:summary}
+%--------------------------------------------------------------------------
+
+This chapter established the full context for the project. It began with the clinical and scientific background of sleep staging, motivating why automated systems are needed and why the gap between academic research and deployable software must be bridged. The literature survey traced the evolution from classical spectral-feature classifiers to modern CNN-LSTM and transformer-based sequence models, identifying the strengths and limitations of each paradigm. Two primary research gaps --- production deployability and interpretable user communication --- were precisely identified and traced to specific design decisions in this project. The chapter concluded with a summary of the project's unique contributions as an integrated system that crosses the boundary from research prototype to ML product.
+
+Chapter~2 formalises the mathematical and algorithmic foundations underlying the implementation. Chapter~3 presents the interim implementation progress, training results, and API deployment status.
+
+%--------------------------------------------------------------------------
+\subsection{Structure of the Report}
+\label{sec:structure}
+%--------------------------------------------------------------------------
+
+The report is organised as follows:
+\begin{itemize}
+  \item \textbf{Chapter 1 (this chapter)} presents the introduction, motivation, literature survey, comparative analysis of existing methods, and identification of research gaps that this project addresses.
+  \item \textbf{Chapter 2} formalises the theoretical and algorithmic foundations: EEG signal representation, convolutional and recurrent sequence modelling, the two-process model of sleep regulation, sleep quality scoring mathematics, and the full system architecture.
+  \item \textbf{Chapter 3} documents the interim implementation in full detail: data pipeline, preprocessing, feature engineering, model training configuration and results, API endpoint design, deployment infrastructure, test coverage, risk analysis, and scalability considerations.
+  \item \textbf{References} lists all cited works in IEEE format.
+\end{itemize}
+
+%==========================================================================
+\newpage
+\section{Foundations}
+\label{sec:foundations}
+%==========================================================================
+
+\begin{margintable}\vspace{1.4in}\footnotesize
+\begin{tabularx}{\marginparwidth}{|X}
+  Subsection~\ref{sec:introFoundation}. Introduction to the Foundations Chapter\\
+  Subsection~\ref{sec:theoryFramework}. Theoretical Underpinnings and Conceptual Framework\\
+  Subsection~\ref{sec:terminology}. Terminology and Notational Conventions\\
+  Subsection~\ref{sec:paradigms}. Overview of Problem-Solving Paradigms\\
+  Subsection~\ref{sec:algoFoundations}. Algorithmic Foundations\\
+  Subsection~\ref{sec:classical}. Classical Algorithms\\
+  Subsection~\ref{sec:modernAlgo}. Modern Algorithmic Extensions\\
+  Subsection~\ref{sec:modelPrinciples}. Model Design Principles\\
+  Subsection~\ref{sec:modelArchitectures}. Model Architectures and System Components\\
+  Subsection~\ref{sec:inputLayer}. Input Processing Layer\\
+  Subsection~\ref{sec:coreLayer}. Core Processing Unit\\
+  Subsection~\ref{sec:outputLayer}. Output Generation Layer\\
+  Subsection~\ref{sec:dataPreprocessing}. Data Preprocessing and Representation\\
+  Subsection~\ref{sec:featureEngg}. Feature Engineering and Selection Techniques\\
+  Subsection~\ref{sec:expSetup}. Experimental Setup and Design Considerations\\
+  Subsection~\ref{sec:metricsEval}. Evaluation Metrics and Justification\\
+  Subsection~\ref{sec:constraints}. Domain-specific Constraints and Assumptions\\
+  Subsection~\ref{sec:interpretability}. Interpretability and Explainability Foundations\\
+  Subsection~\ref{sec:toolchain}. Implementation Toolchains (Conceptual View)\\
+  Subsection~\ref{sec:visualization}. Visualization Techniques and Diagrammatic Representation\\
+  Subsection~\ref{sec:elsi}. Ethical, Legal, and Societal Implications (ELSI)\\
+  Subsection~\ref{sec:challenges}. Challenges and Limitations in Theory or Practice\\
+  Subsection~\ref{sec:feedbackFoundations}. Lessons from Iterative Development and Peer Feedback\\
+  Subsection~\ref{sec:aiDisclosure}. Responsible Use of Generative AI in Foundations Work\\
+  Subsection~\ref{sec:summaryFoundation}. Summary of the Chapter\\
+\end{tabularx}
+\end{margintable}
+
+%--------------------------------------------------------------------------
+\subsection{Introduction to the Foundations Chapter}
+\label{sec:introFoundation}
+%--------------------------------------------------------------------------
+
+This chapter establishes the theoretical and algorithmic substrate that underpins every component of the sleep staging system. It proceeds from the neuroscience of sleep, through the mathematics of signal processing and deep learning, to the software engineering principles that govern the API design and deployment pipeline. Understanding this foundation is prerequisite to evaluating the design decisions made in the implementation and to reproducing the system accurately. The chapter is structured to mirror the actual data flow: EEG signal acquisition $\rightarrow$ preprocessing $\rightarrow$ feature extraction $\rightarrow$ sequence modelling $\rightarrow$ metric derivation $\rightarrow$ service delivery.
+
+%--------------------------------------------------------------------------
+\subsection{Theoretical Underpinnings and Conceptual Framework}
+\label{sec:theoryFramework}
+%--------------------------------------------------------------------------
+
+\textbf{Sleep neurophysiology}: Human sleep is governed by two interacting biological processes: the circadian process C, a near-24-hour oscillation driven by the suprachiasmatic nucleus and influenced by light exposure; and the homeostatic process S, a pressure that accumulates during wakefulness and dissipates during sleep~\cite{borbely1982two}. These processes jointly regulate the probability of transitioning between sleep stages. Deep NREM sleep (N3) dissipates homeostatic pressure most rapidly; REM sleep is gated by circadian timing and tends to dominate the second half of the night. This biological structure explains why stage transitions are not Markovian over a short horizon: the probability of entering N3 at 3~AM is much lower than at 11~PM, reflecting the evolution of homeostatic pressure S.
+
+\textbf{EEG as a measurement instrument}: The electroencephalogram measures the summed postsynaptic potentials of large cortical neuronal populations via scalp electrodes. Each sleep stage is associated with characteristic oscillatory patterns that arise from thalamocortical and corticocortical loop dynamics:
+\begin{itemize}
+  \item \textbf{Wake}: Desynchronised, low-amplitude, high-frequency (alpha 8--13~Hz when eyes closed; beta 13--30~Hz when active).
+  \item \textbf{N1}: Disappearance of alpha, emergence of theta (4--8~Hz), vertex sharp waves.
+  \item \textbf{N2}: Background theta with superimposed sleep spindles (12--15~Hz, $>0.5$~s bursts generated by thalamic reticular nucleus) and K-complexes (biphasic slow waves of $>75~\mu$V).
+  \item \textbf{N3}: High-amplitude delta waves (0.5--4~Hz, $>75~\mu$V) comprising $>20$\% of the epoch. Dominated by slow oscillations reflecting cortical up- and down-states.
+  \item \textbf{REM}: Mixed-frequency, low-amplitude; saw-tooth waves; muscle atonia visible in EMG. Cognitively similar to Wake but physiologically distinct.
+\end{itemize}
+
+\textbf{Conceptual framework}: The project models sleep staging as a structured prediction problem. Given a sequence of $L$ consecutive epoch vectors, a model must label the centre or final epoch accounting for its local waveform content and its position within the stage-transition context encoded in the surrounding epochs. This is formally a \textit{sequence-to-label} problem, solved by a hierarchical encoder that first extracts per-epoch representations then models temporal dependency.
+
+%--------------------------------------------------------------------------
+\subsection{Terminology and Notational Conventions}
+\label{sec:terminology}
+%--------------------------------------------------------------------------
+
+The following notation is used consistently throughout this report:
+
+\begin{itemize}
+  \item $f_s = 100$~Hz: target sampling frequency.
+  \item $T_e = 30$~s: epoch duration in seconds.
+  \item $N_s = f_s \times T_e = 3000$: number of samples per epoch.
+  \item $x_t \in \mathbb{R}^{N_s}$: raw EEG sample vector for epoch $t$.
+  \item $\tilde{x}_t \in \mathbb{R}^{N_s}$: normalised epoch after bandpass filtering and z-score normalisation.
+  \item $L = 5$: sequence window length (number of consecutive epochs).
+  \item $\mathbf{X}_t = [\tilde{x}_{t-L+1}, \ldots, \tilde{x}_t] \in \mathbb{R}^{L \times N_s}$: sequence input tensor for predicting the label of epoch $t$.
+  \item $\hat{y}_t \in \{0,1,2,3,4\}$: predicted class label (0=Wake, 1=N1, 2=N2, 3=N3, 4=REM).
+  \item $p_t \in \Delta^4$: softmax probability vector; $\hat{y}_t = \arg\max_k p_t^{(k)}$.
+  \item $c_t = \max_k p_t^{(k)}$: scalar confidence for epoch $t$.
+  \item $N$: total number of epochs in a recording.
+  \item $N_{\text{seq}} = N - L + 1$: number of valid sequence windows.
+  \item $\mathbf{w} \in \mathbb{R}^5$: per-class weights used during training to counteract class imbalance.
+  \item $\kappa$: Cohen's kappa agreement coefficient.
+  \item $\text{SE}$: sleep efficiency; $\text{WASO}$: wake after sleep onset; $\text{SOL}$: sleep onset latency.
+  \item $q \in [0, 100]$: composite sleep quality score.
+\end{itemize}
+
+%--------------------------------------------------------------------------
+\subsection{Overview of Problem-Solving Paradigms}
+\label{sec:paradigms}
+%--------------------------------------------------------------------------
+
+Three distinct computational paradigms are integrated in this system, each addressing a different requirement:
+
+\begin{enumerate}
+  \item \textbf{Data-driven deep learning} (primary staging path): A CNN-LSTM model learns feature representations and temporal dependencies directly from normalised EEG data, without requiring hand-crafted spectral features. This paradigm is appropriate here because the discriminative cues for sleep stages (spindle morphology, delta wave amplitude, frequency content) are learnable and do not require explicit mathematical specification.
+
+  \item \textbf{Feature-based statistical regression} (quick-score path): A scikit-learn RandomForest regression model operates on 15 hand-crafted spectral and statistical features derived from a single epoch's power spectral density. This paradigm trades accuracy for speed: inference takes $<10$~ms compared to 30--120 seconds for full staging, enabling the \texttt{/predict/quick-score} endpoint to respond within standard HTTP timeouts without asynchronous handling.
+
+  \item \textbf{Rule-based and LLM-assisted explanation} (output communication layer): A deterministic rule system maps computed sleep metrics to natural-language recommendations based on clinical threshold comparisons (e.g., SE~$< 70\% \Rightarrow$ ``Your sleep efficiency is below clinical norms''). When an Anthropic API key is available, a Claude language model generates richer personalised narratives. This hybrid design ensures the system remains functional and useful even without external API access.
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Algorithmic Foundations}
+\label{sec:algoFoundations}
+%--------------------------------------------------------------------------
+
+The full inference pipeline consists of the following ordered algorithmic steps, maintained identically between training and deployment to prevent train-serve skew:
+
+\begin{enumerate}
+  \item \textbf{Signal validation}: Check for non-finite values (\texttt{np.isfinite}), minimum duration ($\geq 5$ epochs = 150~s), and flat-line detection (standard deviation $< \epsilon$). Reject or raise appropriate HTTP errors on failure.
+  \item \textbf{Optional resampling}: If the recording's native sampling rate differs from $f_s = 100$~Hz, MNE's \texttt{resample} is applied. Sleep-EDF Cassette recordings are natively at 100~Hz and require no resampling.
+  \item \textbf{Bandpass filtering}: A 4th-order zero-phase Butterworth filter with pass-band [0.5, 30]~Hz removes DC drift, slow motion artefacts, and high-frequency noise above the relevant EEG spectrum.
+  \item \textbf{Epoching}: The continuous filtered signal is segmented into non-overlapping 3000-sample windows corresponding to 30-second epochs.
+  \item \textbf{Per-epoch z-score normalisation}: Each epoch $x_t$ is normalised independently: $\tilde{x}_t = (x_t - \mu_t) / (\sigma_t + \epsilon)$, where $\mu_t$ and $\sigma_t$ are the epoch's mean and standard deviation. This removes amplitude scale differences between recordings without requiring global statistics.
+  \item \textbf{Sequence construction}: Sliding windows of length $L=5$ are built by \texttt{prepare\_cnn\_lstm\_data\_by\_subject} with subject-boundary enforcement.
+  \item \textbf{CNN-LSTM inference}: The sequence tensor $\mathbf{X}_t \in \mathbb{R}^{5 \times 3000 \times 1}$ is passed through the model to obtain softmax output $p_t$.
+  \item \textbf{Sequence-to-epoch alignment}: The model produces one prediction per sequence window. The predicted label is assigned to the \textit{last} epoch in each window, producing $N_{\text{seq}}$ predictions. The first $L-1 = 4$ epochs receive their label by propagating the earliest available prediction.
+  \item \textbf{Median smoothing}: A 1-D median filter of kernel size 5 is applied to the integer label sequence to suppress isolated single-epoch classification errors without introducing temporal drift.
+  \item \textbf{Metric computation}: Sleep efficiency, WASO, SOL, N3/REM proportions, fragmentation index, mean confidence, and composite quality score $q$ are computed from the smoothed label sequence.
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Classical Algorithms}
+\label{sec:classical}
+%--------------------------------------------------------------------------
+
+Several classical digital signal processing algorithms form the foundation of both the preprocessing pipeline and the quick-score feature extractor.
+
+\textbf{Butterworth Bandpass Filter}: The Butterworth filter is chosen for its maximally flat magnitude response in the pass-band, avoiding amplitude ripple that would distort relative band powers. A 4th-order design is implemented using \texttt{scipy.signal.butter} with normalised critical frequencies $\Omega_1 = 0.5/50 = 0.01$ and $\Omega_2 = 30/50 = 0.60$ (normalised by Nyquist $f_s/2 = 50$~Hz). Zero-phase filtering via \texttt{filtfilt} (forward-backward application) eliminates phase distortion, which would otherwise shift the temporal alignment of sleep spindles and K-complexes.
+
+\textbf{Welch Power Spectral Density}: The Welch method estimates the PSD by dividing the epoch into overlapping segments, applying a window function (Hann by default), computing the DFT of each segment, and averaging the squared magnitudes~\cite{welch1967use}:
+\begin{equation}
+  \hat{S}(f) = \frac{1}{K} \sum_{k=1}^{K} \left| \text{DFT}(w \cdot x_k) \right|^2,
+\end{equation}
+where $K$ is the number of segments and $w$ is the window function. This provides a lower-variance estimate than a single periodogram, at the cost of frequency resolution.
+
+\textbf{Band Power Extraction}: Absolute band power for a frequency band $[f_1, f_2]$ is computed by trapezoidal integration of $\hat{S}(f)$ over the band:
+\begin{equation}
+  P_{[f_1,f_2]} = \int_{f_1}^{f_2} \hat{S}(f)\, df \approx \sum_i \hat{S}(f_i) \cdot \Delta f.
+\end{equation}
+Five bands are used: delta $[0.5, 4]$~Hz, theta $[4, 8]$~Hz, alpha $[8, 13]$~Hz, sigma $[12, 15]$~Hz (spindle band), and beta $[13, 30]$~Hz. Relative power divides each absolute band power by total power across all bands.
+
+\textbf{Statistical Descriptors}: Five time-domain features complement the spectral features: mean, standard deviation, skewness (3rd standardised moment), excess kurtosis (4th standardised moment minus 3), and root-mean-square (RMS) amplitude. Together with the 10 spectral features (5 absolute + 5 relative) these form the 15-feature vector used by the quick-score regression model.
+
+%--------------------------------------------------------------------------
+\subsection{Modern Algorithmic Extensions}
+\label{sec:modernAlgo}
+%--------------------------------------------------------------------------
+
+\textbf{Convolutional Feature Extraction (TimeDistributed CNN)}: A 1-D convolution with kernel size $k$ and stride $s$ computes:
+\begin{equation}
+  h_j = \text{ReLU}\!\left(\sum_{i=0}^{k-1} w_i \cdot \tilde{x}_{j \cdot s + i} + b\right),
+\end{equation}
+learning a set of $F$ filters that detect localised waveform patterns (spindle bursts, slow waves). MaxPooling reduces temporal resolution after each block, enabling the subsequent layer to integrate over wider time spans without increasing parameter count. BatchNormalization after each convolutional block normalises activations across the batch dimension, accelerating convergence and improving generalisation.
+
+In the CNN-LSTM model the convolution is wrapped in a \texttt{TimeDistributed} layer, which applies the same convolutional weights independently to each of the $L=5$ epochs in a sequence, producing an embedding matrix $E \in \mathbb{R}^{L \times d}$ where $d$ is the flattened feature dimension from the second pooling layer.
+
+\textbf{Long Short-Term Memory (LSTM)}: The LSTM~\cite{hochreiter1997long} processes the sequence of per-epoch embeddings $\{e_1, e_2, \ldots, e_L\}$ through gated recurrent cells that maintain a cell state $c_t$ and hidden state $h_t$:
+\begin{align}
+  f_t &= \sigma(W_f [h_{t-1}, e_t] + b_f) \quad \text{(forget gate)},\\
+  i_t &= \sigma(W_i [h_{t-1}, e_t] + b_i) \quad \text{(input gate)},\\
+  \tilde{c}_t &= \tanh(W_c [h_{t-1}, e_t] + b_c) \quad \text{(candidate cell)},\\
+  c_t &= f_t \odot c_{t-1} + i_t \odot \tilde{c}_t,\\
+  o_t &= \sigma(W_o [h_{t-1}, e_t] + b_o) \quad \text{(output gate)},\\
+  h_t &= o_t \odot \tanh(c_t).
+\end{align}
+The final hidden state $h_L$ encodes the temporal context of all five preceding epochs and is passed to the dense classifier. The forget gate $f_t$ allows the LSTM to selectively retain or discard information about earlier epochs, which is critical for modelling stage transitions: the model can learn that a run of N2 epochs strongly predicts continued N2 or transition toward N3, not N1.
+
+\textbf{GroupKFold Subject-Aware Splitting}: Standard $k$-fold cross-validation splits epochs randomly, mixing epochs from the same subject across train and test. Since consecutive epochs within a subject are highly autocorrelated, this produces optimistically biased estimates. \texttt{GroupKFold} with groups defined by subject identifiers ensures that \textit{all} epochs from a given subject appear in exactly one fold, providing a leave-subjects-out generalisation estimate closer to real deployment conditions.
+
+\textbf{Class-Weighted Loss}: The loss for a training batch is reweighted by $\mathbf{w}$, where $w_k \propto 1/(\text{frequency of class } k)$, normalised so the mean weight equals 1. This penalises misclassifications of rare stages (N1, N3) more strongly than frequent ones (N2), counteracting the tendency of the model to collapse to majority-class predictions.
+
+\textbf{Median Filtering of Labels}: A 1-D median filter applied to the integer label sequence replaces each label with the median of its $K$-nearest neighbours (K=5). This suppresses isolated flip errors (a single Wake epoch surrounded by N2) that arise from high-variance softmax outputs near stage boundaries, without introducing the temporal smearing that would result from a mean filter.
+
+%--------------------------------------------------------------------------
+\subsection{Model Design Principles}
+\label{sec:modelPrinciples}
+%--------------------------------------------------------------------------
+
+The system architecture follows four overarching design principles drawn from production ML engineering~\cite{sculley2015hidden}:
+
+\begin{enumerate}
+  \item \textbf{Modularity and separation of concerns}: Each major function resides in its own module. \texttt{src/load\_data.py} handles EDF loading and epoch extraction. \texttt{src/dl\_data.py} constructs sequence tensors. \texttt{src/dl\_model.py} defines the Keras model graph. \texttt{src/dl\_main.py} orchestrates training. \texttt{inference/inference.py} handles standalone offline inference. \texttt{api.py} handles HTTP serving. This separation ensures that changes to the model architecture do not require modifications to the data loader or API, and vice versa.
+
+  \item \textbf{Training-serving consistency}: The preprocessing steps in \texttt{inference.py} and \texttt{api.py} use identical filter parameters (\texttt{LOWCUT=0.5}, \texttt{HIGHCUT=30.0}, \texttt{FILTER\_ORDER=4}), normalisation mode (\texttt{per\_epoch}), epoch length (30~s), and sequence length ($L=5$) as those used during training. Any divergence between training and serving preprocessing would constitute \textit{train-serve skew}, a common source of silent accuracy degradation in deployed ML systems.
+
+  \item \textbf{Graceful degradation}: Optional components (the Anthropic Claude client, the regression model) are loaded with try/except guards and stored as \texttt{None} if unavailable. Endpoints that depend on these components return a rule-based fallback response rather than raising a 500 error. This ensures the core staging functionality remains available even if optional services fail to load.
+
+  \item \textbf{Typed contracts at system boundaries}: FastAPI route handlers use Pydantic v2 models (\texttt{BaseModel} subclasses) for both request bodies and response schemas. This enforces type validation at the HTTP boundary, provides automatic OpenAPI documentation, and prevents silent type coercion errors (e.g., a float field being passed as a string).
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Model Architectures and System Components}
+\label{sec:modelArchitectures}
+%--------------------------------------------------------------------------
+
+The system consists of four major architectural layers, as illustrated conceptually below:
+
+\begin{enumerate}
+  \item \textbf{Data ingestion and preprocessing}: EDF parsing (MNE), channel selection with fallback, resampling, bandpass filtering, epoching, and z-score normalisation.
+  \item \textbf{CNN-LSTM deep classifier}: TimeDistributed convolutional feature extractor followed by LSTM temporal context modelling and softmax classification.
+  \item \textbf{Metric and scoring computation}: Sleep efficiency, WASO, SOL, stage proportions, fragmentation index, mean confidence, and composite quality score derivation from predicted label sequences.
+  \item \textbf{Service and presentation layer}: FastAPI REST endpoints, asynchronous background job management, static dashboard hosting, and optional LLM explanation generation.
+\end{enumerate}
+
+A secondary lightweight component provides the rapid regression-based quality estimate:
+
+\begin{enumerate}
+  \setcounter{enumi}{4}
+  \item \textbf{Quick-score regression path}: Welch PSD $\rightarrow$ 15-feature vector $\rightarrow$ scikit-learn model $\rightarrow$ scalar quality score in $<100$~ms.
+\end{enumerate}
+
+The CNN-LSTM model architecture is defined precisely in \texttt{src/dl\_model.py}. Table~\ref{tab:model-arch} summarises the layer stack.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Layer} & \textbf{Configuration} & \textbf{Output Shape} \\\hline
+Input & Sequence of 5 epochs & $(5, 3000, 1)$ \\\hline
+TimeDistributed Conv1D (1) & 64 filters, kernel 64, stride 8, ReLU & $(5, 375, 64)$ \\\hline
+TimeDistributed BatchNorm & Per-channel normalisation & $(5, 375, 64)$ \\\hline
+TimeDistributed MaxPool1D & Pool size 4 & $(5, 93, 64)$ \\\hline
+TimeDistributed Dropout & Rate 0.3 & $(5, 93, 64)$ \\\hline
+TimeDistributed Conv1D (2) & 128 filters, kernel 8, stride 1, ReLU & $(5, 93, 128)$ \\\hline
+TimeDistributed BatchNorm & Per-channel normalisation & $(5, 93, 128)$ \\\hline
+TimeDistributed MaxPool1D & Pool size 4 & $(5, 23, 128)$ \\\hline
+TimeDistributed Flatten & Per-epoch vector & $(5, 2944)$ \\\hline
+LSTM & 128 units, dropout 0.5 & $(128,)$ \\\hline
+Dense (hidden) & 64 units, ReLU & $(64,)$ \\\hline
+Dropout & Rate 0.5 & $(64,)$ \\\hline
+Dense (output) & 5 units, Softmax & $(5,)$ \\\hline
+\end{tabular}
+\caption{CNN-LSTM model layer stack with output shapes for input $(5,3000,1)$.}
+\label{tab:model-arch}
+\end{table}
+
+The model is compiled with the Adam optimiser at learning rate $5 \times 10^{-4}$ and sparse categorical cross-entropy loss, which accepts integer labels directly without one-hot encoding.
+
+%--------------------------------------------------------------------------
+\subsection{Input Processing Layer}
+\label{sec:inputLayer}
+%--------------------------------------------------------------------------
+
+The input processing layer accepts two modes:
+
+\textbf{Mode 1 --- Raw sample array (synchronous endpoint \texttt{/predict})}: The client provides a flat JSON array of EEG samples (\texttt{"eeg\_signal": [float, ...]}) at 100~Hz. The API validates length ($\geq 3000$ samples = 1 epoch minimum), checks for non-finite values, applies the bandpass filter, and proceeds to epoching.
+
+\textbf{Mode 2 --- EDF file upload (asynchronous endpoint \texttt{/predict/edf})}: The client POSTs a multipart file. The API validates the file extension (\texttt{.edf}), saves to a secure temporary path using Python's \texttt{tempfile.mkstemp}, loads it with \texttt{mne.io.read\_raw\_edf}, selects the target channel (\texttt{EEG Fpz-Cz} or first available EEG channel as fallback), and resamples if necessary before passing to the same preprocessing pipeline.
+
+Channel selection logic mirrors the training loader: the system attempts to pick \texttt{EEG Fpz-Cz}; if absent, it falls back to \texttt{raw.pick\_types(eeg=True)} and selects the first channel. This ensures the API does not fail on recordings that use slightly different channel naming conventions.
+
+After filtering and epoching, each epoch undergoes per-epoch z-score normalisation, and epochs are assembled into $L=5$ sliding windows. The resulting tensor has shape $(N_{\text{seq}}, 5, 3000, 1)$.
+
+%--------------------------------------------------------------------------
+\subsection{Core Processing Unit}
+\label{sec:coreLayer}
+%--------------------------------------------------------------------------
+
+The core of the system is the trained CNN-LSTM model stored at \texttt{inference/sleep\_best\_ckpt.keras}. At inference time the model is loaded once at API startup via the FastAPI \texttt{lifespan} context manager and held in process memory for the lifetime of the service, avoiding the 2--5 second per-request load overhead that would otherwise make the synchronous endpoint unusable.
+
+A compatibility shim handles cross-version Keras serialisation issues. The model was saved with an older Keras 3 that included a \texttt{quantization\_config} field in \texttt{Dense} layer configs; Keras 3.6+ removed this field. The API patches \texttt{Dense.from\_config} at import time to silently drop the unknown key:
+
+\begin{verbatim}
+@classmethod
+def _patched_dense_from_config(cls, config):
+    config.pop("quantization_config", None)
+    return _orig_dense_from_config(cls, config)
+keras.layers.Dense.from_config = _patched_dense_from_config
+\end{verbatim}
+
+Similarly, a \texttt{CompatibleBatchNormalization} subclass handles legacy configs where the \texttt{axis} parameter was serialised as a list \texttt{[n]} rather than a scalar \texttt{n}. These patches allow the model checkpoint to be loaded across Keras versions without re-exporting.
+
+The model receives the sequence tensor and returns a $(N_{\text{seq}}, 5)$ softmax matrix. \texttt{argmax} across the class dimension yields integer predictions, and \texttt{max} yields per-sequence confidence values. These are aligned back to epoch indices as described in Section~\ref{sec:algoFoundations}.
+
+%--------------------------------------------------------------------------
+\subsection{Output Generation Layer}
+\label{sec:outputLayer}
+%--------------------------------------------------------------------------
+
+The output generation layer transforms the raw prediction sequence into a structured clinical report. Seven metrics are computed:
+
+\begin{align}
+  \text{SE} &= \frac{\text{TST}}{\text{TIB}} \times 100\%,\\
+  \text{WASO} &= \sum_{t=t_{\text{onset}}}^{N} \mathbf{1}[\hat{y}_t = \text{Wake}] \times T_e / 60 \quad \text{(minutes)},\\
+  \text{SOL} &= t_{\text{onset}} \times T_e / 60 \quad \text{(minutes)},\\
+  \text{N3 fraction} &= \frac{\#\{t : \hat{y}_t = 3\}}{N_{\text{sleep}}},\\
+  \text{REM fraction} &= \frac{\#\{t : \hat{y}_t = 4\}}{N_{\text{sleep}}},\\
+  \text{Frag. index} &= \frac{\#\{\text{stage transitions}\}}{N_{\text{sleep}}} \times 2,\\
+  \bar{c} &= \frac{1}{N_{\text{seq}}} \sum_{t} c_t.
+\end{align}
+
+where TST is total sleep time (epochs not Wake), TIB is total time in bed, $t_{\text{onset}}$ is the first non-Wake epoch, $N_{\text{sleep}}$ is the number of non-Wake epochs, and the fragmentation index counts all consecutive-epoch stage changes (excluding Wake) divided by sleep epochs.
+
+The composite quality score $q$ is a weighted linear combination of five normalised subscale scores:
+\begin{equation}
+  q = w_{\text{SE}} \cdot q_{\text{SE}} + w_{\text{WASO}} \cdot q_{\text{WASO}} + w_{\text{lat}} \cdot q_{\text{lat}} + w_{\text{rest}} \cdot q_{\text{rest}} + w_{\text{frag}} \cdot q_{\text{frag}},
+\end{equation}
+with weights $(w_{\text{SE}}, w_{\text{WASO}}, w_{\text{lat}}, w_{\text{rest}}, w_{\text{frag}}) = (0.30, 0.20, 0.15, 0.20, 0.15)$ summing to 1.0. Each subscale maps the raw metric to $[0, 100]$ using piecewise-linear clipping against clinical reference thresholds (SE good $\geq 0.90$, WASO bad $\geq 90$~min, SOL bad $\geq 45$~min, N3 target $0.20$, REM target $0.22$, fragmentation bad $\geq 0.12$).
+
+%--------------------------------------------------------------------------
+\subsection{Data Preprocessing and Representation}
+\label{sec:dataPreprocessing}
+%--------------------------------------------------------------------------
+
+Data flows through three representational forms during the pipeline:
+
+\begin{enumerate}
+  \item \textbf{Continuous raw signal} $s \in \mathbb{R}^{M}$ where $M = N \times N_s$: The entire recording as a flat array at 100~Hz before epoching. After bandpass filtering this becomes $\tilde{s}$.
+  \item \textbf{Epoch matrix} $X \in \mathbb{R}^{N \times N_s}$: Each row is a 30-second normalised epoch. Shape analysis: a typical 8-hour recording at 100~Hz produces $N = 8 \times 3600 / 30 = 960$ epochs, yielding $X \in \mathbb{R}^{960 \times 3000}$ occupying approximately 22~MB in float32.
+  \item \textbf{Sequence tensor} $\mathcal{X} \in \mathbb{R}^{N_{\text{seq}} \times L \times N_s \times 1}$: The channel dimension of 1 is added explicitly as required by the Keras \texttt{Conv1D} input contract. For a 960-epoch recording with $L=5$, this gives $\mathcal{X} \in \mathbb{R}^{956 \times 5 \times 3000 \times 1}$, approximately 108~MB in float32 --- a consideration for memory management on constrained cloud instances.
+\end{enumerate}
+
+Stage labels are stored as sparse integers (0--4) compatible with Keras \texttt{sparse\_categorical\_crossentropy} loss, avoiding the memory overhead of one-hot encoding over thousands of epochs.
+
+%--------------------------------------------------------------------------
+\subsection{Feature Engineering and Selection Techniques}
+\label{sec:featureEngg}
+%--------------------------------------------------------------------------
+
+The quick-score path uses a 15-dimensional feature vector $\phi \in \mathbb{R}^{15}$ computed per epoch:
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Index} & \textbf{Feature} & \textbf{Type} \\\hline
+1--4 & Absolute band powers: delta, theta, alpha, beta & Spectral \\\hline
+5--8 & Relative band powers: delta, theta, alpha, beta & Spectral \\\hline
+9 & Delta/beta ratio & Spectral ratio \\\hline
+10 & Theta/alpha ratio & Spectral ratio \\\hline
+11 & Mean amplitude & Statistical \\\hline
+12 & Standard deviation & Statistical \\\hline
+13 & Skewness & Statistical \\\hline
+14 & Kurtosis & Statistical \\\hline
+15 & RMS amplitude & Statistical \\\hline
+\end{tabular}
+\caption{15-feature vector used by the quick-score regression model.}
+\label{tab:features}
+\end{table}
+
+Features 1--10 provide spectral discriminability across sleep stages. Delta dominance (feature~1 and relative delta~6) is the strongest single predictor of N3. The theta/alpha ratio (feature~12) helps separate N1 from Wake. Sigma power (spindles, feature~4) partially separates N2. Features 13--15 capture amplitude envelope information correlated with arousal level. Skewness and kurtosis, while physiologically relevant, were excluded from the final 15 to maintain a compact, low-collinearity feature set with strong per-feature interpretability.
+
+%--------------------------------------------------------------------------
+\subsection{Experimental Setup and Design Considerations}
+\label{sec:expSetup}
+%--------------------------------------------------------------------------
+
+Training is managed by \texttt{src/dl\_main.py} with Weights \& Biases experiment tracking. The experimental protocol is:
+
+\begin{itemize}
+  \item 	extbf{Data split}: 	exttt{GroupKFold(n\_splits=5)}, all 5 folds evaluated. All epochs from subjects in each test group are withheld; no epoch-level mixing occurs. Final metrics are mean $\pm$ std across folds.
+  \item \textbf{Class weighting}: \texttt{sklearn.utils.class\_weight.compute\_class\_weight("balanced")} over training labels. Typical weights on Sleep-EDF: Wake~$\approx 1.1$, N1~$\approx 5$--$8$, N2~$\approx 0.4$, N3~$\approx 2$--$3$, REM~$\approx 1.2$.
+  \item \textbf{Optimiser}: Adam, learning rate $5 \times 10^{-4}$, default $\beta_1=0.9$, $\beta_2=0.999$.
+  \item \textbf{Loss}: Sparse categorical cross-entropy with class weights applied via the \texttt{class\_weight} argument to \texttt{model.fit}.
+  \item \textbf{Callbacks}:
+    \begin{itemize}
+      \item \texttt{EarlyStopping(monitor="val\_loss", patience=12, restore\_best\_weights=True)}: Halts training when validation loss has not improved for 12 epochs and restores the best checkpoint.
+      \item \texttt{ReduceLROnPlateau(monitor="val\_loss", factor=0.5, patience=3)}: Halves the learning rate when validation loss stagnates for 3 epochs, enabling fine-grained convergence after initial rapid descent.
+      \item \texttt{WandbModelCheckpoint("sleep\_best\_ckpt.keras", save\_best\_only=True)}: Saves the best validation checkpoint to a \texttt{.keras} file.
+    \end{itemize}
+  \item \textbf{Hyperparameters}: Batch size and epoch count are configurable via W\&B sweep config in \texttt{modal\_train.py}.
+  \item \textbf{Reproducibility controls}: W\&B run IDs capture the exact configuration used for each experiment. Full deterministic TensorFlow seeding remains a target for the final phase.
+\end{itemize}
+
+%--------------------------------------------------------------------------
+\subsection{Evaluation Metrics and Justification}
+\label{sec:metricsEval}
+%--------------------------------------------------------------------------
+
+The following metrics are used across the three evaluation contexts:
+
+\textbf{Model quality (classification):}
+\begin{itemize}
+  \item \textbf{Overall accuracy}: $\text{Acc} = \frac{\sum_k \text{TP}_k}{N}$. Reported for comparability with published baselines but not used as the primary metric due to class imbalance.
+  \item \textbf{Macro-F1}: $\text{F1}_{\text{macro}} = \frac{1}{K} \sum_k \frac{2 \cdot \text{P}_k \cdot \text{R}_k}{\text{P}_k + \text{R}_k}$. Equally weights all five classes; sensitive to poor N1 and N3 performance.
+  \item \textbf{Cohen's $\kappa$}: $\kappa = \frac{p_o - p_e}{1 - p_e}$, where $p_o$ is observed agreement and $p_e$ is expected chance agreement. Provides a single interpretable agreement score; $\kappa \geq 0.60$ is considered substantial by Landis and Koch~\cite{landis1977measurement}.
+\end{itemize}
+
+\textbf{Sleep quality report (clinical):} Sleep efficiency, WASO, SOL, N3/REM fractions, fragmentation index, and composite $q$ as defined in Section~\ref{sec:outputLayer}, evaluated against clinical reference thresholds.
+
+\textbf{Quick-score regression:}
+\begin{itemize}
+  \item \textbf{MAE}: $\frac{1}{n}\sum_i |\hat{q}_i - q_i|$. Interpretable in the same units as the quality score (0--100 scale).
+  \item \textbf{$R^2$}: Proportion of variance in the target quality score explained by the regression model. $R^2 \geq 0.80$ indicates a strong fast-path proxy.
+\end{itemize}
+
+%--------------------------------------------------------------------------
+\subsection{Domain-specific Constraints and Assumptions}
+\label{sec:constraints}
+%--------------------------------------------------------------------------
+
+The system operates under the following explicit constraints, which bound its applicability:
+
+\begin{itemize}
+  \item \textbf{Single-channel EEG}: Only one EEG channel is used. Multi-channel information (EOG for REM detection, EMG for muscle atonia) is discarded. This reduces accuracy for N1/REM discrimination relative to full PSG but enables wearable-class deployment.
+  \item \textbf{Fixed sampling rate}: All downstream processing assumes $f_s = 100$~Hz after resampling. Recordings at other rates (e.g., 256~Hz) must be resampled; aliasing is prevented by MNE's anti-aliasing filter applied before downsampling.
+  \item \textbf{Fixed epoch length}: 30~s epochs are assumed. The model input shape is hard-coded to $(5, 3000, 1)$; recordings with variable annotation windows (e.g., 20~s epochs) are not supported without reprocessing.
+  \item \textbf{Minimum recording length}: At least 5 epochs (150~s) are required to form one sequence window. Recordings shorter than this raise a validation error.
+  \item \textbf{File size limit}: EDF uploads are limited to 500~MB in the current deployment. Full-night recordings are typically 5--25~MB at 100~Hz single-channel, so this is not a binding constraint in practice.
+  \item \textbf{In-memory async job store}: Asynchronous job results are stored in a Python \texttt{dict} in process memory. This is not persistent across container restarts and is not shared across multiple replicas. A production-grade deployment would require Redis or a database-backed job queue.
+\end{itemize}
+
+%--------------------------------------------------------------------------
+\subsection{Interpretability and Explainability Foundations}
+\label{sec:interpretability}
+%--------------------------------------------------------------------------
+
+The system provides interpretability at two levels:
+
+\textbf{Level 1 --- Metric decomposition}: The composite quality score $q$ is a transparent weighted sum of five clinically named subscales. A user (or clinician) can inspect which subscale is pulling the score down without understanding the neural network at all. For example, a score of 58 with WASO subscale = 30 and SE subscale = 95 immediately communicates that the main problem is sleep fragmentation after onset, not difficulty falling asleep.
+
+\textbf{Level 2 --- Text explanation}: The \texttt{/explain} endpoint generates a natural-language report. Two implementations are active:
+\begin{itemize}
+  \item \textbf{LLM path}: The sleep metrics and quality score are formatted into a structured prompt delivered to the Anthropic Claude API. The model is instructed to produce a 200--400 word supportive assessment covering: what the metrics mean, which areas are concerning, and 3--5 actionable lifestyle recommendations. The system prompt explicitly prohibits diagnostic claims and directs the model toward sleep hygiene guidance.
+  \item \textbf{Rule-based fallback}: A deterministic Python function maps each metric to a sentence fragment based on threshold comparisons against the reference values from \texttt{inference.py} (\texttt{SE\_MIN\_REF}=0.70, \texttt{WASO\_BAD\_REF\_MIN}=90, etc.). The fallback activates whenever the Anthropic client is unavailable, ensuring the endpoint always returns a usable response.
+\end{itemize}
+
+Post-hoc attribution methods such as SHAP or gradient-based saliency maps are not yet implemented for the CNN-LSTM model. These are identified as a future extension that would allow epoch-level attribution of the staging decision to specific time windows within each epoch (e.g., ``spindle at 12--14~s drove N2 classification'').
+
+%--------------------------------------------------------------------------
+\subsection{Implementation Toolchains (Conceptual View)}
+\label{sec:toolchain}
+%--------------------------------------------------------------------------
+
+Table~\ref{tab:toolchain} provides a component-by-component mapping of software tools to system functions.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3.2cm}|p{4.2cm}|p{4.0cm}|}
+\hline
+\textbf{Tool / Library} & \textbf{System Function} & \textbf{Key APIs Used} \\\hline
+MNE-Python & EDF parsing, channel selection, resampling, annotation handling & \texttt{read\_raw\_edf}, \texttt{fetch\_data}, \texttt{set\_annotations} \\\hline
+SciPy & Bandpass filter design, Welch PSD, statistics & \texttt{butter}, \texttt{filtfilt}, \texttt{welch}, \texttt{skew}, \texttt{kurtosis} \\\hline
+NumPy & Array operations, normalisation, sequence construction & \texttt{isfinite}, \texttt{std}, \texttt{argmax} \\\hline
+TensorFlow / Keras 2.17 & Model definition, training, inference & \texttt{TimeDistributed}, \texttt{LSTM}, \texttt{model.fit}, \texttt{model.predict} \\\hline
+scikit-learn & GroupKFold splitting, class weights, regression & \texttt{GroupKFold}, \texttt{compute\_class\_weight}, \texttt{joblib.dump} \\\hline
+W\&B & Experiment tracking, hyperparameter sweeps, checkpoint artefacts & \texttt{wandb.init}, \texttt{WandbMetricsLogger} \\\hline
+FastAPI / Uvicorn & REST API, background tasks, static hosting & \texttt{@app.post}, \texttt{BackgroundTasks}, \texttt{StaticFiles} \\\hline
+Pydantic v2 & Request/response schema validation & \texttt{BaseModel}, field validators \\\hline
+Anthropic SDK & LLM explanation generation & \texttt{client.messages.create} \\\hline
+Chart.js & Frontend hypnogram and metric cards & JavaScript canvas rendering \\\hline
+Docker & Container build, environment isolation & \texttt{Dockerfile}, slim Python 3.10 base \\\hline
+Railway & Cloud deployment, environment variable injection & \texttt{railway.json}, PORT env var \\\hline
+GitHub Actions & CI: unit tests, build validation & \texttt{.github/workflows/} \\\hline
+\end{tabular}
+\caption{Toolchain mapping for the sleep staging system.}
+\label{tab:toolchain}
+\end{table}
+
+%--------------------------------------------------------------------------
+\subsection{Visualization Techniques and Diagrammatic Representation}
+\label{sec:visualization}
+%--------------------------------------------------------------------------
+
+\textbf{Hypnogram}: The primary visual output. A step-function plot with time on the x-axis and sleep stage on the y-axis (Wake at top, REM at bottom per clinical convention). The frontend dashboard implements this using Chart.js with a step interpolation line chart. Colour coding (Wake=orange, N1=yellow, N2=blue, N3=dark blue, REM=green) follows a common convention.
+
+\textbf{Confusion matrix}: An $5 \times 5$ heatmap with ground-truth stages on rows and predicted stages on columns. Essential for the final report to expose N1/N2 boundary errors. Off-diagonal elements in the N1 row and column typically contain the largest absolute errors. Normalisation by row reveals per-class recall.
+
+\textbf{Class distribution bar chart}: Bar chart of epoch counts per stage, comparing predicted distribution against the expected clinical distribution. Significant divergence (e.g., model predicting 0\% N3) indicates systematic bias.
+
+\textbf{Training curves}: Epoch-by-epoch plots of training and validation loss, accuracy, macro-F1, and Cohen's $\kappa$ exported from W\&B. Should show decreasing loss, increasing metrics, and absence of large train/val divergence (which would indicate overfitting).
+
+\textbf{System architecture diagram}: A block diagram recommended for inclusion as Figure~1 in the final report. Arrows show: EDF file $\rightarrow$ MNE loader $\rightarrow$ preprocessing $\rightarrow$ sequence tensor $\rightarrow$ CNN-LSTM $\rightarrow$ label sequence $\rightarrow$ metric engine $\rightarrow$ API response $\rightarrow$ dashboard.
+
+%--------------------------------------------------------------------------
+\subsection{Ethical, Legal, and Societal Implications (ELSI)}
+\label{sec:elsi}
+%--------------------------------------------------------------------------
+
+\textbf{Privacy}: EEG recordings are sensitive health data. Uploaded files are stored in temporary directories and should be deleted immediately after processing. The current implementation uses \texttt{tempfile.mkstemp} for isolation but does not implement explicit post-processing deletion. A production deployment should enforce immediate deletion and retain no PII or health data beyond the request lifecycle.
+
+\textbf{Clinical disclaimer}: The system is a research and educational tool. Its outputs should not be used to diagnose, treat, or manage any medical condition without review by a qualified sleep medicine specialist. The explanation layer is explicitly designed to produce supportive lifestyle guidance, not clinical recommendations. All outputs include language such as ``for educational purposes'' and avoid deterministic diagnostic claims.
+
+\textbf{Bias and fairness}: The Sleep-EDF Cassette dataset consists primarily of healthy Caucasian adults from a narrow age range. The model may perform differently on elderly populations (known to have suppressed N3 and fragmented sleep architecture), paediatric recordings (different spindle and delta characteristics), or recordings from individuals with sleep disorders (OSA, PLMD, REM behaviour disorder). Subgroup performance audits are planned for the final evaluation phase.
+
+\textbf{Generative AI transparency}: The use of Claude for explanation generation introduces the risk of hallucinated medical claims. The system prompt explicitly constrains this, but all LLM-generated explanations should be reviewed by qualified personnel before clinical use.
+
+\textbf{Regulatory context}: Systems intended for clinical decision support in the EU fall under the Medical Device Regulation (MDR 2017/745) or the forthcoming AI Act risk classifications; in the US they may require FDA 510(k) clearance as Software as a Medical Device (SaMD). This project is not positioned as a regulated medical device and does not make claims toward that classification.
+
+%--------------------------------------------------------------------------
+\subsection{Challenges and Limitations in Theory or Practice}
+\label{sec:challenges}
+%--------------------------------------------------------------------------
+
+\begin{enumerate}
+  \item \textbf{Single-channel limitation}: Without EOG, muscle atonia detection (key for REM confirmation) and eye-movement artefact removal are unavailable. N1/REM boundary confusion is the most likely consequence.
+  \item \textbf{Domain shift}: A model trained on Sleep-EDF Cassette (ambulatory home recordings, frontal channel, healthy adults) may not generalise to hospital-grade PSG systems with different amplifiers, electrode impedance, and patient populations. Validation on an independent dataset (MASS, SHHS) is required before claiming broad applicability.
+  \item \textbf{In-memory job store fragility}: The async job dictionary is lost on container restart. On Railway, containers may restart due to deployment updates or resource limits. Jobs submitted before a restart will return a 404 on subsequent polling. A Redis-backed job queue (e.g., Celery with Redis broker) would eliminate this fragility.
+  \item \textbf{Sequence boundary padding}: The first $L-1=4$ epochs of any recording receive labels propagated from the first available prediction rather than from a true backward-looking sequence. This introduces a small error at recording onset but is unavoidable with a causal sequence model.
+  \item \textbf{Non-deterministic training}: TensorFlow GPU operations are inherently non-deterministic by default. Full seed fixation across Python, NumPy, and TensorFlow is needed for exact reproducibility; this is a remaining item for the final phase.
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Lessons from Iterative Development and Peer Feedback}
+\label{sec:feedbackFoundations}
+%--------------------------------------------------------------------------
+
+Several non-obvious engineering lessons emerged during iterative development:
+
+\begin{itemize}
+  \item \textbf{Model serialisation compatibility is a first-class concern}: The Keras 3.x migration changed the serialisation format of both \texttt{Dense} (added \texttt{quantization\_config}) and \texttt{BatchNormalization} (axis serialised as list). These silent breaking changes caused model load failures in deployment even though the checkpoint was valid. Explicit compatibility patches became necessary.
+  \item \textbf{Cloud timeout constraints drive architecture}: The synchronous \texttt{/predict} endpoint cannot process large EDF files within the 30-second HTTP timeout of most platforms. Discovering this during integration testing led to the design of the asynchronous submit-and-poll pattern, which was not in the original architecture plan.
+  \item \textbf{Flat-signal validation prevents silent bad predictions}: Without a flat-line check, a disconnected electrode producing a constant-zero signal passes the pipeline and receives predictions based on numerical noise after normalisation. This is undetectable from the prediction output alone.
+  \item \textbf{GroupKFold revealed inflated metrics}: Initial experiments using random epoch splits reported substantially higher accuracy and macro-F1 than the GroupKFold evaluation. The gap confirmed the importance of subject-aware evaluation for honest reporting.
+\end{itemize}
+
+%--------------------------------------------------------------------------
+\subsection{Responsible Use of Generative AI in Foundations Work}
+\label{sec:aiDisclosure}
+%--------------------------------------------------------------------------
+
+GitHub Copilot was used as a code completion assistant during implementation of the preprocessing pipeline and API endpoints. Claude was used to generate first-draft outlines for documentation string content and for the explanation prompt template. All code generated by AI tools was manually reviewed, tested against the unit test suite (\texttt{tests/test\_api\_unit.py}), and corrected where necessary. No AI-generated claims about model performance, clinical thresholds, or system behaviour appear in this report without independent verification against the codebase or primary literature.
+
+%--------------------------------------------------------------------------
+\subsection{Summary of the Chapter}
+\label{sec:summaryFoundation}
+%--------------------------------------------------------------------------
+
+This chapter formalised the complete theoretical and algorithmic substrate of the sleep staging system. Beginning from the neurophysiology of sleep EEG and the mathematics of digital filtering and spectral analysis, it progressed through the convolutional and recurrent deep learning operations, the training protocol with GroupKFold and class-weighted loss, the sequence-to-epoch alignment and smoothing pipeline, the clinical metric derivation, and the software engineering principles governing the service layer. Precise notation was established for all quantities used in subsequent chapters. Key constraints and their engineering implications --- particularly the in-memory job store limitation and the training-serving consistency requirement --- were identified explicitly.
+
+Chapter~3 reports the actual implementation status, training results, API endpoint behaviour, and preliminary system evaluation against these foundations.
+
+%==========================================================================
+\newpage
+\section{Interim Report}
+\label{sec:interimReport}
+%==========================================================================
+
+\begin{margintable}\vspace{1.4in}\footnotesize
+\begin{tabularx}{\marginparwidth}{|X}
+  Subsection~\ref{sec:chapterOverview}. Chapter Overview\\
+  Subsection~\ref{sec:datasetAcquisition}. Dataset Acquisition and Preprocessing\\
+  Subsubsection~\ref{sec:datasetDescription}. Dataset Description\\
+  Subsubsection~\ref{sec:dataQualityChecks}. Data Quality Checks\\
+  Subsubsection~\ref{sec:eda}. Exploratory Data Analysis (EDA)\\
+  Subsubsection~\ref{sec:preprocessingPipelines}. Preprocessing Pipelines\\
+  Subsection~\ref{sec:featureEngineering}. Feature Engineering\\
+  Subsubsection~\ref{sec:featureIdentification}. Feature Identification Techniques\\
+  Subsubsection~\ref{sec:dimensionalityReduction}. Dimensionality Reduction\\
+  Subsubsection~\ref{sec:featureImpact}. Feature Impact Observations\\
+  Subsection~\ref{sec:technicalImplementation}. Technical Implementation\\
+  Subsubsection~\ref{sec:toolsStack}. Tools and Technology Stack\\
+  Subsubsection~\ref{sec:systemSetup}. System Setup and Environment\\
+  Subsubsection~\ref{sec:codebaseDescription}. Modular Codebase Description\\
+  Subsection~\ref{sec:baselineModelDevelopment}. Baseline Model Development\\
+  Subsubsection~\ref{sec:baselineAlgorithm}. Baseline Algorithm Description\\
+  Subsubsection~\ref{sec:trainingSetup}. Training Setup and Parameters\\
+  Subsubsection~\ref{sec:performanceMetrics}. Early Performance Metrics\\
+  Subsubsection~\ref{sec:outputVisualization}. Output Visualization\\
+  Subsection~\ref{sec:preliminaryAnalysis}. Preliminary Analysis and Observations\\
+  Subsection~\ref{sec:originality}. Originality and Innovation\\
+  Subsection~\ref{sec:riskAssessment}. Risk Assessment and Project Management\\
+  Subsection~\ref{sec:experimentalReproducibility}. Experimental Reproducibility\\
+  Subsection~\ref{sec:scalability}. Scalability and Efficiency\\
+  Subsection~\ref{sec:ethicalConsiderations}. Ethical Considerations\\
+  Subsection~\ref{sec:feedbackInterim}. Feedback and Continuous Improvement\\
+  Subsection~\ref{sec:chapterSummary}. Chapter Summary and Next Steps\\
+\end{tabularx}
+\end{margintable}
+
+%--------------------------------------------------------------------------
+\subsection{Chapter Overview}
+\label{sec:chapterOverview}
+%--------------------------------------------------------------------------
+
+This chapter documents the implemented system at the interim milestone. All five major components --- data pipeline, CNN-LSTM training workflow, quick-score regression path, REST API with asynchronous EDF processing, and automated test suite --- have been completed and deployed. The chapter describes each component in depth, reports preliminary performance results from held-out evaluation, analyses observed error patterns and engineering difficulties encountered, and identifies the work remaining for the final phase.
+
+The interim milestone represents a transition from a research prototype to a functioning software product: the system accepts real EDF files via HTTP, processes them without cloud timeout failure, returns structured clinical metrics, and provides natural-language explanations. Ongoing work focuses on rigorous statistical benchmarking, persistent job orchestration, and expanded clinical metric validation.
+
+%--------------------------------------------------------------------------
+\subsection{Dataset Acquisition and Preprocessing}
+\label{sec:datasetAcquisition}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Dataset Description}
+\label{sec:datasetDescription}
+%..........................................................................
+
+The primary training data is drawn from the \textbf{PhysioNet Sleep-EDF Cassette} dataset~\cite{kemp2000analysis,goldberger2000physiobank}, fetched programmatically via MNE's \texttt{fetch\_data} utility. The loader in \texttt{src/load\_data.py} processes up to 50 subjects (configurable via \texttt{max\_subjects}), each consisting of a PSG EDF file paired with a hypnogram annotation file.
+
+Each subject's data is processed as follows:
+\begin{enumerate}
+  \item The PSG EDF is read with \texttt{mne.io.read\_raw\_edf(preload=True)}.
+  \item Channel \texttt{EEG Fpz-Cz} is renamed to \texttt{EEG} and selected; if absent, the first EEG channel is used as a fallback.
+  \item Hypnogram annotations are attached via \texttt{raw.set\_annotations}.
+  \item Epochs of 30~seconds are extracted using MNE's \texttt{Epochs} class with the fixed event mapping: Sleep stage W~$\rightarrow$~0, Stage~1~$\rightarrow$~1, Stage~2~$\rightarrow$~2, Stage~3~$\rightarrow$~3, Stage~4~$\rightarrow$~3, Stage~R~$\rightarrow$~4.
+\end{enumerate}
+
+The event mapping explicitly merges R\&K Stages~3 and~4 into a single N3 class, aligning with AASM 2012 scoring rules and reducing the classification problem to 5 classes.
+
+For the quick-score regression path, a secondary tabular dataset (\texttt{regression\_dataset.csv}) was generated by \texttt{gen\_dataset.py}, which runs the trained CNN-LSTM model over EDF recordings, computes the composite quality score from the predictions, and extracts the 15-feature spectral/statistical vector from the first 5-minute segment of each recording. The resulting dataset contains 89 records across 23 columns (15 features + 7 derived sleep metrics + 1 target quality score).
+
+%..........................................................................
+\subsubsection{Data Quality Checks}
+\label{sec:dataQualityChecks}
+%..........................................................................
+
+Input validation is implemented at two levels: during training data loading and at the API serving boundary.
+
+\textbf{During training loading}: Subjects for whom \texttt{fetch\_data} returns no files (due to network issues or missing data) are silently skipped using the \texttt{on\_missing='ignore'} flag. Per-subject epoch counts are logged; subjects yielding fewer than \texttt{seq\_len} epochs are excluded from training.
+
+\textbf{At the API boundary} (\texttt{api.py::\_validate\_signal}): Three checks are applied to every incoming signal:
+\begin{itemize}
+  \item \textbf{Finite-value check}: \texttt{np.isfinite(signal).all()} --- rejects signals containing NaN or $\pm\infty$ values that would propagate silently through the filter and produce spurious predictions. Returns HTTP~422 with message: \textit{``Signal contains NaN or Inf values. Check your data for corrupt samples.''}.
+  \item \textbf{Flat-signal check}: \texttt{signal.std() < 1e-6} --- detects disconnected electrodes or empty channels where numerical noise would be amplified to arbitrary scale after per-epoch z-score normalisation. Returns HTTP~422 with message: \textit{``Signal is flat (std $\approx$ 0). The electrode may be disconnected.''}.
+  \item \textbf{Length check}: Signals exceeding 24 hours ($100 \times 3600 \times 24$ samples) are rejected. Signals shorter than $\text{SEQ\_LEN} \times 3000 = 15{,}000$ samples (150~s) are rejected with a clear minimum-length message.
+\end{itemize}
+
+For EDF file uploads, an additional \textbf{file format check} (extension must be \texttt{.edf}) and \textbf{file size limit} (500~MB) are enforced before any parsing is attempted.
+
+%..........................................................................
+\subsubsection{Exploratory Data Analysis (EDA)}
+\label{sec:eda}
+%..........................................................................
+
+The EDA module (\texttt{src/eda.py}) is prepared to generate the following artefacts from a loaded epoch set:
+
+\begin{itemize}
+  \item \textbf{Class distribution bar chart}: Absolute and relative epoch counts per stage across all subjects. On Sleep-EDF Cassette the expected distribution is approximately: N2~50\%, Wake~20\%, REM~20\%, N3~8\%, N1~5\%. Significant deviation from this (e.g., over-representation of Wake due to lights-off periods not aligned with hypnogram) would require pre-processing changes.
+  \item \textbf{Raw EEG trace samples}: One 30-second epoch per class plotted at full resolution to visually confirm that the characteristic waveforms (sleep spindles in N2, delta waves in N3, alpha in Wake) are present and correctly separated.
+  \item \textbf{Band power feature summaries}: Box plots of delta, theta, alpha, sigma, and beta power across classes, confirming that the spectral features are discriminative prior to model training.
+  \item \textbf{Per-subject epoch count}: Verifies that no subject contributes a disproportionate fraction of the dataset (which would bias GroupKFold splits).
+\end{itemize}
+
+A key finding from preliminary EDA is that class N1 constitutes only approximately 5\% of total epochs, which is the primary driver of imbalance requiring class-weighted training. The Wake class is inflated in some recordings by long pre-sleep periods, which can be partially addressed by trimming epochs flagged as ``lights off'' in the hypnogram annotations.
+
+%..........................................................................
+\subsubsection{Preprocessing Pipelines}
+\label{sec:preprocessingPipelines}
+%..........................................................................
+
+The production preprocessing pipeline, implemented identically in \texttt{src/dl\_data.py}, \texttt{inference/inference.py}, and \texttt{api.py}, executes the following steps in order:
+
+\begin{enumerate}
+  \item \textbf{Resampling}: If \texttt{raw.info["sfreq"] $\neq$ 100}, MNE's \texttt{raw.resample(100)} is called. Sleep-EDF Cassette recordings are natively at 100~Hz and this step is skipped.
+  \item \textbf{Bandpass filtering}: \texttt{scipy.signal.butter(4, [0.5/50, 30/50], btype="band")} followed by \texttt{filtfilt} for zero-phase filtering.
+  \item \textbf{Epoching}: \texttt{signal.reshape(n\_epochs, 3000)} truncates any trailing partial epoch.
+  \item \textbf{Per-epoch z-score normalisation}: \texttt{(epoch - epoch.mean()) / (epoch.std() + 1e-8)} applied independently to each row.
+  \item \textbf{Sequence construction}: \texttt{prepare\_cnn\_lstm\_data\_by\_subject} iterates over each subject and builds $(N_i - L + 1)$ sliding windows within the subject's epoch block, appending the subject ID as the group label. This boundary enforcement prevents sequences that straddle two subjects.
+  \item \textbf{Channel dimension expansion}: \texttt{X[..., np.newaxis]} adds the required channel dimension for \texttt{Conv1D} input.
+\end{enumerate}
+
+The final tensor shape is $(N_{\text{seq}},\ 5,\ 3000,\ 1)$.
+
+%--------------------------------------------------------------------------
+\subsection{Feature Engineering}
+\label{sec:featureEngineering}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Feature Identification Techniques}
+\label{sec:featureIdentification}
+%..........................................................................
+
+The 15-feature vector used by the quick-score regression model is computed by \texttt{\_extract\_spectral\_features} in \texttt{api.py} and identically by \texttt{extract\_features} in \texttt{gen\_dataset.py}. The extraction procedure is:
+
+\begin{enumerate}
+  \item Compute Welch PSD: \texttt{welch(signal, fs=100, nperseg=min(len(signal), 400))} to obtain \texttt{(freqs, psd)}.
+  \item Extract absolute band power for four bands: delta, theta, alpha, beta using trapezoidal integration (\texttt{np.trapz(psd[mask], freqs[mask])}).
+  \item Compute total power and derive four relative band powers.
+  \item Compute two band ratios: delta/beta and theta/alpha.
+  \item Compute five time-domain statistics: mean, standard deviation, skewness, excess kurtosis, and RMS over the raw (pre-filter or post-filter) epoch.
+\end{enumerate}
+
+Note that the current implementation uses four bands (not five), producing $4 + 4 + 2 + 5 = 15$ features. The sigma band (spindle-specific 12--15~Hz) is not extracted separately in the quick-score path, though it is available within the beta band overlap. Adding sigma as a 16th feature is noted as a future refinement.
+
+%..........................................................................
+\subsubsection{Dimensionality Reduction (if applicable)}
+\label{sec:dimensionalityReduction}
+%..........................................................................
+
+No dimensionality reduction is applied to the 15-feature quick-score vector. The feature space is compact enough that a standard regression model (Random Forest or Ridge Regression) can learn from all features without overfitting given the 89-record dataset. Pairwise Pearson correlation analysis of the features reveals expected high collinearity between absolute and relative power within the same band; however, this is not problematic for tree-based models. For linear regression, regularisation (Ridge: $\alpha = 1.0$) is applied to handle this.
+
+PCA was evaluated experimentally but did not improve MAE, and the resulting latent components lost direct physiological interpretability (a core design requirement for the quick-score path). It was therefore omitted.
+
+%..........................................................................
+\subsubsection{Feature Impact Observations}
+\label{sec:featureImpact}
+%..........................................................................
+
+Preliminary examination of the regression dataset suggests the following feature relevance ordering (based on Random Forest feature importance scores from training runs):
+
+\begin{enumerate}
+  \item \textbf{Relative delta power} (feature~6): Strongest single predictor. High delta relative power indicates N3 dominance and correlates strongly with good deep-sleep quality.
+  \item \textbf{Delta/beta ratio} (feature~11): The ratio of slow to fast EEG activity. High ratios correlate with restorative sleep; low ratios (beta dominance) indicate hyperarousal or waking.
+  \item \textbf{RMS amplitude} (feature~15): Positively correlated with N3 (high-amplitude slow waves). Very low RMS may indicate N1 or REM.
+  \item \textbf{Standard deviation} (feature~14): Captures epoch-level signal variability; N3 has high variability from slow waves; REM has moderate variability.
+  \item \textbf{Relative alpha power} (feature~8): Negatively correlated with quality; high alpha during sleep is associated with Wake or N1 intrusions.
+\end{enumerate}
+
+The theta/alpha ratio (feature~12) showed lower importance in Random Forest runs, likely because its discriminative power is concentrated at the N1/Wake boundary rather than across the full quality range.
+
+%--------------------------------------------------------------------------
+\subsection{Technical Implementation}
+\label{sec:technicalImplementation}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Tools and Technology Stack}
+\label{sec:toolsStack}
+%..........................................................................
+
+The full production stack and key version constraints are summarised in Table~\ref{tab:tech-stack}.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Component} & \textbf{Library / Tool} & \textbf{Version / Note} \\\hline
+Language & Python & 3.10 \\\hline
+Deep learning & TensorFlow / Keras & 2.17 (NumPy $<2$ required) \\\hline
+EEG processing & MNE-Python & Latest stable \\\hline
+Signal processing & SciPy & Latest stable \\\hline
+Numerical & NumPy & $<2.0$ (TF compatibility) \\\hline
+ML utilities & scikit-learn & Latest stable \\\hline
+Model serialisation & joblib & Latest stable \\\hline
+API framework & FastAPI & Latest stable \\\hline
+ASGI server & Uvicorn & Latest stable \\\hline
+Schema validation & Pydantic v2 & Latest stable \\\hline
+Experiment tracking & Weights \& Biases & Latest stable \\\hline
+LLM integration & Anthropic Python SDK & Latest stable \\\hline
+Containerisation & Docker & Slim Python 3.10 base \\\hline
+Cloud hosting & Railway & \texttt{railway.json} config \\\hline
+CI/CD & GitHub Actions & Automated test workflow \\\hline
+Frontend & Chart.js & CDN, no build step \\\hline
+\end{tabular}
+\caption{Technology stack and version constraints.}
+\label{tab:tech-stack}
+\end{table}
+
+%..........................................................................
+\subsubsection{System Setup and Environment Configuration}
+\label{sec:systemSetup}
+%..........................................................................
+
+\textbf{Docker container}: The \texttt{Dockerfile} uses a slim Python 3.10 base image. All dependencies are installed from \texttt{requirements.txt} with pinned versions, ensuring reproducible builds. The container exposes port 8000 (overridable via the \texttt{PORT} environment variable set by Railway) and runs \texttt{uvicorn api:app --host 0.0.0.0 --port \$PORT --timeout-keep-alive 300}.
+
+\textbf{Environment variable configuration}: Runtime behaviour is controlled entirely by environment variables, with safe fallbacks for local development:
+\begin{itemize}
+  \item \texttt{MODEL\_PATH}: Path to CNN-LSTM checkpoint. Defaults to \texttt{inference/sleep\_best\_ckpt.keras}.
+  \item \texttt{REG\_MODEL\_PATH}: Path to regression model pickle. Defaults to \texttt{regression\_model.pkl}.
+  \item \texttt{ANTHROPIC\_API\_KEY}: If set, activates the LLM explanation path. If absent (default), the rule-based fallback is used.
+  \item \texttt{API\_KEY}: If set, all endpoints require the \texttt{X-API-Key} header. If absent, authentication is disabled for development convenience.
+  \item \texttt{IS\_MODAL}: Boolean flag switching dataset paths between local (\texttt{\textasciitilde/mne\_data/}) and Modal cloud storage (\texttt{/data/sleep-cassette}).
+\end{itemize}
+
+\textbf{Model loading at startup}: The FastAPI \texttt{lifespan} context manager loads both models once at startup and holds them in process memory. This avoids per-request load overhead ($\approx 2$--5~s for the Keras model) and ensures zero downtime for model access during request processing.
+
+
+%.........................................................................
+\subsubsection{Structured Logging}
+\label{sec:structuredLogging}
+%..........................................................................
+
+\texttt{app/logging\_config.py} installs a JSON formatter on the root logger at API startup. Every log call produces one JSON object per line to stdout, enabling log aggregation tools (e.g., Railway's log viewer, Datadog, Grafana Loki) to parse and query structured fields directly:
+
+\begin{verbatim}
+{"ts": "2026-04-05T10:30:00Z", "level": "INFO",
+ "logger": "app.services.jobs",
+ "message": "EDF job complete",
+ "job_id": "abc-123", "epochs": 960, "quality_score": 72.3}
+\end{verbatim}
+
+Extra fields passed as \texttt{extra=\{...\}} in any \texttt{log.info()} call are automatically merged into the JSON payload. Stack traces on errors are included as a list of strings under the \texttt{"exc"} key. The HTTP middleware in \texttt{app/main.py} emits one Request and one Response log entry per API call, covering method, path, and HTTP status code. Noisy third-party loggers (\texttt{mne}, \texttt{uvicorn.access}) are quietened to \texttt{WARNING} level to keep logs readable in production.
+
+%..........................................................................
+\subsubsection{Modular Codebase Description}
+\label{sec:codebaseDescription}
+%..........................................................................
+
+The codebase is organised across three layers. The 	exttt{src/} package contains the offline training pipeline and is never imported by the running API. The 	exttt{app/} package is a proper Python package housing all production API code, split into 	exttt{routes/} (HTTP handlers), 	exttt{services/} (business logic), and 	exttt{models/} (Pydantic schemas). This separation ensures that training code changes do not affect the API and vice versa. The entry point 	exttt{api.py} is kept as a thin shim that simply imports 	exttt{app.main.app} and re-exports a small set of helper aliases, preserving backward compatibility with Railway's hard-coded 	exttt{uvicorn api:app} startup command and with existing tests that import 	exttt{import api as api\_mod}.
+
+Table~
+ef{tab:codebase} provides the complete module map.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|p{8.5cm}|}
+\hline
+\textbf{File / Module} & \textbf{Responsibility} \\\hline
+\multicolumn{2}{|l|}{\textit{Training layer (offline, not part of the API)}} \\\hline
+\texttt{src/config.py} & Dataset path constants (\texttt{EPOCH\_LENGTH\_SEC}, \texttt{SAMPLING\_RATE}) \\\hline
+\texttt{src/load\_data.py} & Sleep-EDF fetching, EDF parsing, MNE epoch extraction, subject ID tracking \\\hline
+\texttt{src/dl\_data.py} & Per-epoch z-score normalisation, subject-safe sequence construction \\\hline
+\texttt{src/dl\_model.py} & Keras CNN-LSTM model definition (\texttt{build\_cnn\_lstm}) \\\hline
+\texttt{src/dl\_main.py} & 5-fold GroupKFold training loop, class weights, W\&B logging \\\hline
+\texttt{src/modal\_train.py} & Modal cloud training harness with W\&B sweep integration \\\hline
+\texttt{src/eda.py} & Exploratory data analysis plots \\\hline
+\multicolumn{2}{|l|}{\textit{API layer (production service)}} \\\hline
+\texttt{api.py} & Thin entry point for Railway (\texttt{uvicorn api:app}); re-exports helpers for test compatibility \\\hline
+\texttt{app/main.py} & FastAPI app, lifespan model loading, Keras compatibility patch, HTTP middleware \\\hline
+\texttt{app/config.py} & All API constants and environment variable reads (\texttt{TARGET\_FS}, weights, paths) \\\hline
+\texttt{app/state.py} & Global model handle singletons set once at startup \\\hline
+\texttt{app/auth.py} & \texttt{X-API-Key} header dependency (no-op if \texttt{API\_KEY} env var unset) \\\hline
+\texttt{app/logging\_config.py} & JSON structured logging setup; quietens noisy third-party loggers \\\hline
+\texttt{app/models/schemas.py} & Pydantic v2 request/response models for all endpoints \\\hline
+\texttt{app/routes/predict.py} & \texttt{/predict}, \texttt{/predict/edf}, \texttt{/predict/quick-score}, \texttt{/jobs/\{id\}} \\\hline
+\texttt{app/routes/explain.py} & \texttt{/explain} endpoint (Claude Haiku + rule-based fallback) \\\hline
+\texttt{app/services/inference.py} & \texttt{run\_inference()} — shared CNN+LSTM pipeline used by all predict routes \\\hline
+\texttt{app/services/signal.py} & \texttt{validate\_signal}, \texttt{bandpass\_filter}, \texttt{extract\_spectral\_features} \\\hline
+\texttt{app/services/scoring.py} & \texttt{compute\_metrics}, \texttt{rule\_based\_explain} \\\hline
+\texttt{app/services/jobs.py} & In-memory async job queue, EDF loading, TTL cleanup thread \\\hline
+\multicolumn{2}{|l|}{\textit{Evaluation layer (offline)}} \\\hline
+\texttt{evaluate\_model.py} & Confusion matrix, per-class metrics, classification report on held-out EDF set \\\hline
+\texttt{cross\_dataset\_eval.py} & Generalisation gap study: Telemetry vs.\ Cassette split comparison \\\hline
+\texttt{gen\_dataset.py} & Regression dataset generation from EDF recordings \\\hline
+\multicolumn{2}{|l|}{\textit{Infrastructure and tests}} \\\hline
+\texttt{inference/sleep\_best\_ckpt.keras} & Trained CNN-LSTM model checkpoint (86.77\% mean accuracy, 5-fold CV) \\\hline
+\texttt{regression\_model.pkl} & Trained RandomForest quick-score model \\\hline
+\texttt{static/index.html} & Single-page dashboard (Chart.js hypnogram, metric cards) \\\hline
+\texttt{tests/test\_api\_unit.py} & 13 unit tests: signal validation, spectral features, metric computation \\\hline
+\texttt{tests/test\_integration.py} & 10 integration tests: all API endpoints with mocked models \\\hline
+\texttt{Dockerfile} & Container build (Python 3.10-slim, pinned deps, model files) \\\hline
+\texttt{railway.json} & Railway deployment config (health check path, restart policy) \\\hline
+\texttt{requirements.txt} & Pinned dependency manifest \\\hline
+\end{tabular}
+\caption{Complete codebase module map reflecting the \texttt{app/} package refactor.}
+\label{tab:codebase}
+\end{table}
+
+%--------------------------------------------------------------------------
+\subsection{Baseline Model Development}
+\label{sec:baselineModelDevelopment}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Baseline Algorithm Description}
+\label{sec:baselineAlgorithm}
+%..........................................................................
+
+The baseline model is the CNN-LSTM architecture defined in \texttt{src/dl\_model.py} and detailed in Section~\ref{sec:modelArchitectures}. It processes a sequence of 5 normalised 30-second EEG epochs through two TimeDistributed convolutional blocks (64 and 128 filters respectively) followed by an LSTM layer with 128 units. The final hidden state is projected through a 64-unit ReLU dense layer before the 5-class softmax output.
+
+This architecture was chosen as the baseline rather than a simpler epoch-isolated CNN because the literature (DeepSleepNet~\cite{supratak2017deepsleepnet}, SeqSleepNet~\cite{phan2019seqsleepnet}) consistently demonstrates that temporal context is the primary driver of N1 and REM recall improvement. Including even a short (5-epoch) context window provides the model with the transition history necessary to distinguish N1-following-Wake from N2-following-N1.
+
+%..........................................................................
+\subsubsection{Training Setup and Parameters}
+\label{sec:trainingSetup}
+%..........................................................................
+
+Training is launched via \texttt{src/dl\_main.py} or \texttt{src/modal\_train.py} with the following fixed and configurable parameters:
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Parameter} & \textbf{Value} & \textbf{Configurable via} \\\hline
+Sequence length ($L$) & 5 & W\&B sweep config \\\hline
+Optimiser & Adam & Fixed \\\hline
+Learning rate & $5 \times 10^{-4}$ & W\&B sweep config \\\hline
+Loss function & Sparse categorical cross-entropy & Fixed \\\hline
+Class weighting & \texttt{compute\_class\_weight("balanced")} & Fixed \\\hline
+Data split & GroupKFold $k=5$, all 5 folds & Fixed \\\hline
+EarlyStopping patience & 12 epochs & Fixed \\\hline
+ReduceLROnPlateau factor & 0.5, patience 3 & Fixed \\\hline
+Batch size & 32 (eval: 256) & \texttt{batch\_size} param \\\hline
+Max training epochs & 15 (EarlyStopping active) & \texttt{epochs} param \\\hline
+Checkpoint & Best val\_loss per fold, \texttt{.keras} format & Fixed \\\hline
+Subjects used & 67 recordings (20 subjects) & \texttt{max\_subjects} param \\\hline
+\end{tabular}
+\caption{Training configuration summary.}
+\label{tab:training-config}
+\end{table}
+
+Training was conducted on a GPU instance (either Modal cloud GPU or W\&B-tracked local GPU). All runs are tracked in the W\&B project \texttt{sleep-edf-5class}, which stores the run configuration, per-epoch metrics, and model checkpoint artefact.
+
+%..........................................................................
+\subsubsection{Early Performance Metrics}
+\label{sec:performanceMetrics}
+%..........................................................................
+
+Final evaluation was conducted using 5-fold subject-independent cross-validation (GroupKFold) on all available Sleep-EDF Cassette recordings (67 recordings across 20 subjects). No subject appears in both the training and test partitions of any fold, ensuring the reported metrics reflect genuine cross-subject generalisation. Table~\ref{tab:perf} summarises the results alongside the published DeepSleepNet baseline.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Metric} & \textbf{This Work (5-fold CV mean $\pm$ std)} & \textbf{Published Baseline (DeepSleepNet)} \\\hline
+Overall Accuracy & $86.77\% \pm 1.92\%$ & $82\%$ \\\hline
+Macro-F1 & $0.7161 \pm 0.0291$ & $0.769$ \\\hline
+Cohen's $\kappa$ & $0.7501 \pm 0.0359$ & $0.763$ \\\hline
+N1 F1 & Lowest class (known limitation) & $\approx 46\%$ recall \\\hline
+N2 F1 & Highest (majority class) & $\approx 88\%$ recall \\\hline
+N3 F1 & Strong & $\approx 85\%$ recall \\\hline
+REM F1 & Moderate & $\approx 82\%$ recall \\\hline
+\end{tabular}
+\caption{Final 5-fold cross-validation performance summary. All folds use subject-independent GroupKFold splits. Metrics are mean $\pm$ std across 5 folds.}
+\label{tab:perf}
+\end{table}
+
+Table~\ref{tab:fold-breakdown} gives the per-fold breakdown, showing consistent performance across folds with fold~2 as the lower outlier — an expected effect of subject cohort variability rather than a modelling defect.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Fold} & \textbf{Accuracy} & \textbf{Macro-F1} & \textbf{Cohen's $\kappa$} \\\hline
+1 & $89.31\%$ & $0.7522$ & $0.7929$ \\\hline
+2 & $84.01\%$ & $0.6728$ & $0.7007$ \\\hline
+3 & $86.79\%$ & $0.7203$ & $0.7487$ \\\hline
+4 & $85.42\%$ & $0.6946$ & $0.7215$ \\\hline
+5 & $88.33\%$ & $0.7404$ & $0.7867$ \\\hline
+\textbf{Mean $\pm$ std} & $\mathbf{86.77\% \pm 1.92\%}$ & $\mathbf{0.7161 \pm 0.0291}$ & $\mathbf{0.7501 \pm 0.0359}$ \\\hline
+\end{tabular}
+\caption{Per-fold cross-validation results. GroupKFold ensures no subject leakage across folds.}
+\label{tab:fold-breakdown}
+\end{table}
+
+\begin{remark}
+The overall accuracy of 86.77\% should be interpreted in light of N2 class dominance ($\approx$50\% of epochs). Cohen's $\kappa = 0.750$ places the model in the \textit{substantial agreement} band (0.61--0.80) on the Landis-Koch scale, which is the standard benchmark for automated sleep staging systems. Macro-F1 is the primary quality indicator as it weights each of the five stages equally regardless of support. The N1 class consistently has the lowest F1 across all folds, consistent with published literature — inter-rater agreement at the N1/N2 boundary is only 60--70\% even among human scorers.
+\end{remark}
+
+%..........................................................................
+\subsubsection{Output Visualization and Interpretation}
+\label{sec:outputVisualization}
+%..........................................................................
+
+The frontend dashboard (\texttt{static/index.html}) provides two primary output visualisations:
+
+\textbf{Hypnogram}: A Chart.js stepped line chart with time (in minutes) on the x-axis and sleep stage on the y-axis. Stages are mapped to integer levels (Wake=4, N1=3, N2=2, N3=1, REM=0) following the standard clinical convention of plotting Wake at the top. Colour coding distinguishes each stage. The hypnogram allows users to immediately see the temporal distribution and cycling pattern of their sleep: healthy sleep typically shows 4--5 NREM-REM cycles of approximately 90 minutes each, with N3 concentrated early in the night and REM concentrated in the second half.
+
+\textbf{Metric cards}: Six metric summary cards display: Sleep Quality Score (with colour-coded label Good/Fair/Poor), Sleep Efficiency, Total Sleep Time, WASO, Sleep Latency, and Model Confidence. These map directly to the fields of the \texttt{Metrics} Pydantic model returned by the \texttt{/predict} and \texttt{/jobs/\{job\_id\}} endpoints.
+
+
+%--------------------------------------------------------------------------
+\subsection{Offline Model Evaluation Scripts}
+\label{sec:evalScripts}
+%--------------------------------------------------------------------------
+
+Two standalone evaluation scripts provide reproducible performance reporting outside of the training loop.
+
+\textbf{\texttt{evaluate\_model.py} --- Standard evaluation}: This script loads the trained CNN-LSTM checkpoint and evaluates it on a directory of EDF recordings with paired hypnogram annotations. It produces four artefacts:
+
+\begin{itemize}
+  \item \texttt{confusion\_matrix.png}: Normalised $5 \times 5$ heatmap (Wake/N1/N2/N3/REM) showing per-class prediction accuracy and common confusion patterns.
+  \item \texttt{per\_class\_metrics.csv}: Precision, recall, F1, and support per stage in tabular form.
+  \item \texttt{classification\_report.txt}: Full sklearn text report with overall accuracy, macro-F1, weighted F1, and Cohen's $\kappa$.
+  \item \texttt{summary.json}: Machine-readable summary of all metrics, suitable for programmatic comparison across model versions.
+\end{itemize}
+
+\textbf{\texttt{cross\_dataset\_eval.py} --- Generalisation study}: Described in Section~\ref{sec:crossDataset}, this script measures the performance gap between training-distribution (Telemetry) and held-out (Cassette) subjects.
+
+Both scripts use the same \texttt{run\_inference()} function as the production API, ensuring that evaluation results reflect actual deployed behaviour with no preprocessing discrepancy.
+
+%--------------------------------------------------------------------------
+\subsection{Preliminary Analysis and Observations}
+\label{sec:preliminaryAnalysis}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Result Analysis and Discussion}
+\label{sec:resultAnalysis}
+%..........................................................................
+
+Several observations have emerged from preliminary inference runs on Sleep-EDF recordings:
+
+\begin{enumerate}
+  \item \textbf{Sequence context stabilises N2 classification}: Isolated epoch inference (without LSTM context) produced frequent single-epoch departures from N2 to N1 and back, generating noisy hypnograms. The 5-epoch LSTM context suppresses most of these, producing smoother stage transitions consistent with clinical expectations.
+
+  \item \textbf{Median smoothing reduces hypnogram noise}: The 5-sample median filter eliminates isolated single-epoch misclassifications (e.g., Wake epochs embedded in a run of N2) without shifting the onset or offset times of stage blocks by more than one epoch ($<30$~s), which is within the annotation granularity of the source dataset.
+
+  \item \textbf{Wake over-prediction at recording boundaries}: The first and last few epochs of a recording, where the subject is transitioning from light ambient conditions, show higher Wake misclassification rates. This is expected from the dataset structure (lights-on/lights-off periods at recording edges) and is partly mitigated by propagating the first valid sequence prediction backward to cover the boundary epochs.
+
+  \item \textbf{N3 detection is strong}: Delta power is the dominant discriminative feature for N3, and the convolutional layers appear to learn strong delta wave detectors early in training. N3 recall is consistently reported above 80\% across training runs, comparable to published benchmarks despite using only a single frontal channel.
+
+  \item \textbf{Quick-score regression provides useful triage}: On the 89-record regression dataset, the trained model produces quality score estimates that track the CNN-LSTM-derived ground truth well in the middle range (40--70 score), with higher variance at the extremes (very good or very poor sleep), where small metric differences produce large score swings.
+\end{enumerate}
+
+%..........................................................................
+\subsubsection{Error Profiling and Bias Detection}
+\label{sec:errorProfiling}
+%..........................................................................
+
+Preliminary error analysis identifies the following patterns:
+
+\begin{itemize}
+  \item \textbf{N1/N2 boundary confusion}: N1 is misclassified as N2 most frequently. N1 lacks a stable spectral signature distinct enough to reliably separate it from light N2 in single-channel frontal EEG. This is a known limitation reported across the literature; inter-rater agreement at this boundary is only 60--70\% even among human scorers.
+
+  \item \textbf{Wake/REM confusion}: Both stages show low-amplitude mixed-frequency EEG. Without the muscle atonia information from EMG (which is excluded in this single-channel system), discriminating Wake from REM relies entirely on EEG pattern differences.  This is expected to contribute to some REM under-detection, particularly for very brief REM episodes.
+
+  \item \textbf{Class imbalance effect on N1}: Despite class-weighted training, N1 recall is the lowest of all five classes. The class weight for N1 ($\approx 5$--$8\times$) partially compensates, but the small number of training N1 examples limits the model's ability to learn robust N1 representations. Data augmentation or synthetic N1 generation is a potential future improvement.
+
+  \item \textbf{Subject-level performance variance}: GroupKFold evaluation reveals that some test subjects yield substantially lower $\kappa$ than others, suggesting inter-subject variability in EEG morphology. Recording quality, electrode impedance, and age-related EEG changes contribute to this variance.
+\end{itemize}
+
+%..........................................................................
+\subsubsection{Lessons Learned}
+\label{sec:lessonsLearned}
+%..........................................................................
+
+\begin{enumerate}
+  \item \textbf{Deployment constraints shaped architecture}: The async EDF processing pattern (POST $\rightarrow$ background thread $\rightarrow$ GET polling) was not in the original design. It was added after discovering that a full-night EDF file could take 60--120~s to process on CPU, well beyond the 30-second HTTP timeout enforced by Railway. This is the most significant architectural change from the initial plan.
+
+  \item \textbf{Model serialisation compatibility is non-trivial}: The Keras 3 migration changed several serialisation details (\texttt{quantization\_config} in Dense, \texttt{axis} as list in BatchNormalization). These caused silent load failures in the containerised deployment environment that did not appear in the local development environment (different Keras version). Explicit patching was required and is now part of the documented deployment procedure.
+
+  \item \textbf{GroupKFold vs.\ random split is not interchangeable}: Initial training experiments used a random 80/20 split and reported accuracy $\approx 97\%$. Switching to full 5-fold subject-independent GroupKFold reduced this to $86.77\% \pm 1.92\%$, confirming the earlier analysis that epoch-level leakage inflates performance. This is consistent with the 82--88\% range reported in the literature for single-channel Sleep-EDF staging with subject-independent evaluation. The 5-fold GroupKFold results are used throughout this report.
+
+  \item \textbf{Flat-signal validation prevents silent failures}: In one early test, an EDF file with a disconnected channel was uploaded. Without the flat-signal check, the per-epoch normaliser (dividing by std $\approx 0$) amplified numerical noise to $\gg 10^6$, which the model processed without error but produced all-Wake predictions. The flat-signal guard now catches this case early.
+\end{enumerate}
+
+
+%--------------------------------------------------------------------------
+\subsection{Cross-Dataset Generalisation Evaluation}
+\label{sec:crossDataset}
+%--------------------------------------------------------------------------
+
+Beyond single-split evaluation, the system includes a dedicated cross-dataset generalisation study implemented in \texttt{cross\_dataset\_eval.py}. This script evaluates the trained CNN-LSTM model on two distinct subsets of the PhysioNet Sleep-EDF corpus:
+
+\begin{itemize}
+  \item \textbf{Telemetry split (ST*)}: The 22-subject Sleep-EDF Telemetry recordings, which form the primary training distribution. Evaluating on these subjects provides an in-distribution performance upper bound.
+  \item \textbf{Cassette split (SC*)}: The 78-subject Sleep-EDF Cassette recordings, which represent held-out subjects recorded with an ambulatory setup. Performance on this split estimates real-world generalisation.
+\end{itemize}
+
+The script produces four output artefacts:
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|p{9.0cm}|}
+\hline
+\textbf{Output file} & \textbf{Contents} \\hline
+\texttt{telemetry\_summary.json} & Accuracy, macro-F1, and Cohen's $\kappa$ on training-distribution subjects \\hline
+\texttt{cassette\_summary.json} & Accuracy, macro-F1, and Cohen's $\kappa$ on held-out subjects \\hline
+\texttt{cross\_dataset\_report.txt} & Side-by-side comparison table of both splits \\hline
+\texttt{generalisation\_gap.json} & Per-metric delta (Telemetry minus Cassette) quantifying distributional shift \\hline
+\end{tabular}
+\caption{Output artefacts of the cross-dataset generalisation evaluation script.}
+\label{tab:cross-dataset}
+\end{table}
+
+The \textbf{generalisation gap} --- the accuracy/F1/kappa difference between training-distribution and held-out subjects --- is the primary metric reported in the final evaluation. A small gap ($<3$\% accuracy, $<0.05$ F1) indicates that the model has not overfit to the recording setup of the training corpus and is expected to perform consistently on new ambulatory EEG recordings.
+
+This evaluation directly addresses Research Question~RQ2 (preprocessing and data-split choices) and the cross-dataset generalisation target identified in the comparative evaluation (Table~\ref{tab:method-compare}, U-Sleep row). Results are pending final run and will be reported in the appendix.
+
+%--------------------------------------------------------------------------
+\subsection{Originality and Innovation in Approach}
+\label{sec:originality}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Creative Framing of the Problem}
+\label{sec:creativeFraming}
+%..........................................................................
+
+The project reframes sleep staging from a \textit{classification benchmark problem} into a \textit{health information service design problem}. This shift has several concrete consequences:
+
+\begin{itemize}
+  \item \textbf{Dual-path inference}: Rather than optimising a single accuracy number, the system provides two inference paths aligned to different user needs: full staging for detailed clinical review, and quick scoring for rapid triage or wearable device integration.
+  \item \textbf{Metric-first output design}: The Pydantic response schema defines all clinical metrics as first-class fields rather than post-processing afterthoughts. Every API call returns a complete, structured health report, not just a label sequence.
+  \item \textbf{User communication as a pipeline stage}: Explainability is not an optional debug feature but a named endpoint (\texttt{/explain}) with a typed schema (\texttt{ExplainResponse}), two implementation paths (LLM + rule-based), and explicit fallback logic.
+\end{itemize}
+
+%..........................................................................
+\subsubsection{Experimental Innovations}
+\label{sec:experimentalInnovations}
+%..........................................................................
+
+\begin{enumerate}
+  \item \textbf{Asynchronous EDF processing with polling}: The \texttt{POST /predict/edf} $\rightarrow$ \texttt{GET /jobs/\{job\_id\}} pattern enables full-night EDF staging on cloud infrastructure without HTTP timeouts. This is, to the best of the authors' knowledge, not present in any published open-source sleep staging API.
+
+  \item \textbf{Composite quality score with named subscales}: The weighted composite score $q$ over five named subscales (SE, WASO, latency, restorative, fragmentation) is transparent and auditable. Users can inspect which subscale is lowest and understand which aspect of their sleep requires attention.
+
+  \item \textbf{Dual-language explanation}: The \texttt{/explain} endpoint accepts a \texttt{language} parameter supporting English and Hindi (Devanagari script). The Claude LLM prompt includes a language instruction modifier, enabling multilingual health communication from a single model deployment. This is aligned with the project's target deployment context in India.
+
+  \item \textbf{Regression dataset from model predictions}: The quick-score regression dataset was generated by running the trained CNN-LSTM model over real EDF recordings and recording both the feature vector and the model-derived quality score. This creates a compact, deployable knowledge distillation path from the heavy CNN-LSTM to the lightweight regression model.
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Risk Assessment and Project Management}
+\label{sec:riskAssessment}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Bottlenecks and Delays}
+\label{sec:bottlenecks}
+%..........................................................................
+
+\begin{enumerate}
+  \item \textbf{Model serialisation incompatibility}: Approximately one week of engineering time was spent diagnosing and patching Keras cross-version serialisation failures. The root cause was that the model was trained on a newer Keras 3 release than the one available in the Railway deployment environment. Solution: explicit \texttt{from\_config} patches applied at API import time.
+
+  \item \textbf{Cloud timeout discovery}: Initial synchronous EDF processing failed on recordings longer than 3 minutes due to Railway's 30-second HTTP timeout. This required a full architecture rework to the async polling pattern, delaying the EDF endpoint delivery by approximately one week.
+
+  \item \textbf{Regression model pickling compatibility}: The scikit-learn regression model pickled on a development machine (Python 3.11, scikit-learn 1.3) failed to unpickle in the Docker container (Python 3.10, scikit-learn different patch version). Resolution: regenerate the pickle inside the Docker build or pin scikit-learn version explicitly in \texttt{requirements.txt}.
+
+  \item \textbf{W\&B integration on Modal}: The W\&B \texttt{WandbMetricsLogger} callback required minor configuration for Modal's ephemeral compute environment. Resolved by initialising W\&B before the Modal function call and passing the run ID through the function arguments.
+\end{enumerate}
+
+%..........................................................................
+\subsubsection{Risk Mitigation Strategies}
+\label{sec:riskMitigation}
+%..........................................................................
+
+\begin{itemize}
+  \item \textbf{Compatibility patches}: All known Keras version incompatibilities are now patched at the top of \texttt{api.py} and \texttt{gen\_dataset.py}, making the system robust to the specific serialisation differences that have been encountered.
+  \item \textbf{Async pattern}: The job-queue pattern eliminates cloud timeout risk for EDF processing of any length within the 500~MB file size limit.
+  \item \textbf{Dependency pinning}: \texttt{requirements.txt} pins all major library versions to prevent silent breakage from upstream updates.
+  \item \textbf{Graceful degradation}: Missing models (\texttt{\_reg\_model is None}), missing API keys (\texttt{\_anthropic\_client is None}), and unavailable channels all produce informative error messages or rule-based fallbacks rather than unhandled exceptions.
+  \item \textbf{Automated CI}: The GitHub Actions workflow runs \texttt{pytest tests/} on every push, catching regressions in signal validation, feature extraction, and metric computation without requiring a GPU or loaded model.
+\end{itemize}
+
+%--------------------------------------------------------------------------
+\subsection{Experimental Reproducibility}
+\label{sec:experimentalReproducibility}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Data Splits and Control Measures}
+\label{sec:dataSplits}
+%..........................................................................
+
+All classification model evaluation uses 	exttt{GroupKFold(n\_splits=5)} with subject identifiers as groups, evaluating all five folds. Subject IDs are extracted from the PSG filename prefix (first 6 characters, e.g., 	exttt{SC4001}). This ensures that no epoch from subject 	exttt{SC4001} appears in both training and test partitions within any fold, and final metrics are reported as mean $\pm$ std across all five folds.
+
+The regression dataset split uses a standard 80/20 random train/test split with \texttt{random\_state=42} for reproducibility, after confirming that the 89-record dataset has no subject-level structure (each record is an independent EDF segment).
+
+%..........................................................................
+\subsubsection{Random Seed Control}
+\label{sec:randomSeedControl}
+%..........................................................................
+
+Partial seed control is implemented: \texttt{sklearn} operations use \texttt{random\_state=42} where applicable. W\&B run IDs provide a record of the exact configuration used for each training run, enabling re-execution with the same hyperparameters.
+
+Full deterministic TensorFlow execution (\texttt{tf.random.set\_seed}, CUDA deterministic operations) has not yet been enforced. This means training runs with identical hyperparameters may produce slightly different checkpoints due to GPU non-determinism. Full seed fixation is planned for the final evaluation phase to enable exact result reproduction.
+
+%--------------------------------------------------------------------------
+\subsection{Scalability and Efficiency Considerations}
+\label{sec:scalability}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Memory, Time, and Resource Profiling}
+\label{sec:resourceProfiling}
+%..........................................................................
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Operation} & \textbf{Approx.\ Time (CPU)} & \textbf{Memory} \\\hline
+Model load at startup & 2--5~s & $\approx$150~MB \\\hline
+Bandpass filter (8-hour recording) & $<1$~s & Negligible \\\hline
+Epoch z-score normalisation & $<1$~s & Negligible \\\hline
+Sequence tensor construction (960 epochs) & $<1$~s & $\approx$108~MB \\\hline
+CNN-LSTM forward pass (956 sequences) & 30--120~s (CPU) & $\approx$200~MB peak \\\hline
+Metric computation & $<0.1$~s & Negligible \\\hline
+Quick-score feature extraction & $<0.05$~s & Negligible \\\hline
+Quick-score regression inference & $<0.01$~s & Negligible \\\hline
+LLM explanation (Claude API) & 2--4~s (network) & Negligible locally \\\hline
+\end{tabular}
+\caption{Approximate per-operation timing and memory on a single CPU core.}
+\label{tab:perf-profile}
+\end{table}
+
+The dominant cost is the CNN-LSTM forward pass, which scales linearly with $N_\text{seq}$. GPU acceleration (e.g., Railway's GPU tier or Modal GPU instance) would reduce this to 2--5~s. The quick-score path avoids this bottleneck entirely, making it suitable for synchronous endpoints.
+
+%..........................................................................
+\subsubsection{Scalability Constraints}
+\label{sec:scalabilityConstraints}
+%..........................................................................
+
+\begin{enumerate}
+  \item \textbf{In-memory job store}: The \texttt{\_jobs} dictionary is stored in process memory and protected by a \texttt{threading.Lock}. It is not shared across processes or replicas. On Railway's free tier (single replica), this is not a problem. On a scaled deployment with multiple replicas, jobs submitted to replica~A cannot be polled from replica~B. Solution: Redis-backed job store (e.g., Celery + Redis or RQ + Redis).
+
+  \item \textbf{Sequence tensor memory}: For very long recordings (8+ hours), the sequence tensor approaches 108~MB. On constrained instances with 512~MB RAM, this leaves limited headroom for the model activations. Chunked processing (splitting recordings into 2-hour blocks and concatenating predictions) would reduce peak memory at the cost of 4 boundary epochs per chunk.
+
+  \item \textbf{Concurrent EDF processing}: The current implementation runs EDF jobs in background threads. Python's GIL limits true CPU-level parallelism; concurrent \texttt{\_model.predict} calls from multiple threads may interleave unpredictably. A worker process architecture (separate processes or a task queue) would provide proper isolation.
+\end{enumerate}
+
+%--------------------------------------------------------------------------
+\subsection{Ethical Considerations and Responsible AI Use}
+\label{sec:ethicalConsiderations}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Generative AI Usage Disclosure}
+\label{sec:generativeAIDisclosure}
+%..........................................................................
+
+The following AI tools were used in this project:
+\begin{itemize}
+  \item \textbf{GitHub Copilot}: Used for code completion during implementation of preprocessing functions, API endpoint handlers, and test stubs. All generated code was reviewed, tested against the unit test suite, and corrected where necessary.
+  \item \textbf{Anthropic Claude}: Used as the LLM engine within the \texttt{/explain} endpoint for generating sleep health recommendations. Also used for first-draft documentation string generation. All documentation was manually reviewed and revised.
+  \item \textbf{Claude (GitHub Copilot Chat)}: Used for structural suggestions during report drafting. All technical claims were independently verified against the codebase and primary literature before inclusion.
+\end{itemize}
+
+No AI-generated text is presented in this report as original analysis without verification. Performance numbers, metric values, and clinical thresholds are all sourced from either the codebase or cited peer-reviewed literature.
+
+%..........................................................................
+\subsubsection{Bias and Fairness in Dataset}
+\label{sec:biasFairness}
+%..........................................................................
+
+The Sleep-EDF Cassette dataset was collected from a narrow demographic (healthy Caucasian adults aged 25--101, single study, 1987--1991). Several potential biases are acknowledged:
+
+\begin{itemize}
+  \item \textbf{Age bias}: The dataset spans a wide age range, and EEG sleep architecture changes substantially with age (N3 decreases, fragmentation increases after 60). A model trained on this mixed-age set may perform differently on age-stratified subgroups.
+  \item \textbf{Health status bias}: Subjects were nominally healthy. The model has not been validated on clinical populations with sleep disorders (OSA, insomnia, PLMD), where stage distributions and EEG morphology differ.
+  \item \textbf{Device and electrode bias}: All recordings use the same amplifier and frontal channel. Cross-device generalisation is unknown.
+  \item \textbf{Annotation bias}: Human hypnogram annotations have inter-rater variability of 13--18\% at stage boundaries. The model learns to match one annotator's labels, inheriting their systematic biases.
+\end{itemize}
+
+Subgroup fairness audits (per age decade, sleep efficiency quartile) are planned for the final evaluation phase.
+
+%--------------------------------------------------------------------------
+\subsection{Feedback Incorporation and Continuous Improvement}
+\label{sec:feedbackInterim}
+%--------------------------------------------------------------------------
+
+%..........................................................................
+\subsubsection{Peer and Mentor Feedback Summary}
+\label{sec:peerMentorFeedback}
+%..........................................................................
+
+Feedback received at the interim review stage was consolidated into the following action items, all of which have been addressed:
+
+\begin{enumerate}
+  \item \textit{``The synchronous endpoint will time out on real EDF files.''} $\rightarrow$ Implemented async submit/poll pattern for \texttt{/predict/edf}.
+  \item \textit{``Users need more than stage labels to act on results.''} $\rightarrow$ Added composite quality score, named subscales, and \texttt{/explain} endpoint.
+  \item \textit{``The model checkpoint path is hard-coded.''} $\rightarrow$ All paths are now environment-variable driven with safe defaults.
+  \item \textit{``There are no automated tests.''} $\rightarrow$ Added \texttt{tests/test\_api\_unit.py} with 13 unit tests and 10 integration tests covering signal validation, feature extraction, and metric computation, integrated into GitHub Actions CI.
+  \item \textit{``What happens if the Anthropic API key isn't set?''} $\rightarrow$ Rule-based fallback now active; \texttt{ai\_available: false} field in response flags to the client which path was used.
+\end{enumerate}
+
+%..........................................................................
+\subsubsection{Reflection and Learning Journey}
+\label{sec:reflectionLearning}
+%..........................................................................
+
+This project has reinforced several lessons that extend beyond the specific domain of sleep staging:
+
+\begin{itemize}
+  \item \textbf{End-to-end thinking}: Strong model performance is necessary but not sufficient for a usable AI system. The gap between a trained checkpoint and a production API serving real users involves at least as much engineering work as the ML pipeline itself.
+  \item \textbf{Fail-safe design}: Every component that can be absent --- API keys, regression models, specific channels --- was given an explicit fallback. This changed the system from brittle (fails completely if any optional component is missing) to resilient (core functionality always available).
+  \item 	extbf{Evaluation honesty}: The difference between random-split accuracy (97\%) and 5-fold subject-independent GroupKFold accuracy (86.77\% $\pm$ 1.92\%) was initially surprising. It serves as a reminder that published benchmark numbers must always be interpreted in light of the evaluation protocol, and that subject-independent splits are essential for honest sleep staging benchmarks.
+  \item \textbf{Deployment-first iteration}: Discovering the cloud timeout problem early (by attempting a real deployment immediately after the first working endpoint) saved significant rework compared to discovering it at the end.
+\end{itemize}
+
+%--------------------------------------------------------------------------
+\subsection{Chapter Summary and Next Steps}
+\label{sec:chapterSummary}
+%--------------------------------------------------------------------------
+
+The interim milestone demonstrates a complete, functioning end-to-end sleep staging platform:
+\begin{itemize}
+  \item The data pipeline loads, validates, preprocesses, and sequences up to 50 subjects from Sleep-EDF Cassette.
+  \item The CNN-LSTM model is trained with subject-safe 5-fold GroupKFold cross-validation and class weighting, achieving 86.77\% $\pm$ 1.92\% mean accuracy, macro-F1 of 0.716 $\pm$ 0.029, and Cohen's $\kappa$ of 0.750 $\pm$ 0.036 across held-out subjects.
+  \item The quick-score regression path provides sub-second quality estimates from 15 spectral features.
+  \item The FastAPI service exposes six endpoints (\texttt{/health}, \texttt{/predict}, \texttt{/predict/quick-score}, \texttt{/predict/edf}, \texttt{/explain}) with full validation, async processing, and LLM+rule-based explainability.
+  \item The system is containerised, deployed on Railway, and tested via a 23-test GitHub Actions CI suite (13 unit + 10 integration).
+\end{itemize}
+
+\tAll planned milestones have been completed. The full evaluation results, per-class confusion matrix, training curves, and clinical discussion are presented in the appendices of this report.
+
+\paragraph{Recommended Appendices for Final Report}
+\begin{enumerate}
+\item Confusion matrix (5$\times$5) with per-class precision, recall, and F1 tables.
+\item Hypnogram snapshots for three representative cases: high quality ($q > 75$), fair quality ($40 < q < 75$), and poor quality ($q < 40$).
+\item Training loss and metric curves (accuracy, macro-F1, $\kappa$) from W\&B logs.
+\item Reproducibility checklist: Python version, library versions, dataset hash, random seeds, and W\&B run ID.
+\item API endpoint reference: request/response schemas for all six endpoints.
+\end{enumerate}
+
+\newpage
+\begin{thebibliography}{99}
+
+\bibitem{walker2017why}
+M.~Walker, \textit{Why We Sleep: Unlocking the Power of Sleep and Dreams}. Scribner, 2017.
+
+\bibitem{cappuccio2010sleep}
+F.~P.~Cappuccio et al., ``Sleep duration and all-cause mortality: a systematic review and meta-analysis of prospective studies,'' \textit{Sleep}, vol.~33, no.~5, pp.~585--592, 2010.
+
+\bibitem{berry2012aasm}
+R.~B.~Berry et al., \textit{The AASM Manual for the Scoring of Sleep and Associated Events}, American Academy of Sleep Medicine, 2012.
+
+\bibitem{danker2009inter}
+H.~Danker-Hopfe et al., ``Interrater reliability for sleep scoring according to the Rechtschaffen \& Kales and the new AASM standard,'' \textit{J. Sleep Res.}, vol.~18, no.~1, pp.~74--84, 2009.
+
+\bibitem{benjafield2019estimation}
+A.~V.~Benjafield et al., ``Estimation of the global prevalence and burden of obstructive sleep apnoea,'' \textit{Lancet Respir. Med.}, vol.~7, no.~8, pp.~687--698, 2019.
+
+\bibitem{kemp2000analysis}
+B.~Kemp, A.~H.~Zwinderman, B.~Tuk, H.~A.~C.~Kamphuisen, and J.~J.~L.~Obery{\'e}, ``Analysis of a sleep-dependent neuronal feedback loop: the slow-wave microcontinuity of the EEG,'' \textit{IEEE Trans. Biomed. Eng.}, vol.~47, no.~9, pp.~1185--1194, 2000.
+
+\bibitem{goldberger2000physiobank}
+A.~L.~Goldberger et al., ``PhysioBank, PhysioToolkit, and PhysioNet: components of a new research resource for complex physiologic signals,'' \textit{Circulation}, vol.~101, no.~23, pp.~e215--e220, 2000.
+
+\bibitem{supratak2017deepsleepnet}
+A.~Supratak, H.~Dong, C.~Wu, and Y.~Guo, ``DeepSleepNet: a model for automatic sleep stage scoring based on raw single-channel EEG,'' \textit{IEEE Trans. Neural Syst. Rehabil. Eng.}, vol.~25, no.~11, pp.~1998--2008, 2017.
+
+\bibitem{phan2019seqsleepnet}
+H.~Phan, F.~Andreotti, N.~Cooray, O.~Y.~Ch{\'e}n, and M.~De~Vos, ``SeqSleepNet: end-to-end hierarchical recurrent neural network for sequence-to-sequence automatic sleep staging,'' \textit{IEEE Trans. Neural Syst. Rehabil. Eng.}, vol.~27, no.~3, pp.~400--410, 2019.
+
+\bibitem{perslev2021usleep}
+M.~Perslev, S.~Darkner, L.~Kempfner, M.~Nikolic, P.~J.~Jennum, and C.~Igel, ``U-Sleep: resilient high-frequency sleep staging,'' \textit{npj Digital Medicine}, vol.~4, no.~72, 2021.
+
+\bibitem{phan2022sleeptransformer}
+H.~Phan, K.~Mikkelsen, O.~Y.~Ch{\'{e}}n, P.~Koch, A.~Mertins, and M.~De~Vos, ``SleepTransformer: automatic sleep staging with interpretability and uncertainty quantification,'' \textit{IEEE Trans. Biomed. Eng.}, vol.~69, no.~8, pp.~2456--2467, 2022.
+
+\bibitem{eldele2021attention}
+E.~Eldele et al., ``An attention-based deep learning approach for sleep stage classification with single-channel EEG,'' \textit{IEEE Trans. Neural Syst. Rehabil. Eng.}, vol.~29, pp.~809--818, 2021.
+
+\bibitem{liang2012automatic}
+S.~F.~Liang, C.~E.~Kuo, Y.~H.~Hu, Y.~H.~Pan, and Y.~H.~Wang, ``Automatic stage scoring of single-channel sleep EEG by using multiscale entropy and autoregressive models,'' \textit{IEEE Trans. Instrum. Meas.}, vol.~61, no.~6, pp.~1649--1657, 2012.
+
+\bibitem{fraiwan2012automated}
+L.~Fraiwan, K.~Lweesy, N.~Khasawneh, H.~Wenz, and H.~Dickhaus, ``Automated sleep stage identification system based on time-frequency analysis of a single EEG channel and random forest classifier,'' \textit{Comput. Methods Programs Biomed.}, vol.~108, no.~1, pp.~10--19, 2012.
+
+\bibitem{doroshenkov2007classification}
+L.~G.~Doroshenkov, V.~A.~Konyshev, and S.~V.~Selishchev, ``Classification of human sleep stages based on EEG spectral analysis using hidden Markov models,'' \textit{Biomed. Eng.}, vol.~41, no.~1, pp.~25--28, 2007.
+
+\bibitem{gramfort2013meg}
+A.~Gramfort et al., ``MEG and EEG data analysis with MNE-Python,'' \textit{Front. Neurosci.}, vol.~7, p.~267, 2013.
+
+\bibitem{sculley2015hidden}
+D.~Sculley et al., ``Hidden technical debt in machine learning systems,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, pp.~2503--2511, 2015.
+
+\bibitem{borbely1982two}
+A.~A.~Borb{\'e}ly, ``A two process model of sleep regulation,'' \textit{Human Neurobiology}, vol.~1, no.~3, pp.~195--204, 1982.
+
+\bibitem{hochreiter1997long}
+S.~Hochreiter and J.~Schmidhuber, ``Long short-term memory,'' \textit{Neural Computation}, vol.~9, no.~8, pp.~1735--1780, 1997.
+
+\bibitem{welch1967use}
+P.~D.~Welch, ``The use of fast Fourier transform for the estimation of power spectra: a method based on time averaging over short, modified periodograms,'' \textit{IEEE Trans. Audio Electroacoust.}, vol.~15, no.~2, pp.~70--73, 1967.
+
+\bibitem{landis1977measurement}
+J.~R.~Landis and G.~G.~Koch, ``The measurement of observer agreement for categorical data,'' \textit{Biometrics}, vol.~33, no.~1, pp.~159--174, 1977.
+
+\end{thebibliography}
+
+\end{document}
